@@ -20,7 +20,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         StackPane root = new StackPane(new Label("Audiobook Player"));
-        stage.setScene(new Scene(root, 900, 650));
+        stage.setScene(new Scene(
+            root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
         stage.setTitle("Audiobook Player");
         stage.show();
 
@@ -42,11 +43,14 @@ public class App extends Application {
             Parent root = loader.load();
 
             // 2. Set up the scene
-            Scene scene = new Scene(root, 900, 650);
+            Scene scene = new Scene(
+                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
             
             // 3. Display the window
             stage.setScene(scene);
             stage.setTitle("Audiobook Player - Settings");
+            stage.setMinWidth(Constants.MIN_WINDOW_WIDTH);
+            stage.setMinHeight(Constants.MIN_WINDOW_HEIGHT);
             stage.show();
             
         } catch (IOException e) {

@@ -47,14 +47,15 @@ public class SettingsController {
     @FXML
     private ChoiceBox<Theme> themeChoiceBox;
 
+    /** The singleton instance of the Settings class. */
+    private final Settings settings = Settings.getInstance();
+
     /**
      * Initializes the settings controller and populates the UI with current settings.
      */
     @FXML
     public void initialize() {
         // Get current settings and populate UI elements with their values
-        Settings settings = Settings.getInstance();
-
         themeChoiceBox.getItems().addAll(Theme.values());
         
         fontSizeSlider.setValue(settings.getFontSize());
@@ -83,11 +84,7 @@ public class SettingsController {
             }
         });
         themeChoiceBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-            try {
-                settings.setTheme(Theme.valueOf(newVal.name()));
-            } catch (IllegalArgumentException e) {
-                System.err.println("Invalid theme: " + newVal);
-            }
+            settings.setTheme(Theme.valueOf(newVal.name()));
         });
     }
 
@@ -117,7 +114,6 @@ public class SettingsController {
      */
     @FXML
     void handleResetDefaults(ActionEvent event) {
-        Settings settings = Settings.getInstance();
         settings.setDefaults();
         initialize(); // Reload UI with default values
     }
@@ -128,11 +124,15 @@ public class SettingsController {
      */
     @FXML
     void handleSaveAction(ActionEvent event) {
-        Settings settings = Settings.getInstance();
         Path audiobookFolderPath = Paths.get(filePathTextField.getText());
         Theme selectedTheme = themeChoiceBox.getValue();
 
-        settings.setAudiobookFolderPath(audiobookFolderPath);
+        try {
+            settings.setAudiobookFolderPath(audiobookFolderPath);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid audiobook folder path: " + e.getMessage());
+        }
+
         settings.setTheme(selectedTheme);
         settings.setFontSize((int) fontSizeSlider.getValue());
 

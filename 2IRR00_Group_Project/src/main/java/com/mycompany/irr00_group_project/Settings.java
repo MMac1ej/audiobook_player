@@ -11,35 +11,19 @@ import java.util.Properties;
  * @author Tymon Szczepański, 2330113
  */
 public class Settings {
-    //temporary? constants
-    private static final int MIN_FONT_SIZE = 14; 
-    private static final int MAX_FONT_SIZE = 28;
-    private static final Theme DEFAULT_THEME = Theme.LIGHT;
-    private static final Path DEFAULT_AUDIOBOOK_FOLDER = Paths.get(
-        System.getProperty("user.home"), "Audiobooks");
-    private static final int DEFAULT_FONT_SIZE = 16;
 
     private static Settings instance;
 
-    private static final Path SETTINGS_FILE = Paths.get(
-            System.getProperty("user.home"), ".audiobookplayer", "config.properties");
-
-    private final Properties props;
-
-    // Keys used in the properties file
-    private static final String KEY_FOLDER = "audiobookFolderPath";
-    private static final String KEY_FONT_SIZE = "fontSize";
-    private static final String KEY_THEME = "theme";
-
+    private final Properties properties;
     private Path audiobookFolderPath;
     private int fontSize;
 
     private Settings() {
-        this.props = new Properties();
+        this.properties = new Properties();
         loadFromDisk();
     }
 
-        /** Returns the singleton instance of Settings. */
+    /** Returns the singleton instance of Settings. */
     public static synchronized Settings getInstance() {
         if (instance == null) {
             instance = new Settings();
@@ -48,17 +32,18 @@ public class Settings {
     }
 
     private void loadFromDisk() {
-        if (!Files.exists(SETTINGS_FILE)) {
-            // Set default values if config file doesn't exist
+        // Set default values if config file doesn't exist
+        if (!Files.exists(Constants.SETTINGS_FILE)) {
             setDefaults();
             return;
         }
-        try (var in = Files.newInputStream(SETTINGS_FILE)) {
-            props.load(in);
-            setAudiobookFolderPathInternal(Paths.get(props.getProperty(
-                KEY_FOLDER, DEFAULT_AUDIOBOOK_FOLDER.toString())));
-            setFontSizeInternal(Integer.parseInt(props.getProperty(
-                KEY_FONT_SIZE, String.valueOf(DEFAULT_FONT_SIZE))));
+        // Load settings from config file
+        try (var in = Files.newInputStream(Constants.SETTINGS_FILE)) {
+            properties.load(in);
+            setAudiobookFolderPathInternal(Paths.get(properties.getProperty(
+                Constants.KEY_FOLDER, Constants.DEFAULT_AUDIOBOOK_FOLDER.toString())));
+            setFontSizeInternal(Integer.parseInt(properties.getProperty(
+                Constants.KEY_FONT_SIZE, String.valueOf(Constants.DEFAULT_FONT_SIZE))));
         } catch (Exception e) {
             // If there's an error reading the config, use defaults
             setDefaults();
@@ -67,9 +52,9 @@ public class Settings {
 
     private void saveToDisk() {
         try {
-            Files.createDirectories(SETTINGS_FILE.getParent());
-            try (var out = Files.newOutputStream(SETTINGS_FILE)) {
-                props.store(out, null);
+            Files.createDirectories(Constants.SETTINGS_FILE.getParent());
+            try (var out = Files.newOutputStream(Constants.SETTINGS_FILE)) {
+                properties.store(out, null);
             }
         } catch (IOException e) {
             // best-effort write approach
@@ -80,9 +65,9 @@ public class Settings {
      * Resets all settings to their default values.
      */
     protected void setDefaults() {
-        setFontSize(DEFAULT_FONT_SIZE);
-        setTheme(DEFAULT_THEME);
-        setAudiobookFolderPath(DEFAULT_AUDIOBOOK_FOLDER);
+        setFontSizeInternal(Constants.DEFAULT_FONT_SIZE);
+        setTheme(Constants.DEFAULT_THEME);
+        setAudiobookFolderPathInternal(Constants.DEFAULT_AUDIOBOOK_FOLDER);
     }
     
     // -----Getter and setter methods for each setting-----
@@ -101,16 +86,17 @@ public class Settings {
      * @throws IllegalArgumentException if fontSize is out of range
      */
     public void setFontSize(int fontSize) throws IllegalArgumentException {
-        if (fontSize < MIN_FONT_SIZE || fontSize > MAX_FONT_SIZE) {
+        if (fontSize < Constants.MIN_FONT_SIZE || fontSize > Constants.MAX_FONT_SIZE) {
             throw new IllegalArgumentException(
-                "Font size must be between " + MIN_FONT_SIZE + " and " + MAX_FONT_SIZE);
+                "Font size must be between " + Constants.MIN_FONT_SIZE 
+                + " and " + Constants.MAX_FONT_SIZE);
         }
         setFontSizeInternal(fontSize);
     }
 
     private void setFontSizeInternal(int fontSize) {
         this.fontSize = fontSize;
-        props.setProperty(KEY_FONT_SIZE, Integer.toString(fontSize));
+        properties.setProperty(Constants.KEY_FONT_SIZE, Integer.toString(fontSize));
         saveToDisk();
     }
 
@@ -119,7 +105,7 @@ public class Settings {
      * @return the theme
      */
     public Theme getTheme() {
-        String themeStr = props.getProperty(KEY_THEME, "LIGHT");
+        String themeStr = properties.getProperty(Constants.KEY_THEME, "LIGHT");
         try {
             return Theme.valueOf(themeStr.toUpperCase());
         } catch (IllegalArgumentException e) {
@@ -133,7 +119,7 @@ public class Settings {
      * @param theme the theme to set
      */
     public void setTheme(Theme theme) {
-        props.setProperty(KEY_THEME, theme.name());
+        properties.setProperty(Constants.KEY_THEME, theme.name());
         saveToDisk();
     }
 
@@ -150,7 +136,7 @@ public class Settings {
      * @param audiobookFolderPath the path to the audiobook folder
      * @throws IllegalArgumentException if the path is null or invalid
      */
-    public void setAudiobookFolderPath(Path audiobookFolderPath) {
+    public void setAudiobookFolderPath(Path audiobookFolderPath) throws IllegalArgumentException {
         //check valid path? (exists, is directory, etc.)
         if (audiobookFolderPath == null) {
             throw new IllegalArgumentException("Audiobook folder path cannot be null");
@@ -168,7 +154,7 @@ public class Settings {
 
     private void setAudiobookFolderPathInternal(Path audiobookFolderPath) {
         this.audiobookFolderPath = audiobookFolderPath;
-        props.setProperty(KEY_FOLDER, audiobookFolderPath.toString());
+        properties.setProperty(Constants.KEY_FOLDER, audiobookFolderPath.toString());
         saveToDisk();
     }
 }

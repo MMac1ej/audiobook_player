@@ -5,8 +5,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /** Entry point for the Audiobook Player application. */
@@ -18,19 +18,14 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        Button playerBtn = new Button("Open Player");
-        Button settingsBtn = new Button("Settings");
-
-        playerBtn.setOnAction(e -> startPlayer(stage));
-        settingsBtn.setOnAction(e -> startSettings(stage));
-
-        VBox root = new VBox(20, playerBtn, settingsBtn);
-        root.setStyle("-fx-alignment: center; -fx-padding: 40;");
-
-        stage.setScene(new Scene(
-            root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+        StackPane root = new StackPane(new Label("Audiobook Player"));
+        stage.setScene(new Scene(root, 900, 650));
         stage.setTitle("Audiobook Player");
         stage.show();
+
+        root.setOnMouseClicked(e -> {
+            startPlayer(stage);
+        });
     }
 
     private void startPlayer(Stage stage) {

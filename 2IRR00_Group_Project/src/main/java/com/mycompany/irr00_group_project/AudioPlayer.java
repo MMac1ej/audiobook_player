@@ -10,6 +10,7 @@ import javafx.util.Duration;
 public class AudioPlayer implements PlaybackController {
 
     private MediaPlayer player;
+    private Runnable onEndOfMedia;
 
     /** Creates an AudioPlayer with no episode loaded. */
     public AudioPlayer() {
@@ -25,6 +26,7 @@ public class AudioPlayer implements PlaybackController {
         }
         Media media = new Media(episode.getFilePath().toUri().toString());
         player = new MediaPlayer(media);
+        player.setOnEndOfMedia(onEndOfMedia);
     }
 
     @Override
@@ -92,6 +94,15 @@ public class AudioPlayer implements PlaybackController {
     @Override
     public boolean isPlaying() {
         return player != null && player.getStatus() == MediaPlayer.Status.PLAYING;
+    }
+
+    /**
+     * Registers a callback to invoke when the current episode reaches its end.
+     *
+     * @param callback the runnable to call on end of media
+     */
+    public void setOnEndOfMedia(Runnable callback) {
+        this.onEndOfMedia = callback;
     }
 
     /**

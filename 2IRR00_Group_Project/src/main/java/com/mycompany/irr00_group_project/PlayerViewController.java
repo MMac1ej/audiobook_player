@@ -89,6 +89,7 @@ public class PlayerViewController {
     private void initialize() {
         wireEvents();
         setupTimeline();
+        audioPlayer.setOnEndOfMedia(() -> navigateEpisode(1));
     }
 
     private void wireEvents() {

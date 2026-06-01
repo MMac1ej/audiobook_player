@@ -57,5 +57,6 @@
         </Spinner>
         <Label text="min"/>
         <Button fx:id="sleepToggleButton" text="Start"/>
+        <Label fx:id="sleepCounterLabel" text=""/>
     </HBox>
 </VBox>

@@ -26,6 +26,8 @@ public class PlayerViewController {
     private int currentEpisodeIndex = -1;
     private boolean isSeeking = false;
     private Timeline progressTimeline;
+    private long sleepStartTime;
+    private long sleepTotalSeconds;
 
     @FXML private Label episodeTitleLabel;
     @FXML private Slider seekSlider;
@@ -37,6 +39,7 @@ public class PlayerViewController {
     @FXML private Slider volumeSlider;
     @FXML private Button sleepToggleButton;
     @FXML private Spinner<Integer> sleepSpinner;
+    @FXML private Label sleepCounterLabel;
     @FXML private ToggleButton speed05Button;
     @FXML private ToggleButton speed10Button;
     @FXML private ToggleButton speed15Button;
@@ -114,8 +117,11 @@ public class PlayerViewController {
             if (sleepTimer.isRunning()) {
                 sleepTimer.cancel();
                 sleepToggleButton.setText("Start");
+                sleepCounterLabel.setText("");
             } else {
-                sleepTimer.start((long) sleepSpinner.getValue() * 60L);
+                sleepTotalSeconds = (long) sleepSpinner.getValue() * 60L;
+                sleepStartTime = System.currentTimeMillis();
+                sleepTimer.start(sleepTotalSeconds);
                 sleepToggleButton.setText("Cancel");
             }
         });
@@ -147,7 +153,11 @@ public class PlayerViewController {
             timeLabel.setText(formatTime(pos) + " / " + formatTime(dur));
         }
         playPauseButton.setText(audioPlayer.isPlaying() ? "Pause" : "Play");
-        if (!sleepTimer.isRunning()) {
+        if (sleepTimer.isRunning()) {
+            long elapsed = (System.currentTimeMillis() - sleepStartTime) / 1000;
+            sleepCounterLabel.setText(formatTime(elapsed) + " / " + formatTime(sleepTotalSeconds));
+        } else {
+            sleepCounterLabel.setText("");
             sleepToggleButton.setText("Start");
         }
         saveProgress();

@@ -4,8 +4,8 @@ import java.io.IOException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,8 +13,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -28,16 +26,22 @@ public class PlayerViewController {
     private int currentEpisodeIndex = -1;
     private boolean isSeeking = false;
     private Timeline progressTimeline;
-    private Label episodeTitleLabel;
-    private Slider seekSlider;
-    private Label timeLabel;
-    private Button playPauseButton;
-    private Button stopButton;
-    private Button prevButton;
-    private Button nextButton;
-    private Slider volumeSlider;
-    private Button sleepToggleButton;
-    private Spinner<Integer> sleepSpinner;
+
+    @FXML private Label episodeTitleLabel;
+    @FXML private Slider seekSlider;
+    @FXML private Label timeLabel;
+    @FXML private Button playPauseButton;
+    @FXML private Button stopButton;
+    @FXML private Button prevButton;
+    @FXML private Button nextButton;
+    @FXML private Slider volumeSlider;
+    @FXML private Button sleepToggleButton;
+    @FXML private Spinner<Integer> sleepSpinner;
+    @FXML private ToggleButton speed05Button;
+    @FXML private ToggleButton speed10Button;
+    @FXML private ToggleButton speed15Button;
+    @FXML private ToggleButton speed20Button;
+    @FXML private ToggleGroup speedGroup;
 
     /**
      * Creates a PlayerViewController.
@@ -65,11 +69,12 @@ public class PlayerViewController {
      * Builds and returns the player scene.
      *
      * @return the constructed JavaFX scene
+     * @throws IOException if the FXML file cannot be loaded
      */
-    public Scene buildScene() {
-        VBox root = buildLayout();
-        wireEvents();
-        setupTimeline();
+    public Scene buildScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PlayerView.fxml"));
+        loader.setController(this);
+        VBox root = loader.load();
         if (currentBook != null && currentEpisodeIndex >= 0) {
             loadEpisode(currentEpisodeIndex);
         }
@@ -77,69 +82,10 @@ public class PlayerViewController {
         return new Scene(root, 900, 650);
     }
 
-    private VBox buildLayout() {
-        episodeTitleLabel = new Label("No episode loaded");
-        episodeTitleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        seekSlider = new Slider(0, 1, 0);
-        seekSlider.setMaxWidth(Double.MAX_VALUE);
-        timeLabel = new Label("0:00 / 0:00");
-        HBox seekRow = new HBox(8, seekSlider, timeLabel);
-        seekRow.setAlignment(Pos.CENTER_LEFT);
-        HBox.setHgrow(seekSlider, Priority.ALWAYS);
-        prevButton = new Button("|<");
-        playPauseButton = new Button("Play");
-        stopButton = new Button("Stop");
-        nextButton = new Button(">|");
-        HBox transportRow = new HBox(12, prevButton, playPauseButton, stopButton, nextButton);
-        transportRow.setAlignment(Pos.CENTER);
-        VBox root = new VBox(16,
-            episodeTitleLabel, seekRow, transportRow,
-            buildSpeedRow(), buildVolumeRow(), buildSleepRow()
-        );
-        root.setPadding(new Insets(24));
-        root.setAlignment(Pos.CENTER);
-        return root;
-    }
-
-    private HBox buildSpeedRow() {
-        ToggleGroup speedGroup = new ToggleGroup();
-        double[] speeds = {0.5, 1.0, 1.5, 2.0};
-        HBox row = new HBox(8, new Label("Speed:"));
-        row.setAlignment(Pos.CENTER);
-        for (double speed : speeds) {
-            ToggleButton btn = new ToggleButton(speed + "x");
-            btn.setToggleGroup(speedGroup);
-            if (speed == 1.0) {
-                btn.setSelected(true);
-            }
-            double s = speed;
-            btn.setOnAction(e -> audioPlayer.setSpeed(s));
-            row.getChildren().add(btn);
-        }
-        speedGroup.selectedToggleProperty().addListener((obs, oldT, newT) -> {
-            if (newT == null) {
-                oldT.setSelected(true);
-            }
-        });
-        return row;
-    }
-
-    private HBox buildVolumeRow() {
-        volumeSlider = new Slider(0, 1, 1);
-        volumeSlider.setPrefWidth(200);
-        HBox row = new HBox(8, new Label("Volume:"), volumeSlider);
-        row.setAlignment(Pos.CENTER);
-        return row;
-    }
-
-    private HBox buildSleepRow() {
-        sleepSpinner = new Spinner<>(1, 120, 15);
-        sleepSpinner.setPrefWidth(70);
-        sleepToggleButton = new Button("Start");
-        HBox row = new HBox(8, new Label("Sleep timer:"), sleepSpinner,
-            new Label("min"), sleepToggleButton);
-        row.setAlignment(Pos.CENTER);
-        return row;
+    @FXML
+    private void initialize() {
+        wireEvents();
+        setupTimeline();
     }
 
     private void wireEvents() {
@@ -171,6 +117,15 @@ public class PlayerViewController {
             } else {
                 sleepTimer.start((long) sleepSpinner.getValue() * 60L);
                 sleepToggleButton.setText("Cancel");
+            }
+        });
+        speed05Button.setOnAction(e -> audioPlayer.setSpeed(0.5));
+        speed10Button.setOnAction(e -> audioPlayer.setSpeed(1.0));
+        speed15Button.setOnAction(e -> audioPlayer.setSpeed(1.5));
+        speed20Button.setOnAction(e -> audioPlayer.setSpeed(2.0));
+        speedGroup.selectedToggleProperty().addListener((obs, oldT, newT) -> {
+            if (newT == null) {
+                oldT.setSelected(true);
             }
         });
     }
@@ -222,7 +177,7 @@ public class PlayerViewController {
             }
             seekSlider.setValue(saved);
             episodeTitleLabel.setText(episode.getTitle());
-        } catch (IOException ex) {
+        } catch (IOException | RuntimeException ex) {
             episodeTitleLabel.setText("Error loading: " + episode.getTitle());
         }
         updateNavButtons();

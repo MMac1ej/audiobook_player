@@ -94,4 +94,20 @@ public class AudioPlayer implements PlaybackController {
         return player != null && player.getStatus() == MediaPlayer.Status.PLAYING;
     }
 
+    /**
+     * Returns the total duration of the current episode in seconds, or 0 if unknown.
+     *
+     * @return total duration in seconds
+     */
+    public long getDuration() {
+        if (player == null) {
+            return 0;
+        }
+        Duration total = player.getTotalDuration();
+        if (total == null || total.isUnknown() || total.isIndefinite()) {
+            return 0;
+        }
+        return (long) total.toSeconds();
+    }
+
 }

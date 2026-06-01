@@ -1,6 +1,10 @@
 package com.mycompany.irr00_group_project;
 
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -19,5 +23,36 @@ public class App extends Application {
         stage.setScene(new Scene(root, 900, 650));
         stage.setTitle("Audiobook Player");
         stage.show();
+
+        //click screen to open settings
+        root.setOnMouseClicked(e -> {
+            startSettings(stage);
+        });
+    }
+
+    /**
+     * Starts the settings view in the given stage.
+     * @param stage the stage to display the settings view in
+     */
+    private void startSettings(Stage stage) {
+        try {
+            // 1. Locate and load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "/com/mycompany/irr00_group_project/settings.fxml"));
+            Parent root = loader.load();
+
+            // 2. Set up the scene
+            Scene scene = new Scene(root, 900, 650);
+            
+            // 3. Display the window
+            stage.setScene(scene);
+            stage.setTitle("Audiobook Player - Settings");
+            stage.show();
+            
+        } catch (IOException e) {
+            System.err.println(
+                "Error: Could not load the FXML file. Check your file path and location!");
+            e.printStackTrace();
+        }
     }
 }

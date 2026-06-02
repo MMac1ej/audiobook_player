@@ -21,13 +21,14 @@ import javafx.stage.Stage;
  * settings values into the UI when the view is initialized.
  * 
  * @author Tymon Szczepański, 2330113
- * 
- * TODO: add back to home screen button.
  */
 public class SettingsController {
 
     @FXML
     private Button browseButton;
+
+    @FXML
+    private Button exitSettingsButton;
 
     @FXML
     private TextField filePathTextField;
@@ -139,4 +140,14 @@ public class SettingsController {
         System.out.println("Settings saved!"); //debug print
     }
 
+    /**
+     * Handles the action for the exit settings button.
+     * TODO: Returns to the main application window without saving changes.
+     * @param event
+     */
+    @FXML
+    void handleExitSettings(ActionEvent event) {
+        Stage stage = (Stage) exitSettingsButton.getScene().getWindow();
+        stage.close(); // Temporary. Close the settings window
+    }
 }

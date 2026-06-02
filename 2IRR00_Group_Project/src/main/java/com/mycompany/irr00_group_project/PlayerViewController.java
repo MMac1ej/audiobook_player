@@ -25,6 +25,7 @@ public class PlayerViewController {
     private Audiobook currentBook;
     private int currentEpisodeIndex = -1;
     private boolean isSeeking = false;
+    private boolean episodeEnded = false;
     private Timeline progressTimeline;
     private long sleepStartTime;
     private long sleepTotalSeconds;
@@ -89,7 +90,14 @@ public class PlayerViewController {
     private void initialize() {
         wireEvents();
         setupTimeline();
-        audioPlayer.setOnEndOfMedia(() -> navigateEpisode(1));
+        audioPlayer.setOnEndOfMedia(() -> {
+            int next = currentEpisodeIndex + 1;
+            if (currentBook != null && next < currentBook.getEpisodeCount()) {
+                navigateEpisode(1);
+            } else {
+                episodeEnded = true;
+            }
+        });
     }
 
     private void wireEvents() {
@@ -103,7 +111,14 @@ public class PlayerViewController {
                 audioPlayer.pause();
                 saveProgress();
             } else {
-                audioPlayer.play();
+                long pos = audioPlayer.getCurrentPosition();
+                long dur = audioPlayer.getDuration();
+                if (episodeEnded || (dur > 0 && pos >= dur)) {
+                    episodeEnded = false;
+                    replayFromStart();
+                } else {
+                    audioPlayer.play();
+                }
             }
         });
         stopButton.setOnAction(e -> {
@@ -178,6 +193,7 @@ public class PlayerViewController {
     }
 
     private void loadEpisode(int index) {
+        episodeEnded = false;
         Episode episode = currentBook.getEpisode(index);
         currentEpisodeIndex = index;
         try {
@@ -198,6 +214,21 @@ public class PlayerViewController {
         prevButton.setDisable(currentEpisodeIndex <= 0);
         nextButton.setDisable(currentBook == null
             || currentEpisodeIndex >= currentBook.getEpisodeCount() - 1);
+    }
+
+    private void replayFromStart() {
+        if (currentBook == null || currentEpisodeIndex < 0) {
+            return;
+        }
+        episodeEnded = false;
+        Episode episode = currentBook.getEpisode(currentEpisodeIndex);
+        try {
+            audioPlayer.loadEpisode(episode);
+            seekSlider.setValue(0);
+            audioPlayer.play();
+        } catch (IOException | RuntimeException ex) {
+            episodeTitleLabel.setText("Error loading: " + episode.getTitle());
+        }
     }
 
     private void saveProgress() {

@@ -1,9 +1,11 @@
 package com.mycompany.irr00_group_project;
 
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +16,7 @@ import javafx.stage.Stage;
 public class AudiobookOverview {
     private Library library;
     private List<Audiobook> audiobooks;
+    public static final String DEFAULT_MESSAGE = "Search your prefered audiobook";
 
     /** Initialize library instance & load the available current books. */
     public AudiobookOverview() throws IOException {
@@ -22,40 +25,69 @@ public class AudiobookOverview {
         audiobooks = library.getAudiobooks();
     }
     
-    public void start(Stage stage) {
-        // create new stackpane
-        StackPane root = new StackPane();
-        // create the search bar
-        searchBar(root);
-        // show the audiobooks
-        createButtons(root);
-        // set the stage
+    public void loadAudiobookOverview(Stage stage) {
+        VBox root = new VBox();
+        VBox bookHolder = new VBox();
+        HBox searchHolder= new HBox();
+
+        searchSetup(searchHolder, bookHolder);
+        booksRefresh(bookHolder);
+
+        root.getChildren().addAll(searchHolder, bookHolder);
         stage.setScene(new Scene(root, 900, 650));
         stage.setTitle("Audiobook Overview");
         stage.setMaximized(true);
         stage.show();
     }
     
-    public void searchBar(StackPane root) {
-        TextField searchBar = new TextField("Search your prefered audiobook");
-        root.getChildren().add(searchBar);
+    private void searchSetup(HBox searchHolder, VBox bookHolder) {
+        TextField searchBar = new TextField(DEFAULT_MESSAGE);
+        searchHolder.getChildren().add(searchBar);
+        
+        // search button setup
         Button search = new Button("Search");
-        root.getChildren().add(search);
+        search.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                search(searchBar, bookHolder);
+            }
+        });
+        searchHolder.getChildren().add(search);
+        
+        // reset button setup
         Button reset = new Button("See all audiobooks");
-        root.getChildren().add(reset);
+        reset.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                searchBar.clear();
+                search(searchBar, bookHolder);
+            }
+        });
+        searchHolder.getChildren().add(reset);
     }
     
-    public void search(TextField searchBar, ActionEvent event) {
-        String searchValue = searchBar.getText();
-        audiobooks = library.search(searchValue);
-    }
-    
-    private void createButtons(StackPane root) {
+    private void booksRefresh(VBox root) {
         for (Audiobook audiobook : audiobooks) {
             Button audiobookButton = new Button(audiobook.getTitle());
+            audiobookButton.setMaxWidth(Double.MAX_VALUE); // button width = box width
+            // set action
+            audiobookButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+                public void handle(ActionEvent event) {
+                    // got to Episode Page.
+                }
+            });
             root.getChildren().add(audiobookButton);
         }
-    }   
+    }
+    
+    public void search(TextField searchBar, VBox bookHolder) {
+        String searchValue = searchBar.getText();
+        if (searchValue.equals(DEFAULT_MESSAGE)) {
+            searchValue = "";
+        }
+        audiobooks = library.search(searchValue);
+        booksRefresh(bookHolder);
+    } 
 }
-
 

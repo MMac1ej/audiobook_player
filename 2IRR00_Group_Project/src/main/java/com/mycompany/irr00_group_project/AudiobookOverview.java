@@ -25,10 +25,11 @@ public class AudiobookOverview {
         audiobooks = library.getAudiobooks();
     }
     
+    /** Load the audiobook Overview page. */
     public void loadAudiobookOverview(Stage stage) {
         VBox root = new VBox();
         VBox bookHolder = new VBox();
-        HBox searchHolder= new HBox();
+        HBox searchHolder = new HBox();
 
         searchSetup(searchHolder, bookHolder);
         booksRefresh(bookHolder);
@@ -40,6 +41,7 @@ public class AudiobookOverview {
         stage.show();
     }
     
+    /** Setup the search Bar. */
     private void searchSetup(HBox searchHolder, VBox bookHolder) {
         TextField searchBar = new TextField(DEFAULT_MESSAGE);
         searchHolder.getChildren().add(searchBar);
@@ -66,21 +68,24 @@ public class AudiobookOverview {
         searchHolder.getChildren().add(reset);
     }
     
-    private void booksRefresh(VBox root) {
+    /** Refresh the audiobooks (buttons) that are shown. */
+    private void booksRefresh(VBox bookHolder) {
+        bookHolder.getChildren().clear();
         for (Audiobook audiobook : audiobooks) {
             Button audiobookButton = new Button(audiobook.getTitle());
             audiobookButton.setMaxWidth(Double.MAX_VALUE); // button width = box width
             // set action
             audiobookButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
+                @Override
                 public void handle(ActionEvent event) {
                     // got to Episode Page.
                 }
             });
-            root.getChildren().add(audiobookButton);
+            bookHolder.getChildren().add(audiobookButton);
         }
     }
     
+    /** Show audiobooks accoring to Textfield input. */
     public void search(TextField searchBar, VBox bookHolder) {
         String searchValue = searchBar.getText();
         if (searchValue.equals(DEFAULT_MESSAGE)) {

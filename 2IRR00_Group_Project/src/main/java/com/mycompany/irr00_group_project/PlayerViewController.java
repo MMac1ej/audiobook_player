@@ -26,6 +26,7 @@ public class PlayerViewController {
     private int currentEpisodeIndex = -1;
     private boolean isSeeking = false;
     private boolean episodeEnded = false;
+    private boolean wasSleepTimerRunning = false;
     private Timeline progressTimeline;
     private long sleepStartTime;
     private long sleepTotalSeconds;
@@ -56,7 +57,10 @@ public class PlayerViewController {
     public PlayerViewController(AudioPlayer audioPlayer, ProgressStore progressStore) {
         this.audioPlayer = audioPlayer;
         this.progressStore = progressStore;
-        this.sleepTimer = new SleepTimer(() -> Platform.runLater(audioPlayer::pause));
+        this.sleepTimer = new SleepTimer(() -> Platform.runLater(() -> {
+            audioPlayer.pause();
+            saveProgress();
+        }));
     }
 
     /**
@@ -90,14 +94,14 @@ public class PlayerViewController {
     private void initialize() {
         wireEvents();
         setupTimeline();
-        audioPlayer.setOnEndOfMedia(() -> {
+        audioPlayer.setOnEndOfMedia(() -> Platform.runLater(() -> {
             int next = currentEpisodeIndex + 1;
             if (currentBook != null && next < currentBook.getEpisodeCount()) {
                 navigateEpisode(1);
             } else {
                 episodeEnded = true;
             }
-        });
+        }));
     }
 
     private void wireEvents() {
@@ -172,11 +176,12 @@ public class PlayerViewController {
         if (sleepTimer.isRunning()) {
             long elapsed = (System.currentTimeMillis() - sleepStartTime) / 1000;
             sleepCounterLabel.setText(formatTime(elapsed) + " / " + formatTime(sleepTotalSeconds));
-        } else {
+            wasSleepTimerRunning = true;
+        } else if (wasSleepTimerRunning) {
             sleepCounterLabel.setText("");
             sleepToggleButton.setText("Start");
+            wasSleepTimerRunning = false;
         }
-        saveProgress();
     }
 
     private void navigateEpisode(int delta) {
@@ -195,9 +200,9 @@ public class PlayerViewController {
     private void loadEpisode(int index) {
         episodeEnded = false;
         Episode episode = currentBook.getEpisode(index);
-        currentEpisodeIndex = index;
         try {
             audioPlayer.loadEpisode(episode);
+            currentEpisodeIndex = index;
             long saved = progressStore.loadProgress(episode.getFilePath().toString());
             if (saved > 0) {
                 audioPlayer.seek(saved);

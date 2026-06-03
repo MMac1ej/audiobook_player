@@ -9,14 +9,14 @@ import javafx.collections.ObservableList;
 
 public class EpisodesViewController {
 
-    private EpisodesView episodesView;
-
-    EpisodesViewController(Path folderPath) {
-        episodesView = new EpisodesView(folderPath);
-    }
-
     @FXML
     private ListView<Episode> listView;
+    
+    private EpisodesView episodesView;
+
+    public EpisodesViewController() {
+        episodesView = new EpisodesView(Path.of(""));
+    }
 
     @FXML
     void handleMouseClicked(MouseEvent event) {

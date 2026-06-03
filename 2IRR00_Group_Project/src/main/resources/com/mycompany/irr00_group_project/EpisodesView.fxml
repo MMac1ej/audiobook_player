@@ -9,7 +9,7 @@
    <children>
       <VBox prefHeight="400.0" prefWidth="603.0">
          <children>
-            <ListView onMouseClicked="#handleMouseClicked" prefHeight="400.0" prefWidth="555.0" />
+            <ListView fx:id="listView" onMouseClicked="#handleMouseClicked" prefHeight="400.0" prefWidth="555.0" />
          </children>
       </VBox>
    </children>

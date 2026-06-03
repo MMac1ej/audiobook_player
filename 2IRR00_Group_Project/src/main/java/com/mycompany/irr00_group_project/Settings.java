@@ -64,7 +64,7 @@ public class Settings {
     /**
      * Resets all settings to their default values.
      */
-    protected void setDefaults() {
+    public void setDefaults() {
         setFontSizeInternal(Constants.DEFAULT_FONT_SIZE);
         setTheme(Constants.DEFAULT_THEME);
         setAudiobookFolderPathInternal(Constants.DEFAULT_AUDIOBOOK_FOLDER);
@@ -105,7 +105,8 @@ public class Settings {
      * @return the theme
      */
     public Theme getTheme() {
-        String themeStr = properties.getProperty(Constants.KEY_THEME, "LIGHT");
+        String themeStr = properties.getProperty(
+            Constants.KEY_THEME, Constants.DEFAULT_THEME.name());
         try {
             return Theme.valueOf(themeStr.toUpperCase());
         } catch (IllegalArgumentException e) {

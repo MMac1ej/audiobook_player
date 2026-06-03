@@ -19,6 +19,16 @@ public final class Constants {
         System.getProperty("user.home"), "Audiobooks");
     public static final Path SETTINGS_FILE = Paths.get(
             System.getProperty("user.home"), ".audiobookplayer", "config.properties");
+    public static final String SAVE_FAILED_MESSAGE = (
+        "Error: Failed to save settings. Invalid folder path!");
+    public static final String SAVE_SUCCESS_MESSAGE = "Settings saved successfully!";
+    public static final String SAVE_FAIL_MESSAGE_STYLE = (
+        "-fx-text-fill: #d32f2f; -fx-font-weight: bold;");
+    public static final String SAVE_SUCCESS_MESSAGE_STYLE = (
+        "-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
+    public static final String RESET_SUCCESS_MESSAGE = (
+        "Settings reset to defaults. Click 'Save Settings' to apply.");
+    public static final int STATUS_MESSAGE_DURATION_SECONDS = 6;
 
     /** Keys used in the properties file. */
     public static final String KEY_FOLDER = "audiobookFolderPath";

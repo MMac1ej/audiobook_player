@@ -2,11 +2,7 @@ package com.mycompany.irr00_group_project;
 
 import java.io.File;
 import java.nio.file.Path;
-
 import java.nio.file.Paths;
-
-import javafx.util.Duration;
-import javafx.util.StringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -18,6 +14,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import javafx.util.StringConverter;
 
 /**
  * Controller for the settings.fxml view. Handles user interactions with the settings UI
@@ -167,22 +165,19 @@ public class SettingsController {
     @FXML
     void handleSaveAction(ActionEvent event) {
         Theme selectedTheme = themeChoiceBox.getValue();
-        settings.setTheme(selectedTheme);
-        settings.setFontSize((int) fontSizeSlider.getValue());
         try {
             Path audiobookFolderPath = Paths.get(filePathTextField.getText());
             settings.setAudiobookFolderPath(audiobookFolderPath);
+            settings.setTheme(selectedTheme);
+            settings.setFontSize((int) fontSizeSlider.getValue());
             statusLabel.setStyle(Constants.SAVE_SUCCESS_MESSAGE_STYLE);
             statusLabel.setText(Constants.SAVE_SUCCESS_MESSAGE);
-            
-            clearStatusLabelAfterDelay(Constants.STATUS_MESSAGE_DURATION_SECONDS);
         } catch (IllegalArgumentException e) {
             statusLabel.setStyle(Constants.SAVE_FAILED_MESSAGE_STYLE);
             statusLabel.setText(Constants.SAVE_FAILED_MESSAGE);
             System.err.println("Invalid audiobook folder path: " + e.getMessage());
-
-            clearStatusLabelAfterDelay(Constants.STATUS_MESSAGE_DURATION_SECONDS);
         }
+        clearStatusLabelAfterDelay(Constants.STATUS_MESSAGE_DURATION_SECONDS);
     }
 
     /**

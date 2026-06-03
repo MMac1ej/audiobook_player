@@ -64,7 +64,7 @@ public class Settings {
     /**
      * Resets all settings to their default values.
      */
-    public void setDefaults() {
+    protected void setDefaults() {
         setFontSizeInternal(Constants.DEFAULT_FONT_SIZE);
         setTheme(Constants.DEFAULT_THEME);
         setAudiobookFolderPathInternal(Constants.DEFAULT_AUDIOBOOK_FOLDER);

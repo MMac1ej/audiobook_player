@@ -5,11 +5,15 @@ import java.nio.file.Path;
 
 import java.nio.file.Paths;
 
+import javafx.util.Duration;
 import javafx.util.StringConverter;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
@@ -48,8 +52,14 @@ public class SettingsController {
     @FXML
     private ChoiceBox<Theme> themeChoiceBox;
 
+    @FXML
+    private Label statusLabel;
+
     /** The singleton instance of the Settings class. */
     private final Settings settings = Settings.getInstance();
+
+    /** Timeline for managing the status label display duration. */
+    private Timeline statusTimeline;
 
     /**
      * Initializes the settings controller and populates the UI with current settings.
@@ -90,6 +100,34 @@ public class SettingsController {
     }
 
     /**
+     * Updates the UI elements with the current settings values.
+     */
+    private void updateUIElements() {
+        fontSizeSlider.setValue(settings.getFontSize());
+        fontSizeTextField.setText(Integer.toString(settings.getFontSize())); 
+        themeChoiceBox.setValue(settings.getTheme());
+        filePathTextField.setText(settings.getAudiobookFolderPath().toString());
+    }
+
+    /**
+     * Helper method that waits for a specified number of seconds 
+     * and then clears the status label text.
+     */
+    private void clearStatusLabelAfterDelay(double seconds) {
+        if (statusTimeline != null) {
+            statusTimeline.stop(); // Stop any existing timeline to reset the timer
+        }
+        
+        statusTimeline = new Timeline(
+            new KeyFrame(Duration.seconds(seconds), event -> {
+                statusLabel.setText("");
+            })
+        );
+        statusTimeline.setCycleCount(1); // Ensure it only runs once per save click
+        statusTimeline.play();
+    }
+
+    /**
      * Handles the action for the browse button.
      * @param event the action event
      */
@@ -116,7 +154,10 @@ public class SettingsController {
     @FXML
     void handleResetDefaults(ActionEvent event) {
         settings.setDefaults();
-        initialize(); // Reload UI with default values
+        updateUIElements(); // Reload UI with default values
+        statusLabel.setStyle(Constants.SAVE_SUCCESS_MESSAGE_STYLE);
+        statusLabel.setText(Constants.RESET_SUCCESS_MESSAGE);
+        clearStatusLabelAfterDelay(Constants.STATUS_MESSAGE_DURATION_SECONDS);
     }
 
     /**
@@ -125,25 +166,30 @@ public class SettingsController {
      */
     @FXML
     void handleSaveAction(ActionEvent event) {
-        Path audiobookFolderPath = Paths.get(filePathTextField.getText());
         Theme selectedTheme = themeChoiceBox.getValue();
-
-        try {
-            settings.setAudiobookFolderPath(audiobookFolderPath);
-        } catch (IllegalArgumentException e) {
-            System.err.println("Invalid audiobook folder path: " + e.getMessage());
-        }
-
         settings.setTheme(selectedTheme);
         settings.setFontSize((int) fontSizeSlider.getValue());
+        try {
+            Path audiobookFolderPath = Paths.get(filePathTextField.getText());
+            settings.setAudiobookFolderPath(audiobookFolderPath);
+            statusLabel.setStyle(Constants.SAVE_SUCCESS_MESSAGE_STYLE);
+            statusLabel.setText(Constants.SAVE_SUCCESS_MESSAGE);
+            
+            clearStatusLabelAfterDelay(Constants.STATUS_MESSAGE_DURATION_SECONDS);
+        } catch (IllegalArgumentException e) {
+            statusLabel.setStyle(Constants.SAVE_FAIL_MESSAGE_STYLE);
+            statusLabel.setText(Constants.SAVE_FAILED_MESSAGE);
+            System.err.println("Invalid audiobook folder path: " + e.getMessage());
 
-        System.out.println("Settings saved!"); //debug print
+            clearStatusLabelAfterDelay(Constants.STATUS_MESSAGE_DURATION_SECONDS);
+        }
     }
 
     /**
      * Handles the action for the exit settings button.
      * TODO: Returns to the main application window without saving changes.
-     * @param event
+     * Needs HomeView to be implemented.
+     * @param event the action event
      */
     @FXML
     void handleExitSettings(ActionEvent event) {

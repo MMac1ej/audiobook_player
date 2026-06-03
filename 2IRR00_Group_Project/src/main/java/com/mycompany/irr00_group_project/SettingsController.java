@@ -177,7 +177,7 @@ public class SettingsController {
             
             clearStatusLabelAfterDelay(Constants.STATUS_MESSAGE_DURATION_SECONDS);
         } catch (IllegalArgumentException e) {
-            statusLabel.setStyle(Constants.SAVE_FAIL_MESSAGE_STYLE);
+            statusLabel.setStyle(Constants.SAVE_FAILED_MESSAGE_STYLE);
             statusLabel.setText(Constants.SAVE_FAILED_MESSAGE);
             System.err.println("Invalid audiobook folder path: " + e.getMessage());
 

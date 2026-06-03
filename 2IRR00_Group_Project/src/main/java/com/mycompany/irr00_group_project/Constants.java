@@ -22,7 +22,7 @@ public final class Constants {
     public static final String SAVE_FAILED_MESSAGE = (
         "Error: Failed to save settings. Invalid folder path!");
     public static final String SAVE_SUCCESS_MESSAGE = "Settings saved successfully!";
-    public static final String SAVE_FAIL_MESSAGE_STYLE = (
+    public static final String SAVE_FAILED_MESSAGE_STYLE = (
         "-fx-text-fill: #d32f2f; -fx-font-weight: bold;");
     public static final String SAVE_SUCCESS_MESSAGE_STYLE = (
         "-fx-text-fill: #2e7d32; -fx-font-weight: bold;");

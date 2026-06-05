@@ -2,6 +2,11 @@ package com.mycompany.irr00_group_project;
 
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /** Entry point for the Audiobook Player application. */
@@ -12,19 +17,56 @@ public class App extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        AudioPlayer audioPlayer = new AudioPlayer();
-        ProgressStore progressStore = new ProgressStore();
-        PlayerViewController controller = new PlayerViewController(audioPlayer, progressStore);
+    public void start(Stage stage) {
+        Button playerBtn = new Button("Open Player");
+        Button settingsBtn = new Button("Settings");
 
-        Library library = new Library();
-        library.loadFromFolder(Library.DEFAULT_FOLDER);
-        if (!library.getAudiobooks().isEmpty()) {
-            controller.setBook(library.getAudiobooks().get(0));
-        }
+        playerBtn.setOnAction(e -> startPlayer(stage));
+        settingsBtn.setOnAction(e -> startSettings(stage));
 
-        stage.setScene(controller.buildScene());
+        VBox root = new VBox(20, playerBtn, settingsBtn);
+        root.setStyle("-fx-alignment: center; -fx-padding: 40;");
+
+        stage.setScene(new Scene(
+            root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
         stage.setTitle("Audiobook Player");
         stage.show();
+    }
+
+    private void startPlayer(Stage stage) {
+        try {
+            AudioPlayer audioPlayer = new AudioPlayer();
+            ProgressStore progressStore = new ProgressStore();
+            PlayerViewController controller = new PlayerViewController(audioPlayer, progressStore);
+
+            Library library = new Library();
+            library.loadFromFolder(Library.DEFAULT_FOLDER);
+            if (!library.getAudiobooks().isEmpty()) {
+                controller.setBook(library.getAudiobooks().get(0));
+            }
+
+            stage.setScene(controller.buildScene());
+            stage.setTitle("Audiobook Player");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startSettings(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "/com/mycompany/irr00_group_project/settings.fxml"));
+            Parent root = loader.load();
+
+            stage.setScene(new Scene(
+                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+            stage.setTitle("Audiobook Player - Settings");
+            stage.setMinWidth(Constants.MIN_WINDOW_WIDTH);
+            stage.setMinHeight(Constants.MIN_WINDOW_HEIGHT);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

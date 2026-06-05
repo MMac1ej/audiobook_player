@@ -53,6 +53,10 @@ public class App extends Application {
         }
     }
 
+    /**
+     * Starts the settings view in the given stage.
+     * @param stage the stage to display the settings view in
+     */
     private void startSettings(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(

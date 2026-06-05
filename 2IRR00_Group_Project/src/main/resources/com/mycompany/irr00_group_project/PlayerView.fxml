@@ -19,6 +19,8 @@
         <ToggleGroup fx:id="speedGroup"/>
     </fx:define>
 
+    <Button fx:id="backButton" text="&lt; Back"/>
+
     <Label fx:id="episodeTitleLabel" text="No episode loaded"
            style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
 

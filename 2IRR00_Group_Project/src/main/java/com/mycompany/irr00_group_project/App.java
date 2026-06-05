@@ -18,6 +18,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        showMainView(stage);
+    }
+
+    private void showMainView(Stage stage) {
         Button playerBtn = new Button("Open Player");
         Button settingsBtn = new Button("Settings");
 
@@ -38,12 +42,8 @@ public class App extends Application {
             AudioPlayer audioPlayer = new AudioPlayer();
             ProgressStore progressStore = new ProgressStore();
             PlayerViewController controller = new PlayerViewController(audioPlayer, progressStore);
-
-            Library library = new Library();
-            library.loadFromFolder(Library.DEFAULT_FOLDER);
-            if (!library.getAudiobooks().isEmpty()) {
-                controller.setBook(library.getAudiobooks().get(0));
-            }
+            controller.setOnBack(() -> showMainView(stage));
+            controller.loadDefaultBook();
 
             stage.setScene(controller.buildScene());
             stage.setTitle("Audiobook Player");
@@ -62,6 +62,8 @@ public class App extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "/com/mycompany/irr00_group_project/settings.fxml"));
             Parent root = loader.load();
+            SettingsController controller = loader.getController();
+            controller.setOnBack(() -> showMainView(stage));
 
             stage.setScene(new Scene(
                 root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));

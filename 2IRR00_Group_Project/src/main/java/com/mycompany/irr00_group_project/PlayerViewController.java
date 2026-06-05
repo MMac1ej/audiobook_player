@@ -22,6 +22,7 @@ public class PlayerViewController {
     private final AudioPlayer audioPlayer;
     private final ProgressStore progressStore;
     private final SleepTimer sleepTimer;
+    private Runnable onBack;
     private Audiobook currentBook;
     private int currentEpisodeIndex = -1;
     private boolean isSeeking = false;
@@ -31,6 +32,7 @@ public class PlayerViewController {
     private long sleepStartTime;
     private long sleepTotalSeconds;
 
+    @FXML private Button backButton;
     @FXML private Label episodeTitleLabel;
     @FXML private Slider seekSlider;
     @FXML private Label timeLabel;
@@ -61,6 +63,28 @@ public class PlayerViewController {
             audioPlayer.pause();
             saveProgress();
         }));
+    }
+
+    /**
+     * Sets the callback invoked when the user navigates back to the main view.
+     *
+     * @param onBack the runnable to call when the back button is pressed
+     */
+    public void setOnBack(Runnable onBack) {
+        this.onBack = onBack;
+    }
+
+    /**
+     * Loads the first audiobook from the default library folder.
+     *
+     * @throws IOException if the folder cannot be read
+     */
+    public void loadDefaultBook() throws IOException {
+        Library library = new Library();
+        library.loadFromFolder(Library.DEFAULT_FOLDER);
+        if (!library.getAudiobooks().isEmpty()) {
+            setBook(library.getAudiobooks().get(0));
+        }
     }
 
     /**
@@ -105,6 +129,13 @@ public class PlayerViewController {
     }
 
     private void wireEvents() {
+        backButton.setOnAction(e -> {
+            audioPlayer.stop();
+            saveProgress();
+            if (onBack != null) {
+                onBack.run();
+            }
+        });
         seekSlider.setOnMousePressed(e -> isSeeking = true);
         seekSlider.setOnMouseReleased(e -> {
             audioPlayer.seek((long) seekSlider.getValue());
@@ -145,6 +176,10 @@ public class PlayerViewController {
                 sleepToggleButton.setText("Cancel");
             }
         });
+        wireSpeedButtons();
+    }
+
+    private void wireSpeedButtons() {
         speed05Button.setOnAction(e -> audioPlayer.setSpeed(0.5));
         speed10Button.setOnAction(e -> audioPlayer.setSpeed(1.0));
         speed15Button.setOnAction(e -> audioPlayer.setSpeed(1.5));

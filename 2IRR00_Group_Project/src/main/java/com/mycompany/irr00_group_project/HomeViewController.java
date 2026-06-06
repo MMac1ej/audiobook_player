@@ -5,6 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
+/**
+ * This class handles the stuff that happens on the home view screen.
+ */
 public class HomeViewController {
 
     @FXML
@@ -12,6 +15,7 @@ public class HomeViewController {
 
     @FXML
     private Button settingsButton;
+    private Button libraryButton;
 
     @FXML
     public void initialize() {
@@ -21,9 +25,23 @@ public class HomeViewController {
         //AAAAAAAAAAAAAAAAAAAAAA
     } 
 
+    /**
+     * This opens the settings when the settingsButton has been pressed.
+     * @param event is when the button has been pressed.
+     */
     @FXML
     void handleOpenSettings(ActionEvent event) {
-        //System.out.println("AAAAAAAAAAAAAAAAAAAAAAAA");
+        //System.out.println("settings");
+    }
+
+    /**
+     * This opens the library when the libraryButton has been pressed.
+     * @param event is when the button has been pressed.
+     */
+    @FXML
+    void handleOpenLibrary(ActionEvent event) {
+        //System.out.println("library");
+        //open the library
     }
 
 }

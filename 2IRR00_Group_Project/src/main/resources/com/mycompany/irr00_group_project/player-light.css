@@ -1,0 +1,79 @@
+/*  Back button  */
+.player-back-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #5c6bc0;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 4 12 4 0;
+    -fx-border-color: transparent;
+    -fx-background-radius: 6;
+}
+.player-back-btn:hover {
+    -fx-background-color: rgba(92, 107, 192, 0.08);
+}
+
+/* Round control buttons (prev, stop, next) */
+.player-ctrl-round {
+    -fx-background-color: #eeeeee;
+    -fx-text-fill: #424242;
+    -fx-font-size: 15px;
+    -fx-cursor: hand;
+    -fx-background-radius: 50%;
+    -fx-min-width: 44px;
+    -fx-min-height: 44px;
+    -fx-max-width: 44px;
+    -fx-max-height: 44px;
+}
+.player-ctrl-round:hover {
+    -fx-background-color: #dcdcdc;
+}
+
+/*  Play/pause button  */
+.player-play-btn {
+    -fx-background-color: #5c6bc0;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 50%;
+    -fx-min-width: 64px;
+    -fx-min-height: 64px;
+    -fx-max-width: 64px;
+    -fx-max-height: 64px;
+    -fx-effect: dropshadow(gaussian, rgba(92,107,192,0.4), 10, 0, 0, 3);
+}
+.player-play-btn:hover {
+    -fx-background-color: #4a5ab0;
+}
+
+/*  Speed toggle buttons  */
+.player-speed-btn {
+    -fx-background-color: #eeeeee;
+    -fx-text-fill: #424242;
+    -fx-background-radius: 20;
+    -fx-padding: 5 14;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+.player-speed-btn:hover {
+    -fx-background-color: #dcdcdc;
+}
+.player-speed-btn:selected {
+    -fx-background-color: #5c6bc0;
+    -fx-text-fill: white;
+}
+
+/*  Sleep timer start button  */
+.player-sleep-btn {
+    -fx-background-color: #e8eaf6;
+    -fx-text-fill: #5c6bc0;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 5 16;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+.player-sleep-btn:hover {
+    -fx-background-color: #d9ddf0;
+}

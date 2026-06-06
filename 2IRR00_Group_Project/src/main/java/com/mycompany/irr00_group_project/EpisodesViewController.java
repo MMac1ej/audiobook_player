@@ -1,12 +1,15 @@
 package com.mycompany.irr00_group_project;
 
 import java.nio.file.Path;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.collections.ObservableList;
 
+/**
+ * This class is the UI controller for the episode view page.
+ * @author Vincent van Roosmalen
+ */
 public class EpisodesViewController {
 
     @FXML
@@ -17,9 +20,13 @@ public class EpisodesViewController {
     public EpisodesViewController() {
         episodesView = new EpisodesView(Path.of(""));
     }
-
+    
+    /**
+     * handles UI events,
+     * Used to select what episode to play.
+     */
     @FXML
-    void handleMouseClicked(MouseEvent event) {
+    public void handleMouseClicked(MouseEvent event) {
 
         ObservableList<Episode> selectedEpisodes = listView.getSelectionModel().getSelectedItems();
 
@@ -33,8 +40,10 @@ public class EpisodesViewController {
         episodesView.selectEpisode(filePath);
     }
 
+    /**
+    * Initialize the EpisodesViewController.
+    */
     @FXML
-    //run once when set up
     public void initialize() {
         listView.setItems(episodesView.getEpisodes());
 

@@ -5,8 +5,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /** Entry point for the Audiobook Player application. */
@@ -16,17 +16,22 @@ public class App extends Application {
         launch(args);
     }
 
+
+    // please note that this is still temporary way of starting the app
     @Override
     public void start(Stage stage) {
-        StackPane root = new StackPane(new Label("Audiobook Player"));
+        showMainView(stage);
+    }
+
+    private void showMainView(Stage stage) {
+        Button playerButton = new Button("Open Player");
+        playerButton.setOnAction(e -> startPlayer(stage));
+        VBox root = new VBox(20, playerButton);
+        root.setStyle("-fx-alignment: center; -fx-padding: 40;");
         stage.setScene(new Scene(
-            root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
         stage.setTitle("Audiobook Player");
         stage.show();
-
-        root.setOnMouseClicked(e -> {
-            startPlayer(stage);
-        });
     }
 
     private void startPlayer(Stage stage) {
@@ -34,12 +39,8 @@ public class App extends Application {
             AudioPlayer audioPlayer = new AudioPlayer();
             ProgressStore progressStore = new ProgressStore();
             PlayerViewController controller = new PlayerViewController(audioPlayer, progressStore);
-
-            Library library = new Library();
-            library.loadFromFolder(Library.DEFAULT_FOLDER);
-            if (!library.getAudiobooks().isEmpty()) {
-                controller.setBook(library.getAudiobooks().get(0));
-            }
+            controller.setOnBack(() -> showMainView(stage));
+            controller.loadDefaultBook();
 
             stage.setScene(controller.buildScene());
             stage.setTitle("Audiobook Player");
@@ -49,6 +50,11 @@ public class App extends Application {
         }
     }
 
+    /**
+     * Starts the settings view in the given stage.
+     * 
+     * @param stage the stage to display the settings view in
+     */
     private void startSettings(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(

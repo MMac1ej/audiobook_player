@@ -97,4 +97,3 @@ public class AudiobookOverview {
         booksRefresh(bookHolder);
     } 
 }
-

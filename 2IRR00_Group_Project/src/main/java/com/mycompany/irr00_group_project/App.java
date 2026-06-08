@@ -26,8 +26,12 @@ public class App extends Application {
     private void showMainView(Stage stage) {
         Button playerButton = new Button("Open Player");
         playerButton.setOnAction(e -> startPlayer(stage));
-        VBox root = new VBox(20, playerButton);
-        root.setStyle("-fx-alignment: center; -fx-padding: 40;");
+        Button overviewButton = new Button("Open Audiobook Overview");
+        overviewButton.setOnAction(e -> startAudiobookOverview(stage));
+        Button settingsButton = new Button("Open Settings");
+        settingsButton.setOnAction(e -> startSettings(stage));
+        VBox root = new VBox(20, playerButton, overviewButton, settingsButton);
+        root.setStyle("-fx-alignment: center;");
         stage.setScene(new Scene(
                 root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
         stage.setTitle("Audiobook Player");

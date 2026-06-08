@@ -35,7 +35,8 @@ public class AudiobookOverview {
         booksRefresh(bookHolder);
 
         root.getChildren().addAll(searchHolder, bookHolder);
-        stage.setScene(new Scene(root, 900, 650));
+        stage.setScene(new Scene(
+                    root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
         stage.setTitle("Audiobook Overview");
         stage.setMaximized(true);
         stage.show();
@@ -44,6 +45,7 @@ public class AudiobookOverview {
     /** Setup the search Bar. */
     private void searchSetup(HBox searchHolder, VBox bookHolder) {
         TextField searchBar = new TextField(DEFAULT_MESSAGE);
+        searchBar.prefWidthProperty().bind(searchHolder.widthProperty().multiply(0.5));
         searchHolder.getChildren().add(searchBar);
         
         // search button setup

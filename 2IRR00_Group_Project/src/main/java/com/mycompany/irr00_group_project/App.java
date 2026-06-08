@@ -1,5 +1,6 @@
 package com.mycompany.irr00_group_project;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -19,5 +20,19 @@ public class App extends Application {
         stage.setScene(new Scene(root, 900, 650));
         stage.setTitle("Audiobook Player");
         stage.show();
+    }
+    
+     /**
+     * Starts the audiobook overview in the given stage.
+     * @param stage the stage to display the settings view in
+     */
+    private void startAudiobookOverview(Stage stage) {
+        try {
+            AudiobookOverview bookOverview = new AudiobookOverview();
+            bookOverview.loadAudiobookOverview(stage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

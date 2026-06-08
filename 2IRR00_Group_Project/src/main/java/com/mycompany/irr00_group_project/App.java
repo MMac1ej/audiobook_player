@@ -2,9 +2,11 @@ package com.mycompany.irr00_group_project;
 
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /** Entry point for the Audiobook Player application. */
@@ -14,12 +16,68 @@ public class App extends Application {
         launch(args);
     }
 
+
+    // please note that this is still temporary way of starting the app
     @Override
     public void start(Stage stage) {
-        StackPane root = new StackPane(new Label("Audiobook Player"));
-        stage.setScene(new Scene(root, 900, 650));
+        showMainView(stage);
+    }
+
+    private void showMainView(Stage stage) {
+        Button playerButton = new Button("Open Player");
+        playerButton.setOnAction(e -> startPlayer(stage));
+        VBox root = new VBox(20, playerButton);
+        root.setStyle("-fx-alignment: center; -fx-padding: 40;");
+        stage.setScene(new Scene(
+                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
         stage.setTitle("Audiobook Player");
         stage.show();
+    }
+
+    private void startPlayer(Stage stage) {
+        try {
+            AudioPlayer audioPlayer = new AudioPlayer();
+            ProgressStore progressStore = new ProgressStore();
+            PlayerViewController controller = new PlayerViewController(audioPlayer, progressStore);
+            controller.setOnBack(() -> showMainView(stage));
+            controller.loadDefaultBook();
+
+            stage.setScene(controller.buildScene());
+            stage.setTitle("Audiobook Player");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Starts the settings view in the given stage.
+     * 
+     * @param stage the stage to display the settings view in
+     */
+    private void startSettings(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "/com/mycompany/irr00_group_project/settings.fxml"));
+            Parent root = loader.load();
+
+            stage.setScene(new Scene(
+                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+            // 2. Set up the scene
+            Scene scene = new Scene(
+                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
+            
+            // 3. Display the window
+            stage.setScene(scene);
+            stage.setTitle("Audiobook Player - Settings");
+            stage.setMinWidth(Constants.MIN_WINDOW_WIDTH);
+            stage.setMinHeight(Constants.MIN_WINDOW_HEIGHT);
+            stage.setMinWidth(Constants.MIN_WINDOW_WIDTH);
+            stage.setMinHeight(Constants.MIN_WINDOW_HEIGHT);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
      /**

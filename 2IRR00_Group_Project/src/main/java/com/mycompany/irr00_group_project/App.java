@@ -25,8 +25,12 @@ public class App extends Application {
 
     private void showMainView(Stage stage) {
         try {
+            HomeViewController hvController = HomeViewController.getInstance();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "/com/mycompany/irr00_group_project/homeview.fxml"));
+            loader.setController(hvController);
+            hvController.setApp(this);
+            hvController.setStage(stage);
             Parent root = loader.load();
             Scene scene = new Scene(root, 900, 650);
             stage.setScene(scene);
@@ -61,7 +65,7 @@ public class App extends Application {
      * Starts the settings view in the given stage.
      * @param stage the stage to display the settings view in
      */
-    private void startSettings(Stage stage) {
+    public void startSettings(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "/com/mycompany/irr00_group_project/settings.fxml"));

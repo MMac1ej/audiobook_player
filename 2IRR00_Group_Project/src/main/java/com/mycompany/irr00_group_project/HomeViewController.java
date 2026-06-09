@@ -4,11 +4,41 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 /**
- * This class handles the stuff that happens on the home view screen.
+ * This class handles the stuff that happens on the home view screen to communicate to HomeView.
  */
 public class HomeViewController {
+
+    App app;
+    Stage stage;
+    private static HomeViewController instance;
+
+    /**
+     * The constructor.
+     * @param stage is the object of the main method.
+     */
+    private HomeViewController() {
+        //Commented code is for debugging purposes.
+        //System.out.println("New HomeViewController instance created!");
+    }
+    
+    /**
+     * Sets the stage, so we can pass it along from App.
+     * @param stage
+     */
+    void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    /**
+     * Sets the app, so we can pass it along from App.
+     * @param app
+     */
+    void setApp(App app) {
+        this.app = app;
+    }
 
     @FXML
     private ListView<Audiobook> recentListView;
@@ -16,6 +46,13 @@ public class HomeViewController {
     @FXML
     private Button settingsButton;
     private Button libraryButton;
+
+    public static HomeViewController getInstance() {
+        if (instance == null) {
+            instance = new HomeViewController();
+        }
+        return instance;
+    }
 
     @FXML
     public void initialize() {
@@ -31,7 +68,7 @@ public class HomeViewController {
      */
     @FXML
     void handleOpenSettings(ActionEvent event) {
-        //System.out.println("settings");
+        app.startSettings(stage);
     }
 
     /**

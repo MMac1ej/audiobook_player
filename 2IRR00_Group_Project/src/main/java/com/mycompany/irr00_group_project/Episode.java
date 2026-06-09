@@ -73,5 +73,14 @@ public class Episode {
         }
         this.progressSeconds = seconds;
     }
+    
+    /**
+     * implements toString.
+     * @return title of episode 
+     */
+    @Override
+    public String toString() {
+        return title;
+    }
 
 }

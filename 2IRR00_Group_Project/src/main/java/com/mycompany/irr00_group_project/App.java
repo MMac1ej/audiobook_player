@@ -52,13 +52,10 @@ public class App extends Application {
             stage.setMinHeight(100);
             stage.show();
 
-        } catch (FileNotFoundException e) {
-            System.err.println(
-                    "Error: Error 1" + e.getMessage());
-            e.printStackTrace();
         } catch (IOException e) {
             System.err.println(
-                    "Error: Error 2" + e.getMessage());
+                    "Error: Failed to process FXML file for EpisodesView" 
+                            + e.getMessage());
             e.printStackTrace();
         }
     }

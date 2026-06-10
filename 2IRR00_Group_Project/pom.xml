@@ -88,20 +88,6 @@
                 <version>3.2.5</version>
             </plugin>
 
-            <!-- Run with: mvn javafx:run -->
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
-                <configuration>
-                    <modules>  
-                        <module>javafx.controls</module>  
-                        <module>javafx.fxml</module>  
-                        <!-- Add others (e.g., javafx.web) if used -->  
-                    </modules> 
-                    <mainClass>com.mycompany.irr00_group_project.App</mainClass>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 </project>

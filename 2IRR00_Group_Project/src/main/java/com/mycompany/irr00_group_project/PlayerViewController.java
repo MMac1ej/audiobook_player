@@ -21,6 +21,7 @@ public class PlayerViewController {
 
     private final AudioPlayer audioPlayer;
     private final ProgressStore progressStore;
+    private final TimestampStore timestampStore;
     private final SleepTimer sleepTimer;
     private Runnable onBack;
     private Audiobook currentBook;
@@ -55,10 +56,13 @@ public class PlayerViewController {
      *
      * @param audioPlayer the audio playback engine
      * @param progressStore the store for persisting playback progress
+     * @param timestampStore the store for persisting audiobook timestamp
      */
-    public PlayerViewController(AudioPlayer audioPlayer, ProgressStore progressStore) {
+    public PlayerViewController(
+            AudioPlayer audioPlayer, ProgressStore progressStore, TimestampStore timestampStore) {
         this.audioPlayer = audioPlayer;
         this.progressStore = progressStore;
+        this.timestampStore = timestampStore;
         this.sleepTimer = new SleepTimer(() -> Platform.runLater(() -> {
             audioPlayer.pause();
             saveProgress();
@@ -95,6 +99,10 @@ public class PlayerViewController {
     public void setBook(Audiobook book) {
         this.currentBook = book;
         this.currentEpisodeIndex = (book != null && book.getEpisodeCount() > 0) ? 0 : -1;
+
+        if (book != null && book.getPath() != null) {
+            this.timestampStore.saveTimestamp(book.getPath().toString());
+        }
     }
 
     /**

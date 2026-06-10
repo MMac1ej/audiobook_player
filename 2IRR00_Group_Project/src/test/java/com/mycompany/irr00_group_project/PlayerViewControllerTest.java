@@ -20,6 +20,7 @@ class PlayerViewControllerTest {
 
     private AudioPlayer audioPlayer;
     private ProgressStore progressStore;
+    private TimestampStore timestampStore;
     private Path tempFile;
     private PlayerViewController controller;
 
@@ -41,7 +42,8 @@ class PlayerViewControllerTest {
         tempFile = Files.createTempFile("progress", ".properties");
         progressStore = new ProgressStore(tempFile);
         audioPlayer = new StubAudioPlayer();
-        controller = new PlayerViewController(audioPlayer, progressStore);
+        timestampStore = new TimestampStore();
+        controller = new PlayerViewController(audioPlayer, progressStore, timestampStore);
     }
 
     /** Removes the temporary progress file after each test. */

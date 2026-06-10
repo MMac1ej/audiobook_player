@@ -1,5 +1,6 @@
 package com.mycompany.irr00_group_project;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 public class Audiobook {
 
     private final String title;
+    private final Path path;
     private final List<Episode> episodes;
 
     /**
@@ -15,8 +17,9 @@ public class Audiobook {
      *
      * @param title the display name of this audiobook
      */
-    public Audiobook(String title) {
+    public Audiobook(String title, Path path) {
         this.title = title;
+        this.path = path;
         this.episodes = new ArrayList<>();
     }
 
@@ -57,6 +60,10 @@ public class Audiobook {
     /** Returns an unmodifiable view of the episode list. */
     public List<Episode> getEpisodes() {
         return Collections.unmodifiableList(episodes);
+    }
+
+    public Path getPath() {
+        return path;
     }
 
 }

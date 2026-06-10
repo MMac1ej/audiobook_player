@@ -5,9 +5,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javafx.collections.FXCollections;
 
 /**
  * This class handles the stuff that happens on the home view screen to communicate to HomeView.
+ * @author Floortje Lusthof
  */
 public class HomeViewController {
 
@@ -43,6 +48,8 @@ public class HomeViewController {
     @FXML
     private ListView<Audiobook> recentListView;
 
+    private ArrayList<Audiobook> recentList = new ArrayList<>();
+
     @FXML
     private Button settingsButton;
     private Button libraryButton;
@@ -57,9 +64,9 @@ public class HomeViewController {
     @FXML
     public void initialize() {
         //this will run once, and show the audiobooks i suppose
-        //i am way too tired and will leave this for later
-        //bc
-        //AAAAAAAAAAAAAAAAAAAAAA
+       Audiobook audi = new Audiobook("Ba");
+       recentList.add(audi);
+       recentListView.setItems(FXCollections.observableArrayList(recentList));
     } 
 
     /**

@@ -138,7 +138,7 @@ class PlayerViewControllerTest {
     }
 
     private Audiobook buildBook(int episodeCount) {
-        Audiobook book = new Audiobook("Test Book");
+        Audiobook book = new Audiobook("Test Book", null);
         for (int i = 0; i < episodeCount; i++) {
             book.addEpisode(new Episode("Episode " + i, Path.of("ep" + i + ".mp3")));
         }

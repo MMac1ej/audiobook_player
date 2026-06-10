@@ -62,6 +62,7 @@ public class Audiobook {
         return Collections.unmodifiableList(episodes);
     }
 
+    /** Returns the path to the audiobook folder. */
     public Path getPath() {
         return path;
     }

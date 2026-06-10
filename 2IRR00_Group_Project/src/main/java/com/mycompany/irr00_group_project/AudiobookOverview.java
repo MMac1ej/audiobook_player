@@ -16,15 +16,26 @@ import javafx.stage.Stage;
 public class AudiobookOverview {
     private Library library;
     private List<Audiobook> audiobooks;
-    public static final String DEFAULT_MESSAGE = "Search your prefered audiobook";
-
-    /** Initialize library instance & load the available current books. */
-    public AudiobookOverview() throws IOException {
-        library = new Library();
-        library.loadFromFolder(Library.DEFAULT_FOLDER);
-        audiobooks = library.getAudiobooks();
-    }
+    public static final String DEFAULT_MESSAGE = "Search your preferred audiobook";
+    boolean errorMessage = false;
+    private VBox error;
     
+    /** Initialize library instance & load the available current books. */
+    public AudiobookOverview() {
+        try {
+            library = new Library();
+            library.loadFromFolder(Library.DEFAULT_FOLDER);
+            audiobooks = library.getAudiobooks();
+            errorMessage = false;
+        } catch (IOException e) {
+            System.err.println("Failed to load audiobooks.");
+            error = new VBox(new TextField(
+                    "Failed to load audiobooksgit add, please check if the file path is correct."));
+            errorMessage = true;
+            audiobooks = List.of();
+        }
+    }
+
     /** Load the audiobook Overview page. */
     public void loadAudiobookOverview(Stage stage) {
         VBox root = new VBox();
@@ -33,10 +44,14 @@ public class AudiobookOverview {
 
         searchSetup(searchHolder, bookHolder);
         booksRefresh(bookHolder);
-
+        
         root.getChildren().addAll(searchHolder, bookHolder);
-        stage.setScene(new Scene(
-                    root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+        if (errorMessage) {
+            root.getChildren().add(error);
+        } 
+        stage.setScene(new Scene(root));
+        stage.setFullScreenExitHint(""); //removes the message(press esc to exit)
+        stage.setFullScreen(true);
         stage.setTitle("Audiobook Overview");
         stage.setMaximized(true);
         stage.show();
@@ -97,3 +112,4 @@ public class AudiobookOverview {
         booksRefresh(bookHolder);
     } 
 }
+

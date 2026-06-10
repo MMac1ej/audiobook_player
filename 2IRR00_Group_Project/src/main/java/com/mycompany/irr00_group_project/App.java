@@ -89,12 +89,8 @@ public class App extends Application {
      * @param stage the stage to display the settings view in
      */
     private void startAudiobookOverview(Stage stage) {
-        try {
-            AudiobookOverview bookOverview = new AudiobookOverview();
-            bookOverview.loadAudiobookOverview(stage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        AudiobookOverview bookOverview = new AudiobookOverview();
+        bookOverview.loadAudiobookOverview(stage);
 
     }
 }

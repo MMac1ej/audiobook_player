@@ -80,7 +80,34 @@ public class Episode {
      */
     @Override
     public String toString() {
-        return title;
+        
+        String durationString = "Duration ";
+        
+        //note integer division always rounds down
+        long seconds = durationSeconds % 60;
+        long minutes = (durationSeconds / 60) % 60;
+        long hours = (durationSeconds / 3600) % 24;
+        long days = durationSeconds / 86400;
+        
+        if (durationSeconds >= 86400) {
+            durationString += days + " days";
+        }
+        
+        if (durationSeconds >= 3600) {
+            durationString += hours + " hours";
+        }
+ 
+        if (durationSeconds >= 60) {
+            durationString += minutes + " minutes";
+        }
+        
+        if (durationSeconds >= 1) {
+            durationString += seconds + " seconds";
+        } else {
+            durationString = "Duration 0 seconds";
+        }
+        
+        return title + " " + durationString;
     }
 
 }

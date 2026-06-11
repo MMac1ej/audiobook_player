@@ -1,7 +1,6 @@
 package com.mycompany.irr00_group_project;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +11,7 @@ import java.util.stream.Collectors;
 /** Persists last-played timestamps for audiobooks to a properties file on disk. */
 public class TimestampStore extends PropertiesStore {
 
-    private static final Path DEFAULT_FILE = Paths.get(
-            System.getProperty("user.home"), ".audiobookplayer", "timestamp.properties");
+    private static final Path DEFAULT_FILE = Constants.DEFAULT_TIMESTAMP_STORE_PATH;
 
     /** Creates a TimestampStore using the default file location. */
     public TimestampStore() {
@@ -48,7 +46,8 @@ public class TimestampStore extends PropertiesStore {
         Map<String, Long> audiobooksWithTimestamps = new HashMap<>();
 
         for (String audiobook : audiobooks) {
-            audiobooksWithTimestamps.put(audiobook, Long.valueOf(super.getProperty(audiobook, "0")));
+            String timestamp = super.getProperty(audiobook, "0");
+            audiobooksWithTimestamps.put(audiobook, Long.valueOf(timestamp));
         }
 
         return audiobooksWithTimestamps.entrySet()

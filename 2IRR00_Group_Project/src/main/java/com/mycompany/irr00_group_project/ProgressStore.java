@@ -1,15 +1,13 @@
 package com.mycompany.irr00_group_project;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /** Persists episode playback progress to a properties file on disk.
  *  NEVER create more than one instance of ProgressStore!
 */
 public class ProgressStore extends PropertiesStore {
 
-    private static final Path DEFAULT_FILE = Paths.get(
-            System.getProperty("user.home"), ".audiobookplayer", "progress.properties");
+    private static final Path DEFAULT_FILE = Constants.DEFAULT_PROGRESS_STORE_PATH;
 
     /** Creates a ProgressStore using the default file location. */
     public ProgressStore() {

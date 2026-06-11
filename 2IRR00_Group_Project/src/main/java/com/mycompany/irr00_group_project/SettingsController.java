@@ -138,7 +138,6 @@ public class SettingsController {
      */
     @FXML
     void handleBrowseAction(ActionEvent event) {
-        System.out.println("Opening file explorer..."); //debug print
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Select Audiobook Folder");
 
@@ -147,8 +146,6 @@ public class SettingsController {
 
         if (selectedDirectory != null) {
             filePathTextField.setText(selectedDirectory.getAbsolutePath());
-            System.out.println(
-                "Selected folder: " + selectedDirectory.getAbsolutePath()); //debug print
         }
     }
 

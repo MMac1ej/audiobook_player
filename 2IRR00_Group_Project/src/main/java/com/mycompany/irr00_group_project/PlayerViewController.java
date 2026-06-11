@@ -32,6 +32,7 @@ public class PlayerViewController {
     private Timeline progressTimeline;
     private long sleepStartTime;
     private long sleepTotalSeconds;
+    private final Settings settings = Settings.getInstance();
 
     @FXML private Button backButton;
     @FXML private Label episodeTitleLabel;
@@ -85,7 +86,7 @@ public class PlayerViewController {
      */
     public void loadDefaultBook() throws IOException {
         Library library = new Library();
-        library.loadFromFolder(Settings.getInstance().getAudiobookFolderPath());
+        library.loadFromFolder(settings.getAudiobookFolderPath());
         if (!library.getAudiobooks().isEmpty()) {
             setBook(library.getAudiobooks().get(0));
         }

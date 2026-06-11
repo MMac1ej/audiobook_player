@@ -85,7 +85,7 @@ public class PlayerViewController {
      */
     public void loadDefaultBook() throws IOException {
         Library library = new Library();
-        library.loadFromFolder(Library.DEFAULT_FOLDER);
+        library.loadFromFolder(Settings.getInstance().getAudiobookFolderPath());
         if (!library.getAudiobooks().isEmpty()) {
             setBook(library.getAudiobooks().get(0));
         }

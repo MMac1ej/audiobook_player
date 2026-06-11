@@ -7,11 +7,9 @@ import java.nio.file.Path;
 */
 public class ProgressStore extends PropertiesStore {
 
-    private static final Path DEFAULT_FILE = Constants.DEFAULT_PROGRESS_STORE_PATH;
-
     /** Creates a ProgressStore using the default file location. */
     public ProgressStore() {
-        this(DEFAULT_FILE);
+        this(Constants.DEFAULT_PROGRESS_STORE_PATH);
     }
 
     /**

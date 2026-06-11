@@ -64,7 +64,7 @@ public class HomeViewController {
     @FXML
     public void initialize() {
         //this will run once, and show the audiobooks i suppose
-       Audiobook audi = new Audiobook("Ba");
+       Audiobook audi = new Audiobook("Ba", null);
        recentList.add(audi);
        recentListView.setItems(FXCollections.observableArrayList(recentList));
     } 

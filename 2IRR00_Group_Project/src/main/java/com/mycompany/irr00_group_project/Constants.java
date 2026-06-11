@@ -43,6 +43,18 @@ public final class Constants {
     public static final int DEFAULT_WINDOW_WIDTH = 900;
     public static final int DEFAULT_WINDOW_HEIGHT = 650;
 
+    /**
+     * Constants for the ProgressStore.
+     */
+    public static final Path DEFAULT_PROGRESS_STORE_PATH = Paths.get(
+        System.getProperty("user.home"), ".audiobookplayer", "progress.properties");
+
+    /**
+     * Constants for TimestampStore.
+     */
+    public static final Path DEFAULT_TIMESTAMP_STORE_PATH = Paths.get(
+            System.getProperty("user.home"), ".audiobookplayer", "timestamp.properties");
+
     private Constants() {
         // Private constructor to prevent instantiation
     }

@@ -62,12 +62,21 @@ public class HomeViewController {
     }
 
     @FXML
+    /**
+     * This will run once, to load the recently listened to audiobooks.
+     */
     public void initialize() {
-        //this will run once, and show the audiobooks i suppose
-       Audiobook audi = new Audiobook("Ba");
-       recentList.add(audi);
-       recentListView.setItems(FXCollections.observableArrayList(recentList));
+        checkRecentlyListened();
     } 
+
+    private void checkRecentlyListened() {
+        //TODO: implement method
+        Audiobook audi = new Audiobook("Ba"); //for testing
+        if (!recentList.contains(audi)) {
+            recentList.add(audi);
+        }
+        recentListView.setItems(FXCollections.observableArrayList(recentList));
+    }
 
     /**
      * This opens the settings when the settingsButton has been pressed.

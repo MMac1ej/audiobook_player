@@ -44,11 +44,11 @@ public class TimestampStore extends PropertiesStore {
      * @return sorted list of audiobook identifiers
      */
     public List<String> getRecentlyPlayed() {
-        Set<String> audiobooks = super.keySet();
+        Set<String> audiobooks = super.listKeysAsSet();
         Map<String, Long> audiobooksWithTimestamps = new HashMap<>();
 
         for (String audiobook : audiobooks) {
-            audiobooksWithTimestamps.put(audiobook, Long.valueOf(super.getProperty(audiobook)));
+            audiobooksWithTimestamps.put(audiobook, Long.valueOf(super.getProperty(audiobook, "0")));
         }
 
         return audiobooksWithTimestamps.entrySet()

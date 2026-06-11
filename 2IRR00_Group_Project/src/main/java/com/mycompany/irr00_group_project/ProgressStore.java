@@ -42,7 +42,7 @@ public class ProgressStore extends PropertiesStore {
      * @return the saved progress in seconds, or 0 if not found
      */
     public long loadProgress(String key) {
-        String value = super.getProperty(key);
+        String value = super.getProperty(key, null);
         if (value == null) {
             return 0;
         }

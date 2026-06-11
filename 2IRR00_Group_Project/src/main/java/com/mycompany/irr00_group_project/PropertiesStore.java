@@ -12,7 +12,7 @@ import java.util.Set;
 public abstract class PropertiesStore {
 
     private final Path storeFile;
-    private final Properties props;
+    private final Properties properties;
 
     /**
      * Creates a PropertiesStore that reads and writes to the given file.
@@ -21,7 +21,7 @@ public abstract class PropertiesStore {
      */
     public PropertiesStore(Path storeFile) {
         this.storeFile = storeFile;
-        this.props = new Properties();
+        this.properties = new Properties();
         loadFromDisk();
     }
 
@@ -31,7 +31,7 @@ public abstract class PropertiesStore {
             return;
         }
         try (InputStream in = Files.newInputStream(storeFile)) {
-            props.load(in);
+            properties.load(in);
         } catch (IOException e) {
             // file unreadable — start with empty store
         }
@@ -42,7 +42,7 @@ public abstract class PropertiesStore {
         try {
             Files.createDirectories(storeFile.getParent());
             try (OutputStream out = Files.newOutputStream(storeFile)) {
-                props.store(out, null);
+                properties.store(out, null);
             }
         } catch (IOException e) {
             // best-effort write approach
@@ -56,7 +56,7 @@ public abstract class PropertiesStore {
      * @param value the property value
      */
     protected void setProperty(String key, String value) {
-        props.setProperty(key, value);
+        properties.setProperty(key, value);
         saveToDisk();
     }
 
@@ -66,8 +66,9 @@ public abstract class PropertiesStore {
      * @param key the property key
      * @return the value, or null
      */
-    protected String getProperty(String key) {
-        return props.getProperty(key);
+    protected String getProperty(String key, String defaultValue) {
+        String value = properties.getProperty(key);
+        return value == null ? defaultValue : value;
     }
 
     /**
@@ -76,12 +77,12 @@ public abstract class PropertiesStore {
      * @param key the property key to remove
      */
     protected void removeProperty(String key) {
-        props.remove(key);
+        properties.remove(key);
         saveToDisk();
     }
 
     /** Returns all property keys as a set of strings. */
-    protected Set<String> keySet() {
-        return props.stringPropertyNames();
+    protected Set<String> listKeysAsSet() {
+        return properties.stringPropertyNames();
     }
 }

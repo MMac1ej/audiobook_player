@@ -1,6 +1,7 @@
 package com.mycompany.irr00_group_project;
 
 import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -49,7 +50,9 @@ public class App extends Application {
         try {
             AudioPlayer audioPlayer = new AudioPlayer();
             ProgressStore progressStore = new ProgressStore();
-            PlayerViewController controller = new PlayerViewController(audioPlayer, progressStore);
+            TimestampStore timestampStore = new TimestampStore();
+            PlayerViewController controller =
+                    new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(() -> showMainView(stage));
             controller.loadDefaultBook();
 

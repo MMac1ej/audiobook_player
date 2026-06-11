@@ -13,7 +13,7 @@ class AudiobookTest {
     /** Sets up a fresh Audiobook and Episode before each test. */
     @BeforeEach
     void setUp() {
-        audiobook = new Audiobook("The Hobbit");
+        audiobook = new Audiobook("The Hobbit", null);
         episode = new Episode("Chapter 1", Paths.get("chapter1.mp3"));
     }
 

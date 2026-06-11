@@ -56,6 +56,13 @@ public class SettingsController {
     /** The singleton instance of the Settings class. */
     private final Settings settings = Settings.getInstance();
 
+    private Runnable onBack;
+
+    /** Sets the callback invoked when the user exits settings. */
+    public void setOnBack(Runnable onBack) {
+        this.onBack = onBack;
+    }
+
     /** Timeline for managing the status label display duration. */
     private Timeline statusTimeline;
 
@@ -188,7 +195,8 @@ public class SettingsController {
      */
     @FXML
     void handleExitSettings(ActionEvent event) {
-        Stage stage = (Stage) exitSettingsButton.getScene().getWindow();
-        stage.close(); // Temporary. Close the settings window
+        if (onBack != null) {
+            onBack.run();
+        }
     }
 }

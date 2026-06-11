@@ -3,7 +3,7 @@ package com.mycompany.irr00_group_project;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/** Class to hold constant values used across the application. 
+/** Class to hold constant values used across the application.
  * @author Tymon Szczepański, 2330113
 */
 public final class Constants {
@@ -11,7 +11,7 @@ public final class Constants {
     /**
      * Constants for the Settings view.
      */
-    public static final int MIN_FONT_SIZE = 14; 
+    public static final int MIN_FONT_SIZE = 14;
     public static final int MAX_FONT_SIZE = 28;
     public static final Theme DEFAULT_THEME = Theme.LIGHT;
     public static final int DEFAULT_FONT_SIZE = 16;
@@ -42,6 +42,18 @@ public final class Constants {
     public static final int MIN_WINDOW_HEIGHT = 300;
     public static final int DEFAULT_WINDOW_WIDTH = 900;
     public static final int DEFAULT_WINDOW_HEIGHT = 650;
+
+    /**
+     * Constants for the ProgressStore.
+     */
+    public static final Path DEFAULT_PROGRESS_STORE_PATH = Paths.get(
+        System.getProperty("user.home"), ".audiobookplayer", "progress.properties");
+
+    /**
+     * Constants for TimestampStore.
+     */
+    public static final Path DEFAULT_TIMESTAMP_STORE_PATH = Paths.get(
+            System.getProperty("user.home"), ".audiobookplayer", "timestamp.properties");
 
     private Constants() {
         // Private constructor to prevent instantiation

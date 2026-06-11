@@ -39,7 +39,7 @@ public class Library {
     }
 
     private void loadAudiobook(Path dir) {
-        Audiobook book = new Audiobook(dir.getFileName().toString());
+        Audiobook book = new Audiobook(dir.getFileName().toString(), dir);
         try (Stream<Path> files = Files.walk(dir)) {
             files.filter(Library::isAudioFile)
                  .sorted()

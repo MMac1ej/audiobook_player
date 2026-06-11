@@ -1,6 +1,7 @@
 package com.mycompany.irr00_group_project;
 
 import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,9 +25,13 @@ public class App extends Application {
     }
 
     private void showMainView(Stage stage) {
-        Button playerButton = new Button("Open Player");
-        playerButton.setOnAction(e -> startPlayer(stage));
-        VBox root = new VBox(20, playerButton);
+        Button playerBtn = new Button("Open Player");
+        Button settingsBtn = new Button("Settings");
+
+        playerBtn.setOnAction(e -> startPlayer(stage));
+        settingsBtn.setOnAction(e -> startSettings(stage));
+
+        VBox root = new VBox(20, playerBtn, settingsBtn);
         root.setStyle("-fx-alignment: center; -fx-padding: 40;");
         stage.setScene(new Scene(
                 root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
@@ -38,7 +43,9 @@ public class App extends Application {
         try {
             AudioPlayer audioPlayer = new AudioPlayer();
             ProgressStore progressStore = new ProgressStore();
-            PlayerViewController controller = new PlayerViewController(audioPlayer, progressStore);
+            TimestampStore timestampStore = new TimestampStore();
+            PlayerViewController controller =
+                    new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(() -> showMainView(stage));
             controller.loadDefaultBook();
 
@@ -52,7 +59,6 @@ public class App extends Application {
 
     /**
      * Starts the settings view in the given stage.
-     * 
      * @param stage the stage to display the settings view in
      */
     private void startSettings(Stage stage) {
@@ -60,18 +66,12 @@ public class App extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "/com/mycompany/irr00_group_project/settings.fxml"));
             Parent root = loader.load();
+            SettingsController controller = loader.getController();
+            controller.setOnBack(() -> showMainView(stage));
 
             stage.setScene(new Scene(
                 root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
-            // 2. Set up the scene
-            Scene scene = new Scene(
-                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
-            
-            // 3. Display the window
-            stage.setScene(scene);
             stage.setTitle("Audiobook Player - Settings");
-            stage.setMinWidth(Constants.MIN_WINDOW_WIDTH);
-            stage.setMinHeight(Constants.MIN_WINDOW_HEIGHT);
             stage.setMinWidth(Constants.MIN_WINDOW_WIDTH);
             stage.setMinHeight(Constants.MIN_WINDOW_HEIGHT);
             stage.show();

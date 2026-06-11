@@ -21,7 +21,7 @@ class PropertiesStoreTest {
         }
 
         public String get(String key) {
-            return getProperty(key);
+            return getProperty(key, null);
         }
 
         public void remove(String key) {
@@ -29,7 +29,7 @@ class PropertiesStoreTest {
         }
 
         public Set<String> keys() {
-            return keySet();
+            return listKeysAsSet();
         }
     }
 
@@ -55,7 +55,7 @@ class PropertiesStoreTest {
     }
 
     @Test
-    void keySetReturnsAllKeys() {
+    void listKeysAsSetReturnsAllKeys() {
         TestStore store = new TestStore(tempDir.resolve("test.properties"));
         store.set("key1", "value1");
         store.set("key2", "value2");
@@ -63,7 +63,7 @@ class PropertiesStoreTest {
     }
 
     @Test
-    void keySetIsEmptyOnNewStore() {
+    void listKeysAsSetIsEmptyOnNewStore() {
         TestStore store = new TestStore(tempDir.resolve("test.properties"));
         assertTrue(store.keys().isEmpty());
     }

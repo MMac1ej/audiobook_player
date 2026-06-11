@@ -119,7 +119,7 @@ public class PlayerViewController {
             loadEpisode(currentEpisodeIndex);
         }
         updateNavButtons();
-        return new Scene(root, 900, 650);
+        return new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
     }
 
     @FXML

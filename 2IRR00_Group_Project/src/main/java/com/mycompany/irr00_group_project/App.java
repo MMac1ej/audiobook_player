@@ -17,6 +17,8 @@ public class App extends Application {
         launch(args);
     }
 
+
+    // please note that this is still temporary way of starting the app
     @Override
     public void start(Stage stage) {
         showMainView(stage);
@@ -31,9 +33,8 @@ public class App extends Application {
 
         VBox root = new VBox(20, playerBtn, settingsBtn);
         root.setStyle("-fx-alignment: center; -fx-padding: 40;");
-
         stage.setScene(new Scene(
-            root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
         stage.setTitle("Audiobook Player");
         stage.show();
     }

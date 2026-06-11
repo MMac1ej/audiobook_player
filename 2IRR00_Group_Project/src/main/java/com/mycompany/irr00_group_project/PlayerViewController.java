@@ -23,7 +23,6 @@ public class PlayerViewController {
     private final ProgressStore progressStore;
     private final TimestampStore timestampStore;
     private final SleepTimer sleepTimer;
-    private Runnable onBack;
     private Audiobook currentBook;
     private int currentEpisodeIndex = -1;
     private boolean isSeeking = false;
@@ -33,6 +32,7 @@ public class PlayerViewController {
     private long sleepStartTime;
     private long sleepTotalSeconds;
     private final Settings settings = Settings.getInstance();
+    private Runnable onBack;
 
     @FXML private Button backButton;
     @FXML private Label episodeTitleLabel;

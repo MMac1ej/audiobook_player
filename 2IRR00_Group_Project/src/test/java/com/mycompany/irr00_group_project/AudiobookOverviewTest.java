@@ -11,8 +11,14 @@ import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/** 
+ * Class that test AudiobookOverview.
+ */
 public class AudiobookOverviewTest {
 
+    /** 
+     * Starts up Javafx before all tests. 
+     */
     @BeforeAll
     static void startJavaFx() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
@@ -20,6 +26,7 @@ public class AudiobookOverviewTest {
         latch.await();
     }
 
+    /** Tests if all audiobooks are shown when the default message is set.*/
     @Test
     void searchWithDefaultMessageShowsAllAudiobooks() throws IOException {
         AudiobookOverview overview = new AudiobookOverview();
@@ -32,6 +39,7 @@ public class AudiobookOverviewTest {
         assertTrue(bookHolder.getChildren().size() > 0);
     }
 
+    /** Tests if no audiobooks are shown when no titles match the search request. */
     @Test
     void searchWithUnknownTitleShowsNoAudiobooks() throws IOException {
         AudiobookOverview overview = new AudiobookOverview();

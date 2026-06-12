@@ -135,7 +135,7 @@ public class PlayerViewController {
             if (onBack != null) {
                 onBack.run();
             }
-        });
+            });
         seekSlider.setOnMousePressed(e -> isSeeking = true);
         seekSlider.setOnMouseReleased(e -> {
             audioPlayer.seek((long) seekSlider.getValue());

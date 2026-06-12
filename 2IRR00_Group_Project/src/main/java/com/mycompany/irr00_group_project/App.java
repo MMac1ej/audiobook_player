@@ -16,7 +16,6 @@ public class App extends Application {
         launch(args);
     }
 
-
     // please note that this is still temporary way of starting the app
     @Override
     public void start(Stage stage) {

@@ -41,7 +41,8 @@ public class AudiobookOverview {
         VBox root = new VBox();
         VBox bookHolder = new VBox();
         HBox searchHolder = new HBox();
-
+        
+        backSetup(searchHolder, stage);
         searchSetup(searchHolder, bookHolder);
         booksRefresh(bookHolder);
         
@@ -52,6 +53,21 @@ public class AudiobookOverview {
         stage.setScene(new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
         stage.setTitle("Audiobook Overview");
         stage.show();
+    }
+    
+    /** Create the back button, when pressed, the previous page is loaded. */
+    private void backSetup(HBox searchHolder, Stage stage) {
+      App app = new App();
+      // search button setup
+      Button back = new Button("Back");
+      back.setOnAction(new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+              // Go back to homepage.
+              app.start(stage);
+          }
+      });
+      searchHolder.getChildren().add(back);
     }
     
     /** Setup the search Bar. */

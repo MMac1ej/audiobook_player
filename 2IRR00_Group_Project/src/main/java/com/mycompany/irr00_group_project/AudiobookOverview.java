@@ -49,11 +49,8 @@ public class AudiobookOverview {
         if (errorMessage) {
             root.getChildren().add(error);
         } 
-        stage.setScene(new Scene(root));
-        stage.setFullScreenExitHint(""); //removes the message(press esc to exit)
-        stage.setFullScreen(true);
+        stage.setScene(new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
         stage.setTitle("Audiobook Overview");
-        stage.setMaximized(true);
         stage.show();
     }
     

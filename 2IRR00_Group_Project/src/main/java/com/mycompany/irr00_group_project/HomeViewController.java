@@ -18,13 +18,10 @@ public class HomeViewController {
 
     App app;
     Stage stage;
-<<<<<<< Updated upstream
-    private static HomeViewController instance;
-=======
     TimestampStore tsStore;
     private static HomeViewController instance;
+    private Library library = Library.getInstance();
     Audiobook audi; //for testing
->>>>>>> Stashed changes
 
     /**
      * The constructor.
@@ -33,10 +30,7 @@ public class HomeViewController {
     private HomeViewController() {
         //Commented code is for debugging purposes.
         //System.out.println("New HomeViewController instance created!");
-<<<<<<< Updated upstream
-=======
         audi = new Audiobook("Ba", null); //for testing
->>>>>>> Stashed changes
     }
     
     /**
@@ -55,12 +49,6 @@ public class HomeViewController {
         this.app = app;
     }
 
-<<<<<<< Updated upstream
-    @FXML
-    private ListView<Audiobook> recentListView;
-
-    private ArrayList<Audiobook> recentList = new ArrayList<>();
-=======
     /**
      * Sets the TimestampStore, so we can pass it along from App.
      * @param stage
@@ -70,11 +58,10 @@ public class HomeViewController {
     }
 
     @FXML
-    private ListView<String> recentListView;
+    private ListView<Audiobook> recentListView;
 
     private ArrayList<Audiobook> recentList = new ArrayList<>();
     private List<String> recentListString = new ArrayList<>();
->>>>>>> Stashed changes
 
     @FXML
     private Button settingsButton;
@@ -92,22 +79,9 @@ public class HomeViewController {
      * This will run once, to load the recently listened to audiobooks.
      */
     public void initialize() {
-<<<<<<< Updated upstream
-        checkRecentlyListened();
-    } 
-
-    private void checkRecentlyListened() {
-        //TODO: implement method
-        Audiobook audi = new Audiobook("Ba", null); //for testing
-        if (!recentList.contains(audi)) {
-            recentList.add(audi);
-        }
-        recentListView.setItems(FXCollections.observableArrayList(recentList));
-=======
         checkRecentlyListened(); //add the items to the list
-        recentListView.setItems(FXCollections.observableArrayList(recentListString)); //and show them
-        //TODO: replace recentListString with recentList once turnStringIntoAudiobook has been implemented.
-    } 
+        recentListView.setItems(FXCollections.observableArrayList(recentList)); //and show them
+    }
 
     private void checkRecentlyListened() {
         //TODO: turn string list into an audiobook list and pass that along
@@ -115,7 +89,8 @@ public class HomeViewController {
         //and then add them to recentList
         //addToList(recentList, audi);
         recentListString = tsStore.getRecentlyPlayed();
-        addToList(recentListString, audi.toString());
+        turnStringsIntoAudiobooks(recentListString);
+        addToList(recentList, audi);
     }
 
     /**
@@ -124,9 +99,15 @@ public class HomeViewController {
      * @param list of file paths in string from
      * @return list of audiobooks corresponding to the file paths
      */
-    private ArrayList<Audiobook> turnStringIntoAudiobook(List<String> list) {
+    private void turnStringsIntoAudiobooks(List<String> list) {
         //TODO: implement method
-        return recentList;
+        Audiobook audiobook;
+        for (String pathstring : list) {
+            audiobook = library.findAudioBookByPathString(pathstring);
+            if (audiobook != null) {
+                addToList(recentList, audiobook);
+            }
+        }
     }
 
     /**
@@ -135,11 +116,10 @@ public class HomeViewController {
      * @param list is the list where to add the audiobook
      * @param obj is the object we want in the list
      */
-    private void addToList(List list, Object obj) {
-        if (!list.contains(obj)) {
-            list.add(obj);
+    private void addToList(ArrayList<Audiobook> list, Audiobook audi) {
+        if (!list.contains(audi) && audi != null) {
+            list.add(audi);
         }
->>>>>>> Stashed changes
     }
 
     /**
@@ -162,3 +142,4 @@ public class HomeViewController {
     }
 
 }
+

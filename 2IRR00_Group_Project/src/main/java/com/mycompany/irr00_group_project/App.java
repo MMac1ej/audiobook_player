@@ -29,19 +29,11 @@ public class App extends Application {
     private void showMainView(Stage stage) {
         try {
             HomeViewController hvController = HomeViewController.getInstance();
-<<<<<<< Updated upstream
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "/com/mycompany/irr00_group_project/homeview.fxml"));
-            loader.setController(hvController);
-            hvController.setApp(this);
-            hvController.setStage(stage);
-=======
             timestampStore = TimestampStore.getInstance();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "/com/mycompany/irr00_group_project/homeview.fxml"));
             loader.setController(hvController);
             setHvControllerProperties(hvController, stage);
->>>>>>> Stashed changes
             Parent root = loader.load();
             Scene scene = new Scene(root, 900, 650);
             stage.setScene(scene);

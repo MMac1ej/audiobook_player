@@ -1,0 +1,130 @@
+/* Root & Layout Containers */
+.root {
+    -fx-background-color: #FAFAFA;
+}
+
+.hbox {
+    -fx-spacing: 15px;
+    -fx-alignment: center-left;
+}
+
+/* Labels & Typography */
+.label {
+    -fx-text-fill: #212121;
+}
+
+#statusLabel {
+    -fx-text-fill: #5C6BC0;
+    -fx-font-style: italic;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #EEEEEE;
+    -fx-text-fill: #424242;
+    -fx-font-size: 13px;
+    -fx-background-radius: 6px;
+    -fx-padding: 6px 14px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #DCDCDC;
+}
+
+#browseButton {
+    -fx-background-color: #E8EAF6;
+    -fx-text-fill: #5C6BC0;
+    -fx-font-weight: bold;
+}
+
+#browseButton:hover {
+    -fx-background-color: #D9DDF0;
+}
+
+#exitSettingsButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #757575;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 6px;
+}
+
+#exitSettingsButton:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.04);
+}
+
+#saveSettingsButton {
+    -fx-background-color: #5C6BC0;
+    -fx-text-fill: white;
+    -fx-background-radius: 6px;
+}
+
+#saveSettingsButton:hover {
+    -fx-background-color: #4A5AB0;
+}
+
+#resetDefaultsButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #D32F2F;
+    -fx-border-color: transparent;
+}
+
+#resetDefaultsButton:hover {
+    -fx-background-color: #FFEBEE;
+    -fx-background-radius: 6px;
+}
+
+/* Input Fields & Selectors */
+.text-field {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 6px;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 6px;
+    -fx-padding: 6px 10px;
+    -fx-text-fill: #212121;
+}
+
+.text-field:focused {
+    -fx-border-color: #5C6BC0;
+}
+
+#filePathTextField {
+    -fx-background-color: #F5F5F5; 
+    -fx-text-fill: #757575;
+}
+
+.choice-box {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 6px;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.choice-box:hover {
+    -fx-border-color: #5C6BC0;
+}
+
+/* Sliders */
+.slider .track {
+    -fx-background-color: #E0E0E0;
+    -fx-pref-height: 6px;
+    -fx-background-radius: 3px;
+}
+
+.slider .thumb {
+    -fx-background-color: #5C6BC0;
+    -fx-background-radius: 50%;
+    -fx-pref-width: 16px;
+    -fx-pref-height: 16px;
+    -fx-cursor: hand;
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #4A5AB0;
+}
+
+.slider .axis {
+    -fx-tick-label-fill: #757575;
+    -fx-font-size: 11px;
+}

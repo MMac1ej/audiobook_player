@@ -210,7 +210,9 @@ public class SettingsController {
 
     private void applyThemeToScene(Theme theme) {
         javafx.scene.Scene scene = rootVBox.getScene();
-        if (scene == null || theme == null) return;
+        if (scene == null || theme == null) {
+            return;
+        }
         scene.getStylesheets().setAll(theme.getCssPath());
     }
 }

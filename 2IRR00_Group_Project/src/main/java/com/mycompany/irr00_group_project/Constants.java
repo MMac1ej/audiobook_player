@@ -32,11 +32,14 @@ public final class Constants {
     /* CSS styles for themes in settings — must be initialized before DEFAULT_THEME
        to avoid null cssPath values in the Theme enum */
     public static final String STYLE_SETTINGS_LIGHT = (
-        Constants.class.getResource("/com/mycompany/irr00_group_project/settings-light.css").toExternalForm());
+        Constants.class.getResource(
+            "/com/mycompany/irr00_group_project/settings-light.css").toExternalForm());
     public static final String STYLE_SETTINGS_DARK = (
-        Constants.class.getResource("/com/mycompany/irr00_group_project/settings-dark.css").toExternalForm());
+        Constants.class.getResource(
+            "/com/mycompany/irr00_group_project/settings-dark.css").toExternalForm());
     public static final String STYLE_SETTINGS_HIGH_CONTRAST = (
-        Constants.class.getResource("/com/mycompany/irr00_group_project/settings-high-contrast.css").toExternalForm());
+        Constants.class.getResource(
+            "/com/mycompany/irr00_group_project/settings-high-contrast.css").toExternalForm());
 
     public static final Theme DEFAULT_THEME = Theme.LIGHT;
 

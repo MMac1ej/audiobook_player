@@ -25,6 +25,24 @@ public class EpisodesView {
     }
     
     /**
+     * Initializes object with audio book to display.
+     * @param object audio book object to load.
+     */
+    public EpisodesView(Audiobook object) {
+        audiobook = object;
+
+    }
+    
+    /**
+     * Initializes object with audio book to display based on folder path.
+     * @param folderPath file path to folder of the audio book to load.
+     */
+    public EpisodesView(Path folderPath) {
+        loadFolder(folderPath);
+
+    }
+    
+    /**
      * Set which audio book to display.
      * @param object audio book object to load.
      */

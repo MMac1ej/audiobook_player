@@ -47,7 +47,7 @@ public class App extends Application {
 
             // 3. Display the window
             stage.setScene(scene);
-            stage.setTitle("Audiobook Player - Settings");
+            stage.setTitle("Audiobook Player - Episodes view");
             stage.setMinWidth(100);
             stage.setMinHeight(100);
             stage.show();

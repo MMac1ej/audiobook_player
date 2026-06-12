@@ -6,8 +6,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /** Entry point for the Audiobook Player application. */
@@ -17,18 +17,44 @@ public class App extends Application {
         launch(args);
     }
 
+
+    // please note that this is still temporary way of starting the app
     @Override
     public void start(Stage stage) {
-        StackPane root = new StackPane(new Label("Audiobook Player"));
+        showMainView(stage);
+    }
+
+    private void showMainView(Stage stage) {
+        Button playerBtn = new Button("Open Player");
+        Button settingsBtn = new Button("Settings");
+
+        playerBtn.setOnAction(e -> startPlayer(stage));
+        settingsBtn.setOnAction(e -> startSettings(stage));
+
+        VBox root = new VBox(20, playerBtn, settingsBtn);
+        root.setStyle("-fx-alignment: center; -fx-padding: 40;");
         stage.setScene(new Scene(
-            root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
         stage.setTitle("Audiobook Player");
         stage.show();
+    }
 
-        //click screen to open settings
-        root.setOnMouseClicked(e -> {
-            startSettings(stage);
-        });
+    private void startPlayer(Stage stage) {
+        try {
+            AudioPlayer audioPlayer = new AudioPlayer();
+            ProgressStore progressStore = new ProgressStore();
+            TimestampStore timestampStore = new TimestampStore();
+            PlayerViewController controller =
+                    new PlayerViewController(audioPlayer, progressStore, timestampStore);
+            controller.setOnBack(() -> showMainView(stage));
+            controller.loadDefaultBook();
+
+            stage.setScene(controller.buildScene());
+            stage.setTitle("Audiobook Player");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -37,25 +63,19 @@ public class App extends Application {
      */
     private void startSettings(Stage stage) {
         try {
-            // 1. Locate and load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "/com/mycompany/irr00_group_project/settings.fxml"));
             Parent root = loader.load();
+            SettingsController controller = loader.getController();
+            controller.setOnBack(() -> showMainView(stage));
 
-            // 2. Set up the scene
-            Scene scene = new Scene(
-                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
-            
-            // 3. Display the window
-            stage.setScene(scene);
+            stage.setScene(new Scene(
+                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
             stage.setTitle("Audiobook Player - Settings");
             stage.setMinWidth(Constants.MIN_WINDOW_WIDTH);
             stage.setMinHeight(Constants.MIN_WINDOW_HEIGHT);
             stage.show();
-            
         } catch (IOException e) {
-            System.err.println(
-                "Error: Could not load the FXML file. Check your file path and location!");
             e.printStackTrace();
         }
     }

@@ -18,8 +18,9 @@ public class EpisodesViewController {
     private EpisodesView episodesView;
 
     public EpisodesViewController() {
-        episodesView = new EpisodesView(Path.of(""));
+        episodesView = new EpisodesView();
     }
+    
     
     /**
      * handles UI events,

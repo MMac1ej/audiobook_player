@@ -17,11 +17,27 @@ public class EpisodesView {
     
     /**
      * Initializes object.
-     * @param folderPath path to the folder with the audio files to be loaded.
+     * By default displays audio files in main folder
      */
-    public EpisodesView(Path folderPath) {
-        loadFolder(folderPath);
+    public EpisodesView() {
+        loadFolder(Path.of(""));
 
+    }
+    
+    /**
+     * Set which audio book to display.
+     * @param object audio book object to load.
+     */
+    public void setAudiobook(Audiobook object) {
+        audiobook = object;
+    }
+    
+    /**
+     * Set which audio book to display based on folder path.
+     * @param folderPath file path to folder of the audio book to load.
+     */
+    public void setAudiobook(Path folderPath) {
+        loadFolder(folderPath);
     }
 
     /**

@@ -18,7 +18,13 @@ public class HomeViewController {
 
     App app;
     Stage stage;
+<<<<<<< Updated upstream
     private static HomeViewController instance;
+=======
+    TimestampStore tsStore;
+    private static HomeViewController instance;
+    Audiobook audi; //for testing
+>>>>>>> Stashed changes
 
     /**
      * The constructor.
@@ -27,6 +33,10 @@ public class HomeViewController {
     private HomeViewController() {
         //Commented code is for debugging purposes.
         //System.out.println("New HomeViewController instance created!");
+<<<<<<< Updated upstream
+=======
+        audi = new Audiobook("Ba", null); //for testing
+>>>>>>> Stashed changes
     }
     
     /**
@@ -45,10 +55,26 @@ public class HomeViewController {
         this.app = app;
     }
 
+<<<<<<< Updated upstream
     @FXML
     private ListView<Audiobook> recentListView;
 
     private ArrayList<Audiobook> recentList = new ArrayList<>();
+=======
+    /**
+     * Sets the TimestampStore, so we can pass it along from App.
+     * @param stage
+     */
+    void setTimestampStore(TimestampStore tsStore) {
+        this.tsStore = tsStore;
+    }
+
+    @FXML
+    private ListView<String> recentListView;
+
+    private ArrayList<Audiobook> recentList = new ArrayList<>();
+    private List<String> recentListString = new ArrayList<>();
+>>>>>>> Stashed changes
 
     @FXML
     private Button settingsButton;
@@ -66,6 +92,7 @@ public class HomeViewController {
      * This will run once, to load the recently listened to audiobooks.
      */
     public void initialize() {
+<<<<<<< Updated upstream
         checkRecentlyListened();
     } 
 
@@ -76,6 +103,43 @@ public class HomeViewController {
             recentList.add(audi);
         }
         recentListView.setItems(FXCollections.observableArrayList(recentList));
+=======
+        checkRecentlyListened(); //add the items to the list
+        recentListView.setItems(FXCollections.observableArrayList(recentListString)); //and show them
+        //TODO: replace recentListString with recentList once turnStringIntoAudiobook has been implemented.
+    } 
+
+    private void checkRecentlyListened() {
+        //TODO: turn string list into an audiobook list and pass that along
+        //aka: get the audiobooks that are recently listened to
+        //and then add them to recentList
+        //addToList(recentList, audi);
+        recentListString = tsStore.getRecentlyPlayed();
+        addToList(recentListString, audi.toString());
+    }
+
+    /**
+     * This method turns a String list into the corresponding Audiobook list.
+     * 
+     * @param list of file paths in string from
+     * @return list of audiobooks corresponding to the file paths
+     */
+    private ArrayList<Audiobook> turnStringIntoAudiobook(List<String> list) {
+        //TODO: implement method
+        return recentList;
+    }
+
+    /**
+     * This method adds an object to a list if it's not in there already. If it already is, we do nothing.
+     * 
+     * @param list is the list where to add the audiobook
+     * @param obj is the object we want in the list
+     */
+    private void addToList(List list, Object obj) {
+        if (!list.contains(obj)) {
+            list.add(obj);
+        }
+>>>>>>> Stashed changes
     }
 
     /**

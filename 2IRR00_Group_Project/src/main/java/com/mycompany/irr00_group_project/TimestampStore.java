@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 /** Persists last-played timestamps for audiobooks to a properties file on disk. */
 public class TimestampStore extends PropertiesStore {
 
+    private static TimestampStore instance;
+
     /** Creates a TimestampStore using the default file location. */
     public TimestampStore() {
         this(Constants.DEFAULT_TIMESTAMP_STORE_PATH);
@@ -23,6 +25,13 @@ public class TimestampStore extends PropertiesStore {
      */
     public TimestampStore(Path storeFile) {
         super(storeFile);
+    }
+
+    public static TimestampStore getInstance() {
+        if (instance == null) {
+            instance = new TimestampStore();
+        }
+        return instance;
     }
 
     /**

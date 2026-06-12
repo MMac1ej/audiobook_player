@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 /** Entry point for the Audiobook Player application. */
 public class App extends Application {
 
+    TimestampStore timestampStore;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -27,11 +29,19 @@ public class App extends Application {
     private void showMainView(Stage stage) {
         try {
             HomeViewController hvController = HomeViewController.getInstance();
+<<<<<<< Updated upstream
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "/com/mycompany/irr00_group_project/homeview.fxml"));
             loader.setController(hvController);
             hvController.setApp(this);
             hvController.setStage(stage);
+=======
+            timestampStore = TimestampStore.getInstance();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "/com/mycompany/irr00_group_project/homeview.fxml"));
+            loader.setController(hvController);
+            setHvControllerProperties(hvController, stage);
+>>>>>>> Stashed changes
             Parent root = loader.load();
             Scene scene = new Scene(root, 900, 650);
             stage.setScene(scene);
@@ -50,7 +60,6 @@ public class App extends Application {
         try {
             AudioPlayer audioPlayer = new AudioPlayer();
             ProgressStore progressStore = new ProgressStore();
-            TimestampStore timestampStore = new TimestampStore();
             PlayerViewController controller =
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(() -> showMainView(stage));
@@ -85,5 +94,11 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setHvControllerProperties(HomeViewController hvController, Stage stage) {
+        hvController.setApp(this);
+        hvController.setStage(stage);
+        hvController.setTimestampStore(timestampStore);
     }
 }

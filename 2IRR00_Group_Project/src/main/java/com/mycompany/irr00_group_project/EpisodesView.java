@@ -2,6 +2,7 @@ package com.mycompany.irr00_group_project;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Files;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -12,7 +13,7 @@ import javafx.collections.ObservableList;
  */
 public class EpisodesView {
 
-    Audiobook audiobook;
+    private Audiobook audiobook;
     
     /**
      * Initializes object.
@@ -43,13 +44,23 @@ public class EpisodesView {
 
             String fileName = file.getName();
             Path filePath = file.toPath();
-            Episode episode = new Episode(fileName, filePath);
-            audiobook.addEpisode(episode);
-
+            if (isAudioFile(filePath)) {
+                Episode episode = new Episode(fileName, filePath);
+                audiobook.addEpisode(episode);
+            }
+            
         }
 
     }
-
+    
+    private static boolean isAudioFile(Path path) {
+        if (!Files.isRegularFile(path)) {
+            return false;
+        }
+        String name = path.getFileName().toString().toLowerCase();
+        return name.endsWith(".mp3") || name.endsWith(".wav");
+    }
+    
     /**
      * Get the episodes contained within the audio book, as an observable list.
      *

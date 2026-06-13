@@ -89,7 +89,7 @@ public class EpisodesView {
     private void loadFolder(Path folderPath) {
         playerRefs.forEach(MediaPlayer::dispose);
         playerRefs.clear();
-        audiobook = new Audiobook(folderPath.getFileName().toString());
+        audiobook = new Audiobook(folderPath.getFileName().toString(), folderPath);
 
         File dir = folderPath.toFile();
         File[] filesInFolder = dir.listFiles();

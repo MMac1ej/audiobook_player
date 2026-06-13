@@ -12,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.collections.ObservableList;
-import javafx.stage.Stage;
 import java.nio.file.Path;
 
 /**
@@ -30,16 +29,22 @@ public class EpisodesViewController {
     private ListView<Episode> listView;
 
     private EpisodesView episodesView;
+    private Runnable onBack;
 
     public EpisodesViewController() {
         episodesView = new EpisodesView();
     }
 
+    public void setOnBack(Runnable onBack) {
+        this.onBack = onBack;
+    }
+
     /** Navigates back to the main view. */
     @FXML
     public void handleBack(ActionEvent event) {
-        Stage stage = (Stage) backButton.getScene().getWindow();
-        App.showMainView(stage);
+        if (onBack != null) {
+            onBack.run();
+        }
     }
 
     /**

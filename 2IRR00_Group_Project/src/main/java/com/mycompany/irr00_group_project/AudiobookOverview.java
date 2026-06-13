@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-
 import java.io.IOException;
 import java.util.List;
 import javafx.scene.Scene;
@@ -19,7 +18,7 @@ public class AudiobookOverview {
     public static final String DEFAULT_MESSAGE = "Search your preferred audiobook";
     boolean errorMessage = false;
     private VBox error;
-    
+
     /** Initialize library instance & load the available current books. */
     public AudiobookOverview() {
         try {
@@ -40,7 +39,9 @@ public class AudiobookOverview {
     public void loadAudiobookOverview(Stage stage) {
         VBox root = new VBox();
         VBox bookHolder = new VBox();
+        bookHolder.getStyleClass().add("book-holder");
         HBox searchHolder = new HBox();
+        searchHolder.getStyleClass().add("search-holder");
         
         backSetup(searchHolder, stage);
         searchSetup(searchHolder, bookHolder);
@@ -50,24 +51,28 @@ public class AudiobookOverview {
         if (errorMessage) {
             root.getChildren().add(error);
         } 
-        stage.setScene(new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+        Scene scene = new Scene(root, 
+                Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
+        scene.getStylesheets().add(getClass().getResource("audiobooksView.css").toExternalForm());
+        stage.setScene(scene);
         stage.setTitle("Audiobook Overview");
         stage.show();
     }
     
     /** Create the back button, when pressed, the previous page is loaded. */
     private void backSetup(HBox searchHolder, Stage stage) {
-      App app = new App();
-      // search button setup
-      Button back = new Button("Back");
-      back.setOnAction(new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-              // Go back to homepage.
-              app.start(stage);
-          }
-      });
-      searchHolder.getChildren().add(back);
+        App app = new App();
+        // search button setup
+        Button backButton = new Button("← Back");
+        backButton.getStyleClass().add("back-button");
+        backButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Go back to homepage.
+                app.start(stage);
+            }
+        });
+        searchHolder.getChildren().add(backButton);
     }
     
     /** Setup the search Bar. */
@@ -78,6 +83,7 @@ public class AudiobookOverview {
         
         // search button setup
         Button search = new Button("Search");
+        search.getStyleClass().add("search-button");
         search.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -88,6 +94,7 @@ public class AudiobookOverview {
         
         // reset button setup
         Button reset = new Button("See all audiobooks");
+        reset.getStyleClass().add("search-button");
         reset.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -103,6 +110,7 @@ public class AudiobookOverview {
         bookHolder.getChildren().clear();
         for (Audiobook audiobook : audiobooks) {
             Button audiobookButton = new Button(audiobook.getTitle());
+            audiobookButton.getStyleClass().add("audiobook-button");
             audiobookButton.setMaxWidth(Double.MAX_VALUE); // button width = box width
             // set action
             audiobookButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -115,7 +123,7 @@ public class AudiobookOverview {
         }
     }
     
-    /** Show audiobooks accoring to Textfield input. */
+    /** Show audiobooks according to Textfield input. */
     public void search(TextField searchBar, VBox bookHolder) {
         String searchValue = searchBar.getText();
         if (searchValue.equals(DEFAULT_MESSAGE)) {
@@ -125,4 +133,3 @@ public class AudiobookOverview {
         booksRefresh(bookHolder);
     } 
 }
-

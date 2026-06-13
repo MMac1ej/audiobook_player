@@ -9,6 +9,7 @@ public class SleepTimer {
     private final Runnable onExpire;
     private Timer timer;
     private volatile boolean running;
+    private volatile boolean cancelled;
 
     /**
      * Creates a SleepTimer that invokes the given callback on expiry.
@@ -34,18 +35,22 @@ public class SleepTimer {
             timer.cancel();
         }
         running = true;
+        cancelled = false;
         timer = new Timer(true);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 running = false;
-                onExpire.run();
+                if (!cancelled) {
+                    onExpire.run();
+                }
             }
         }, seconds * 1000L);
     }
 
     /** Cancels the timer. The callback will not be invoked. */
     public void cancel() {
+        cancelled = true;
         if (timer != null) {
             timer.cancel();
             timer = null;

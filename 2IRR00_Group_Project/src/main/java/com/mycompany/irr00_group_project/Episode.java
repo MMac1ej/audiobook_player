@@ -98,7 +98,8 @@ public class Episode {
 
         String duration;
         if (days > 0) {
-            duration = String.format("%d days %d hours %d minutes %d seconds", days, hours, minutes, seconds);
+            duration = String.format(
+                "%d days %d hours %d minutes %d seconds", days, hours, minutes, seconds);
         } else if (hours > 0) {
             duration = String.format("%d hours %d minutes %d seconds", hours, minutes, seconds);
         } else if (minutes > 0) {

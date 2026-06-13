@@ -20,6 +20,9 @@ public class EpisodesView {
 
     private Audiobook audiobook;
     private final List<MediaPlayer> playerRefs = new ArrayList<>();
+    private final ObservableList<Episode> episodes = FXCollections.observableArrayList(
+        (Episode e) -> new Observable[]{e.durationProperty()}
+    );
 
     /**
      * Initializes object.
@@ -69,10 +72,13 @@ public class EpisodesView {
     private void loadDurations() {
         playerRefs.forEach(MediaPlayer::dispose);
         playerRefs.clear();
+        episodes.setAll(audiobook.getEpisodes());
         for (Episode episode : audiobook.getEpisodes()) {
-            MediaPlayer player = new MediaPlayer(new Media(episode.getFilePath().toUri().toString()));
+            String uri = episode.getFilePath().toUri().toString();
+            MediaPlayer player = new MediaPlayer(new Media(uri));
             playerRefs.add(player);
-            player.setOnReady(() -> episode.setDuration((long) player.getTotalDuration().toSeconds()));
+            player.setOnReady(
+                () -> episode.setDuration((long) player.getTotalDuration().toSeconds()));
         }
     }
 
@@ -102,14 +108,18 @@ public class EpisodesView {
                 String title = fileName.substring(0, fileName.lastIndexOf('.'));
                 Episode episode = new Episode(title, filePath);
                 audiobook.addEpisode(episode);
-
-                MediaPlayer player = new MediaPlayer(new Media(filePath.toUri().toString()));
-                playerRefs.add(player);
-                player.setOnReady(() -> episode.setDuration((long) player.getTotalDuration().toSeconds()));
             }
 
         }
 
+        episodes.setAll(audiobook.getEpisodes());
+        for (Episode episode : audiobook.getEpisodes()) {
+            String uri = episode.getFilePath().toUri().toString();
+            MediaPlayer player = new MediaPlayer(new Media(uri));
+            playerRefs.add(player);
+            player.setOnReady(
+                () -> episode.setDuration((long) player.getTotalDuration().toSeconds()));
+        }
     }
 
     private static boolean isAudioFile(Path path) {
@@ -126,10 +136,6 @@ public class EpisodesView {
      * @return ObservableList Containing the episodes of the audio book
      */
     public ObservableList<Episode> getEpisodes() {
-        ObservableList<Episode> episodes = FXCollections.observableArrayList(
-            (Episode e) -> new Observable[]{e.durationProperty()}
-        );
-        episodes.addAll(audiobook.getEpisodes());
         return episodes;
     }
 

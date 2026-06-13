@@ -16,22 +16,11 @@ import javafx.collections.FXCollections;
  */
 public class HomeViewController {
 
-    App app;
+    //declare variables.
+    private App app;
     Stage stage;
-    TimestampStore tsStore;
-    private static HomeViewController instance;
-    private Library library = Library.getInstance();
-    Audiobook audi; //for testing
-
-    /**
-     * The constructor.
-     * @param stage is the object of the main method.
-     */
-    private HomeViewController() {
-        //Commented code is for debugging purposes.
-        //System.out.println("New HomeViewController instance created!");
-        audi = new Audiobook("Ba", null); //for testing
-    }
+    private TimestampStore tsStore;
+    private Library library;
     
     /**
      * Sets the stage, so we can pass it along from App.
@@ -47,6 +36,10 @@ public class HomeViewController {
      */
     void setApp(App app) {
         this.app = app;
+    }
+
+    void setLibrary(Library library) {
+        this.library = library;
     }
 
     /**
@@ -65,32 +58,23 @@ public class HomeViewController {
 
     @FXML
     private Button settingsButton;
+    
+    @FXML
     private Button libraryButton;
-
-    public static HomeViewController getInstance() {
-        if (instance == null) {
-            instance = new HomeViewController();
-        }
-        return instance;
-    }
 
     @FXML
     /**
      * This will run once, to load the recently listened to audiobooks.
      */
     public void initialize() {
+        recentList.clear();
         checkRecentlyListened(); //add the items to the list
         recentListView.setItems(FXCollections.observableArrayList(recentList)); //and show them
     }
 
     private void checkRecentlyListened() {
-        //TODO: turn string list into an audiobook list and pass that along
-        //aka: get the audiobooks that are recently listened to
-        //and then add them to recentList
-        //addToList(recentList, audi);
         recentListString = tsStore.getRecentlyPlayed();
         turnStringsIntoAudiobooks(recentListString);
-        addToList(recentList, audi);
     }
 
     /**
@@ -100,10 +84,9 @@ public class HomeViewController {
      * @return list of audiobooks corresponding to the file paths
      */
     private void turnStringsIntoAudiobooks(List<String> list) {
-        //TODO: implement method
         Audiobook audiobook;
         for (String pathstring : list) {
-            audiobook = library.findAudioBookByPathString(pathstring);
+            audiobook = library.findAudiobookByPathString(pathstring);
             if (audiobook != null) {
                 addToList(recentList, audiobook);
             }
@@ -117,7 +100,7 @@ public class HomeViewController {
      * @param obj is the object we want in the list
      */
     private void addToList(ArrayList<Audiobook> list, Audiobook audi) {
-        if (!list.contains(audi) && audi != null) {
+        if (audi != null && !list.contains(audi)) {
             list.add(audi);
         }
     }
@@ -137,7 +120,6 @@ public class HomeViewController {
      */
     @FXML
     void handleOpenLibrary(ActionEvent event) {
-        //System.out.println("library");
         //open the library
     }
 

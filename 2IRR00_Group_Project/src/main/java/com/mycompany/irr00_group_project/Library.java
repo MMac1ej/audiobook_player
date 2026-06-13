@@ -12,20 +12,6 @@ import java.util.stream.Stream;
 /** Manages a collection of audiobooks and supports loading them from the filesystem. */
 public class Library {
 
-    private static Library instance;
-
-    /**
-     * The singleton method
-     * 
-     * @return singleton instance
-     */
-    public static Library getInstance() {
-        if (instance == null) {
-            instance = new Library();
-        }
-        return instance;
-    }
-
     /** Default folder where audiobooks are expected to be stored. */
     public static final Path DEFAULT_FOLDER =
             Paths.get(System.getProperty("user.home"), "Audiobooks");
@@ -124,7 +110,7 @@ public class Library {
      * @param path the path in String form
      * @return the corresponding audiobook
      */
-    public Audiobook findAudioBookByPathString(String path) {
+    public Audiobook findAudiobookByPathString(String path) {
         for (Audiobook audiobook : getAudiobooks()) {
             if (audiobook.getPath().toString().equals(path)) {
                 return audiobook;

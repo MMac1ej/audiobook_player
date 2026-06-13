@@ -11,7 +11,9 @@ import javafx.stage.Stage;
 /** Entry point for the Audiobook Player application. */
 public class App extends Application {
 
-    TimestampStore timestampStore;
+    private final TimestampStore timestampStore = new TimestampStore();
+    private final Library library = new Library();
+    private final HomeViewController hvController = new HomeViewController();
 
     public static void main(String[] args) {
         launch(args);
@@ -23,23 +25,27 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) {
-        showMainView(stage);
+        try {
+            library.loadFromFolder(Constants.DEFAULT_AUDIOBOOK_FOLDER);
+        } catch (IOException e) {
+            System.err.println("No Audiobooks found! Try changing the file path.");
+        } finally {
+            showMainView(stage);
+        }
     }
 
     private void showMainView(Stage stage) {
         try {
-            HomeViewController hvController = HomeViewController.getInstance();
-            timestampStore = TimestampStore.getInstance();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "/com/mycompany/irr00_group_project/homeview.fxml"));
             loader.setController(hvController);
             setHvControllerProperties(hvController, stage);
             Parent root = loader.load();
-            Scene scene = new Scene(root, 900, 650);
+            Scene scene = new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
             stage.setScene(scene);
             stage.setTitle("Audiobook Player");
-            stage.setMinWidth(400);
-            stage.setMinHeight(300);
+            stage.setMinWidth(Constants.MIN_WINDOW_WIDTH);
+            stage.setMinHeight(Constants.MIN_WINDOW_HEIGHT);
             stage.show();
         } catch (IOException e) {
             System.err.println(
@@ -92,5 +98,6 @@ public class App extends Application {
         hvController.setApp(this);
         hvController.setStage(stage);
         hvController.setTimestampStore(timestampStore);
+        hvController.setLibrary(library);
     }
 }

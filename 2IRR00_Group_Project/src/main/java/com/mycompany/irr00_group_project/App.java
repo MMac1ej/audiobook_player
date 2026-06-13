@@ -41,7 +41,8 @@ public class App extends Application {
             loader.setController(hvController);
             setHvControllerProperties(hvController, stage);
             Parent root = loader.load();
-            Scene scene = new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
+            Scene scene = new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, 
+                Constants.DEFAULT_WINDOW_HEIGHT);
             stage.setScene(scene);
             stage.setTitle("Audiobook Player");
             stage.setMinWidth(Constants.MIN_WINDOW_WIDTH);

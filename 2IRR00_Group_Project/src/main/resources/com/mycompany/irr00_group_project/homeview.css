@@ -1,0 +1,28 @@
+.hview-changeview-button {
+    -fx-background-color: #5c6bc0;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-cursor: hand;
+    -fx-min-width: 100px;
+    -fx-min-height: 44px;
+    -fx-max-width: 100px;
+    -fx-max-height: 44px;
+}
+
+.hview-changeview-button:hover {
+    -fx-background-color: #4a5ab0;
+}
+
+.hview-vbox {
+    -fx-spacing: 5px;
+}
+
+.hview-welcome-text {
+    -fx-font-size: 50px;
+    -fx-font-weight: bold;
+}
+
+.hview-welcome-box {
+    -fx-background-color: transparent;
+    -fx-max-height: 300px;
+}

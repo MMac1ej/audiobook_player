@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javafx.collections.FXCollections;
 
@@ -24,7 +23,7 @@ public class HomeViewController {
     
     /**
      * Sets the stage, so we can pass it along from App.
-     * @param stage
+     * @param stage is the current stage.
      */
     void setStage(Stage stage) {
         this.stage = stage;
@@ -32,7 +31,7 @@ public class HomeViewController {
 
     /**
      * Sets the app, so we can pass it along from App.
-     * @param app
+     * @param app is the app instance.
      */
     void setApp(App app) {
         this.app = app;
@@ -44,7 +43,7 @@ public class HomeViewController {
 
     /**
      * Sets the TimestampStore, so we can pass it along from App.
-     * @param stage
+     * @param tsStore is the TimestampStore instance.
      */
     void setTimestampStore(TimestampStore tsStore) {
         this.tsStore = tsStore;
@@ -62,16 +61,20 @@ public class HomeViewController {
     @FXML
     private Button libraryButton;
 
-    @FXML
     /**
      * This will run once, to load the recently listened to audiobooks.
      */
+    @FXML
     public void initialize() {
         recentList.clear();
         checkRecentlyListened(); //add the items to the list
         recentListView.setItems(FXCollections.observableArrayList(recentList)); //and show them
     }
 
+    /**
+     * retrieves the most recently listened to audiobooks and turns them into a useful recentList.
+     * 
+     */
     private void checkRecentlyListened() {
         recentListString = tsStore.getRecentlyPlayed();
         turnStringsIntoAudiobooks(recentListString);
@@ -94,7 +97,8 @@ public class HomeViewController {
     }
 
     /**
-     * This method adds an object to a list if it's not in there already. If it already is, we do nothing.
+     * This method adds an object to a list if it's not in there already. 
+     * If it already is, we do nothing.
      * 
      * @param list is the list where to add the audiobook
      * @param obj is the object we want in the list

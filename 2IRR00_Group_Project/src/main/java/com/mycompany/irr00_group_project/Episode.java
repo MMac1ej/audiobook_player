@@ -1,13 +1,15 @@
 package com.mycompany.irr00_group_project;
 
 import java.nio.file.Path;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
 
 /** Represents a single audio file episode within an audiobook. */
 public class Episode {
 
     private final String title;
     private final Path filePath;
-    private long durationSeconds;
+    private final LongProperty durationSeconds = new SimpleLongProperty(0);
     private long progressSeconds;
 
     /**
@@ -19,7 +21,6 @@ public class Episode {
     public Episode(String title, Path filePath) {
         this.title = title;
         this.filePath = filePath;
-        this.durationSeconds = 0;
         this.progressSeconds = 0;
     }
 
@@ -35,6 +36,11 @@ public class Episode {
 
     /** Returns the total duration of this episode in seconds. */
     public long getDuration() {
+        return durationSeconds.get();
+    }
+
+    /** Returns the duration property (for UI binding). */
+    public LongProperty durationProperty() {
         return durationSeconds;
     }
 
@@ -53,7 +59,7 @@ public class Episode {
         if (seconds < 0) {
             throw new IllegalArgumentException("Duration cannot be negative: " + seconds);
         }
-        this.durationSeconds = seconds;
+        durationSeconds.set(seconds);
     }
 
     /**
@@ -66,7 +72,7 @@ public class Episode {
         if (seconds < 0) {
             throw new IllegalArgumentException("Progress cannot be negative: " + seconds);
         }
-        if (seconds > durationSeconds) {
+        if (seconds > durationSeconds.get()) {
             throw new IllegalArgumentException(
                 "Progress " + seconds + " exceeds duration " + durationSeconds
             );
@@ -76,38 +82,32 @@ public class Episode {
     
     /**
      * implements toString.
-     * @return title of episode 
+     * @return title of episode
      */
     @Override
     public String toString() {
-        
-        String durationString = "Duration ";
-        
-        //note integer division always rounds down
-        long seconds = durationSeconds % 60;
-        long minutes = (durationSeconds / 60) % 60;
-        long hours = (durationSeconds / 3600) % 24;
-        long days = durationSeconds / 86400;
-        
-        if (durationSeconds >= 86400) {
-            durationString += days + " days";
+        long total = durationSeconds.get();
+        if (total < 1) {
+            return title + " Duration 0 seconds";
         }
-        
-        if (durationSeconds >= 3600) {
-            durationString += hours + " hours";
-        }
- 
-        if (durationSeconds >= 60) {
-            durationString += minutes + " minutes";
-        }
-        
-        if (durationSeconds >= 1) {
-            durationString += seconds + " seconds";
+
+        long seconds = total % 60;
+        long minutes = (total / 60) % 60;
+        long hours = (total / 3600) % 24;
+        long days = total / 86400;
+
+        String duration;
+        if (days > 0) {
+            duration = String.format("%d days %d hours %d minutes %d seconds", days, hours, minutes, seconds);
+        } else if (hours > 0) {
+            duration = String.format("%d hours %d minutes %d seconds", hours, minutes, seconds);
+        } else if (minutes > 0) {
+            duration = String.format("%d minutes %d seconds", minutes, seconds);
         } else {
-            durationString = "Duration 0 seconds";
+            duration = String.format("%d seconds", seconds);
         }
-        
-        return title + " " + durationString;
+
+        return title + " Duration " + duration;
     }
 
 }

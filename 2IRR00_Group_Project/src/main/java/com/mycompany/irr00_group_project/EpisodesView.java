@@ -3,8 +3,13 @@ package com.mycompany.irr00_group_project;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /**
  * This class is the back end for the UI of the episode view page.
@@ -14,16 +19,17 @@ import javafx.collections.ObservableList;
 public class EpisodesView {
 
     private Audiobook audiobook;
-    
+    private final List<MediaPlayer> playerRefs = new ArrayList<>();
+
     /**
      * Initializes object.
      * By default displays audio files in main folder
      */
     public EpisodesView() {
-        loadFolder(Path.of(""));
+        loadFolder(Path.of("C:/Users/koleg/Audiobooks/My_book"));
 
     }
-    
+
     /**
      * Initializes object with audio book to display.
      * @param object audio book object to load.
@@ -32,7 +38,7 @@ public class EpisodesView {
         audiobook = object;
 
     }
-    
+
     /**
      * Initializes object with audio book to display based on folder path.
      * @param folderPath file path to folder of the audio book to load.
@@ -41,7 +47,7 @@ public class EpisodesView {
         loadFolder(folderPath);
 
     }
-    
+
     /**
      * Set which audio book to display.
      * @param object audio book object to load.
@@ -49,7 +55,7 @@ public class EpisodesView {
     public void setAudiobook(Audiobook object) {
         audiobook = object;
     }
-    
+
     /**
      * Set which audio book to display based on folder path.
      * @param folderPath file path to folder of the audio book to load.
@@ -63,6 +69,7 @@ public class EpisodesView {
     * and add it to the audio book.
     */
     private void loadFolder(Path folderPath) {
+        playerRefs.clear();
         audiobook = new Audiobook(folderPath.getFileName().toString());
 
         File dir = folderPath.toFile();
@@ -81,12 +88,16 @@ public class EpisodesView {
             if (isAudioFile(filePath)) {
                 Episode episode = new Episode(fileName, filePath);
                 audiobook.addEpisode(episode);
+
+                MediaPlayer player = new MediaPlayer(new Media(filePath.toUri().toString()));
+                playerRefs.add(player);
+                player.setOnReady(() -> episode.setDuration((long) player.getTotalDuration().toSeconds()));
             }
-            
+
         }
 
     }
-    
+
     private static boolean isAudioFile(Path path) {
         if (!Files.isRegularFile(path)) {
             return false;
@@ -94,15 +105,16 @@ public class EpisodesView {
         String name = path.getFileName().toString().toLowerCase();
         return name.endsWith(".mp3") || name.endsWith(".wav");
     }
-    
+
     /**
      * Get the episodes contained within the audio book, as an observable list.
      *
      * @return ObservableList Containing the episodes of the audio book
      */
     public ObservableList<Episode> getEpisodes() {
-        ObservableList<Episode> episodes;
-        episodes = FXCollections.observableArrayList();
+        ObservableList<Episode> episodes = FXCollections.observableArrayList(
+            (Episode e) -> new Observable[]{e.durationProperty()}
+        );
         episodes.addAll(audiobook.getEpisodes());
         return episodes;
     }

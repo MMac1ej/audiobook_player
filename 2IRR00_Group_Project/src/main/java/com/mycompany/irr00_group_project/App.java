@@ -13,6 +13,10 @@ import javafx.stage.Stage;
 /** Entry point for the Audiobook Player application. */
 public class App extends Application {
 
+    AudioPlayer audioPlayer = new AudioPlayer();
+    ProgressStore progressStore = new ProgressStore();
+    TimestampStore timestampStore = new TimestampStore();
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -41,9 +45,6 @@ public class App extends Application {
 
     private void startPlayer(Stage stage) {
         try {
-            AudioPlayer audioPlayer = new AudioPlayer();
-            ProgressStore progressStore = new ProgressStore();
-            TimestampStore timestampStore = new TimestampStore();
             PlayerViewController controller =
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(() -> showMainView(stage));

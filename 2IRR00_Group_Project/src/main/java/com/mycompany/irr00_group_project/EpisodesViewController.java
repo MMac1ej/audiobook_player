@@ -12,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.collections.ObservableList;
-import java.nio.file.Path;
 
 /**
  * This class is the UI controller for the episode view page.

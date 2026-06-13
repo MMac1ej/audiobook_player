@@ -78,6 +78,14 @@
     -fx-text-fill: #5c6bc0;
 }
 
+/* Placeholder */
+.episodes-placeholder {
+    -fx-text-fill: #9fa8da;
+    -fx-font-size: 14px;
+    -fx-font-style: italic;
+    -fx-padding: 24;
+}
+
 /* Scrollbars */
 .episodes-list .scroll-bar {
     -fx-background-color: transparent;

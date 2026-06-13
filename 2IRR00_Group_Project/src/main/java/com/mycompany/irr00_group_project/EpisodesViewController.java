@@ -80,6 +80,9 @@ public class EpisodesViewController {
     @FXML
     public void initialize() {
         listView.setItems(episodesView.getEpisodes());
+        Label placeholder = new Label("No audio files found in the selected folder.");
+        placeholder.getStyleClass().add("episodes-placeholder");
+        listView.setPlaceholder(placeholder);
         listView.setFixedCellSize(CELL_HEIGHT);
         listView.maxHeightProperty().bind(
             Bindings.size(listView.getItems()).multiply(CELL_HEIGHT).add(2)

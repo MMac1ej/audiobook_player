@@ -29,8 +29,7 @@ public class EpisodesView {
      * By default displays audio files in main folder
      */
     public EpisodesView() {
-        loadFolder(Path.of("C:/Users/koleg/Audiobooks/My_book"));
-
+        loadFolder(Settings.getInstance().getAudiobookFolderPath());
     }
 
     /**

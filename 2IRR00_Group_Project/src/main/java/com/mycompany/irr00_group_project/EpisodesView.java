@@ -86,7 +86,8 @@ public class EpisodesView {
             String fileName = file.getName();
             Path filePath = file.toPath();
             if (isAudioFile(filePath)) {
-                Episode episode = new Episode(fileName, filePath);
+                String title = fileName.substring(0, fileName.lastIndexOf('.'));
+                Episode episode = new Episode(title, filePath);
                 audiobook.addEpisode(episode);
 
                 MediaPlayer player = new MediaPlayer(new Media(filePath.toUri().toString()));

@@ -10,7 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/** Entry point for the Audiobook Player application. */
+/**
+ * Entry point for the Audiobook Player application.
+ */
 public class App extends Application {
 
     AudioPlayer audioPlayer = new AudioPlayer();
@@ -30,17 +32,52 @@ public class App extends Application {
 
     private void showMainView(Stage stage) {
         Button playerBtn = new Button("Open Player");
+        Button episodesBtn = new Button("Browse Episodes");
         Button settingsBtn = new Button("Settings");
 
         playerBtn.setOnAction(e -> startPlayer(stage));
+        episodesBtn.setOnAction(e -> startEpisodesView(stage));
         settingsBtn.setOnAction(e -> startSettings(stage));
 
-        VBox root = new VBox(20, playerBtn, settingsBtn);
+        VBox root = new VBox(20, playerBtn, episodesBtn, settingsBtn);
         root.setStyle("-fx-alignment: center; -fx-padding: 40;");
         stage.setScene(new Scene(
                 root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
         stage.setTitle("Audiobook Player");
         stage.show();
+    }
+
+    private void startEpisodesView(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/com/mycompany/irr00_group_project/EpisodesView.fxml"));
+            Parent root = loader.load();
+            EpisodesViewController controller = loader.getController();
+            controller.setOnBack(() -> showMainView(stage));
+            controller.setOnEpisodeSelected((book, index) ->
+                    startPlayerWithEpisode(stage, book, index));
+            stage.setScene(new Scene(
+                    root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+            stage.setTitle("Audiobook Player - Episodes");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startPlayerWithEpisode(Stage stage, Audiobook book, int episodeIndex) {
+        try {
+            PlayerViewController controller =
+                    new PlayerViewController(audioPlayer, progressStore, timestampStore);
+            controller.setOnBack(() -> startEpisodesView(stage));
+            controller.setBook(book, episodeIndex);
+
+            stage.setScene(controller.buildScene());
+            stage.setTitle("Audiobook Player");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void startPlayer(Stage stage) {

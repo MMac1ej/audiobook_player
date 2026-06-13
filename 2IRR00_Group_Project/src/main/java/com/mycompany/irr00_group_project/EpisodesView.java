@@ -69,6 +69,7 @@ public class EpisodesView {
     * and add it to the audio book.
     */
     private void loadFolder(Path folderPath) {
+        playerRefs.forEach(MediaPlayer::dispose);
         playerRefs.clear();
         audiobook = new Audiobook(folderPath.getFileName().toString());
 

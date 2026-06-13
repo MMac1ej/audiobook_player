@@ -30,6 +30,7 @@ public class EpisodesViewController {
 
     private EpisodesView episodesView;
     private Runnable onBack;
+    private java.util.function.BiConsumer<Audiobook, Integer> onEpisodeSelected;
 
     public EpisodesViewController() {
         episodesView = new EpisodesView();
@@ -37,6 +38,10 @@ public class EpisodesViewController {
 
     public void setOnBack(Runnable onBack) {
         this.onBack = onBack;
+    }
+
+    public void setOnEpisodeSelected(java.util.function.BiConsumer<Audiobook, Integer> callback) {
+        this.onEpisodeSelected = callback;
     }
 
     /** Navigates back to the main view. */
@@ -62,8 +67,11 @@ public class EpisodesViewController {
         }
 
         Episode episode = selectedEpisodes.get(0);
-        Path filePath = episode.getFilePath();
-        episodesView.selectEpisode(filePath);
+        if (onEpisodeSelected != null) {
+            Audiobook audiobook = episodesView.getAudiobook();
+            int index = audiobook.getEpisodes().indexOf(episode);
+            onEpisodeSelected.accept(audiobook, index);
+        }
     }
 
     /**

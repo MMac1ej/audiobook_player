@@ -139,6 +139,11 @@ public class EpisodesView {
         return episodes;
     }
 
+    /** Returns the currently loaded audiobook. */
+    public Audiobook getAudiobook() {
+        return audiobook;
+    }
+
     /**
      * Go to audio player view and pass along what file to play.
      * Feature is not yet implemented.

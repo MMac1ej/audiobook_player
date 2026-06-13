@@ -15,6 +15,10 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
+    AudioPlayer audioPlayer = new AudioPlayer();
+    ProgressStore progressStore = new ProgressStore();
+    TimestampStore timestampStore = new TimestampStore();
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -50,6 +54,8 @@ public class App extends Application {
             Parent root = loader.load();
             EpisodesViewController controller = loader.getController();
             controller.setOnBack(() -> showMainView(stage));
+            controller.setOnEpisodeSelected((book, index) ->
+                    startPlayerWithEpisode(stage, book, index));
             stage.setScene(new Scene(
                     root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
             stage.setTitle("Audiobook Player - Episodes");
@@ -59,11 +65,23 @@ public class App extends Application {
         }
     }
 
+    private void startPlayerWithEpisode(Stage stage, Audiobook book, int episodeIndex) {
+        try {
+            PlayerViewController controller =
+                    new PlayerViewController(audioPlayer, progressStore, timestampStore);
+            controller.setOnBack(() -> startEpisodesView(stage));
+            controller.setBook(book, episodeIndex);
+
+            stage.setScene(controller.buildScene());
+            stage.setTitle("Audiobook Player");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void startPlayer(Stage stage) {
         try {
-            AudioPlayer audioPlayer = new AudioPlayer();
-            ProgressStore progressStore = new ProgressStore();
-            TimestampStore timestampStore = new TimestampStore();
             PlayerViewController controller =
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(() -> showMainView(stage));

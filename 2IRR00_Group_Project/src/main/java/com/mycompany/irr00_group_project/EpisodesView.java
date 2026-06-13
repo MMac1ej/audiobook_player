@@ -36,7 +36,7 @@ public class EpisodesView {
      */
     public EpisodesView(Audiobook object) {
         audiobook = object;
-
+        loadDurations();
     }
 
     /**
@@ -54,6 +54,7 @@ public class EpisodesView {
      */
     public void setAudiobook(Audiobook object) {
         audiobook = object;
+        loadDurations();
     }
 
     /**
@@ -62,6 +63,17 @@ public class EpisodesView {
      */
     public void setAudiobook(Path folderPath) {
         loadFolder(folderPath);
+    }
+
+    /** Load durations asynchronously for all episodes already in the audiobook. */
+    private void loadDurations() {
+        playerRefs.forEach(MediaPlayer::dispose);
+        playerRefs.clear();
+        for (Episode episode : audiobook.getEpisodes()) {
+            MediaPlayer player = new MediaPlayer(new Media(episode.getFilePath().toUri().toString()));
+            playerRefs.add(player);
+            player.setOnReady(() -> episode.setDuration((long) player.getTotalDuration().toSeconds()));
+        }
     }
 
     /**

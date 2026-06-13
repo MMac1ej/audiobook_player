@@ -72,9 +72,9 @@ public class Episode {
         if (seconds < 0) {
             throw new IllegalArgumentException("Progress cannot be negative: " + seconds);
         }
-        if (seconds > durationSeconds.get()) {
+        if (durationSeconds.get() > 0 && seconds > durationSeconds.get()) {
             throw new IllegalArgumentException(
-                "Progress " + seconds + " exceeds duration " + durationSeconds
+                "Progress " + seconds + " exceeds duration " + durationSeconds.get()
             );
         }
         this.progressSeconds = seconds;

@@ -80,6 +80,27 @@ public class Episode {
         this.progressSeconds = seconds;
     }
     
+    /** Returns a short human-readable duration string, e.g. "1h 23m 45s". */
+    public String getFormattedDuration() {
+        long total = durationSeconds.get();
+        if (total < 1) {
+            return "Loading...";
+        }
+        long seconds = total % 60;
+        long minutes = (total / 60) % 60;
+        long hours = (total / 3600) % 24;
+        long days = total / 86400;
+        if (days > 0) {
+            return String.format("%dd %dh %dm %ds", days, hours, minutes, seconds);
+        } else if (hours > 0) {
+            return String.format("%dh %dm %ds", hours, minutes, seconds);
+        } else if (minutes > 0) {
+            return String.format("%dm %ds", minutes, seconds);
+        } else {
+            return String.format("%ds", seconds);
+        }
+    }
+
     /**
      * implements toString.
      * @return title of episode

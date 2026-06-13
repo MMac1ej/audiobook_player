@@ -22,22 +22,23 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        showMainView(stage);
+    }
+
+    /** Navigates to the main view. Can be called from any controller. */
+    static void showMainView(Stage stage) {
         StackPane root = new StackPane(new Label("Audiobook Player"));
-        stage.setScene(new Scene(
-                root, 600, 600));
+        stage.setScene(new Scene(root, 600, 600));
         stage.setTitle("Audiobook Player");
         stage.show();
 
-        //click screen to open settings
-        root.setOnMouseClicked(e -> {
-            startEpisodesView(stage);
-        });
+        root.setOnMouseClicked(e -> startEpisodesView(stage));
     }
 
-    private void startEpisodesView(Stage stage) {
+    private static void startEpisodesView(Stage stage) {
         try {
             // 1. Locate and load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(
                     "/com/mycompany/irr00_group_project/EpisodesView.fxml"));
             Parent root = loader.load();
 

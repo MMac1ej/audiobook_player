@@ -1,10 +1,19 @@
 package com.mycompany.irr00_group_project;
 
-import java.nio.file.Path;
+import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.collections.ObservableList;
+import javafx.stage.Stage;
+import java.nio.file.Path;
 
 /**
  * This class is the UI controller for the episode view page.
@@ -12,16 +21,27 @@ import javafx.collections.ObservableList;
  */
 public class EpisodesViewController {
 
+    private static final int CELL_HEIGHT = 48;
+
+    @FXML
+    private Button backButton;
+
     @FXML
     private ListView<Episode> listView;
-    
+
     private EpisodesView episodesView;
 
     public EpisodesViewController() {
         episodesView = new EpisodesView();
     }
-    
-    
+
+    /** Navigates back to the main view. */
+    @FXML
+    public void handleBack(ActionEvent event) {
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        App.showMainView(stage);
+    }
+
     /**
      * handles UI events,
      * Used to select what episode to play.
@@ -47,6 +67,34 @@ public class EpisodesViewController {
     @FXML
     public void initialize() {
         listView.setItems(episodesView.getEpisodes());
+        listView.setFixedCellSize(CELL_HEIGHT);
+        listView.maxHeightProperty().bind(
+            Bindings.size(listView.getItems()).multiply(CELL_HEIGHT).add(2)
+        );
+        listView.setCellFactory(lv -> new ListCell<Episode>() {
+            private final Label titleLabel = new Label();
+            private final Label durationLabel = new Label();
+            private final HBox content = new HBox(titleLabel, durationLabel);
 
+            {
+                HBox.setHgrow(titleLabel, Priority.ALWAYS);
+                titleLabel.getStyleClass().add("episode-title");
+                durationLabel.getStyleClass().add("episode-duration");
+                content.getStyleClass().add("episode-cell-content");
+                content.setAlignment(Pos.CENTER_LEFT);
+            }
+
+            @Override
+            protected void updateItem(Episode item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    titleLabel.setText(item.getTitle());
+                    durationLabel.setText(item.getFormattedDuration());
+                    setGraphic(content);
+                }
+            }
+        });
     }
 }

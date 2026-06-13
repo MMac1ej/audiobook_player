@@ -105,6 +105,13 @@
     -fx-border-color: #7C83E0;
 }
 
+.choice-box .context-menu {
+    -fx-background-color: #2D2D2D;
+    -fx-border-color: #555555;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
 /* Sliders */
 .slider .track {
     -fx-background-color: #555555;

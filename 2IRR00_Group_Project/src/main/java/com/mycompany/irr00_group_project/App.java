@@ -11,7 +11,8 @@ import javafx.stage.Stage;
 
 /** Entry point for the Audiobook Player application. */
 public class App extends Application {
-
+    Library library;
+    
     public static void main(String[] args) {
         launch(args);
     }
@@ -19,6 +20,7 @@ public class App extends Application {
     // please note that this is still temporary way of starting the app
     @Override
     public void start(Stage stage) {
+        library = new Library();
         showMainView(stage);
     }
 
@@ -88,7 +90,8 @@ public class App extends Application {
      * @param stage the stage to display the settings view in
      */
     private void startAudiobookOverview(Stage stage) {
-        AudiobookOverview bookOverview = new AudiobookOverview(() -> showMainView(stage));
+        AudiobookOverview bookOverview = new AudiobookOverview(
+                () -> showMainView(stage), library, true);
         bookOverview.loadAudiobookOverview(stage);
 
     }

@@ -28,8 +28,15 @@ public class AudiobookOverviewTest {
 
     /** Tests if all audiobooks are shown when the default message is set.*/
     @Test
-    void emptySearchShowsAllAudiobooks() throws IOException {
-        AudiobookOverview overview = new AudiobookOverview(() -> {});
+    void emptySearchShowsAllAudiobooks() {
+        Library library = new Library();
+        
+        library.addAudiobook(new Audiobook("Dune"));
+        library.addAudiobook(new Audiobook("Lord of the Rings"));
+        library.addAudiobook(new Audiobook("Secret History"));
+        library.addAudiobook(new Audiobook("The Hitchhiker Guido to the Galaxy"));
+
+        AudiobookOverview overview = new AudiobookOverview(() -> {}, library, false);
 
         TextField searchBar = new TextField();
         VBox bookHolder = new VBox();
@@ -41,10 +48,17 @@ public class AudiobookOverviewTest {
 
     /** Tests if no audiobooks are shown when no titles match the search request. */
     @Test
-    void searchWithUnknownTitleShowsNoAudiobooks() throws IOException {
-        AudiobookOverview overview = new AudiobookOverview(() -> {});
+    void searchWithUnknownTitleShowsNoAudiobooks() {
+        Library library = new Library();
+        
+        library.addAudiobook(new Audiobook("Dune"));
+        library.addAudiobook(new Audiobook("Lord of the Rings"));
+        library.addAudiobook(new Audiobook("Secret History"));
+        library.addAudiobook(new Audiobook("The Hitchhiker Guido to the Galaxy"));
+        
+        AudiobookOverview overview = new AudiobookOverview(() -> {}, library, false);
 
-        TextField searchBar = new TextField(".....DefinitelyNotExistingBook.........");
+        TextField searchBar = new TextField("NonexistingBook.123.456.789. :)");
         VBox bookHolder = new VBox();
 
         overview.search(searchBar, bookHolder);

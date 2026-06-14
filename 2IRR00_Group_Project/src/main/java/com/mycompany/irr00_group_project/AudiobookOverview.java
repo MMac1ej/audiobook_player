@@ -4,6 +4,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.io.IOException;
@@ -15,27 +16,31 @@ import javafx.stage.Stage;
 public class AudiobookOverview {
     private Library library;
     private List<Audiobook> audiobooks;
-    public static final String SEARCH_PROMPT = "Search your preferred audiobook";
-    boolean errorMessage = false;
+    private boolean errorMessage = false;
     private VBox error;
     private Runnable onBack;
     
     /** Initialize library instance & load the available current books. */
-    public AudiobookOverview(Runnable onBack) {
+    public AudiobookOverview(Runnable onBack, Library library, boolean loadFromFolder) {
         this.onBack = onBack;
-        
-        try {
-            library = new Library();
-            library.loadFromFolder(Settings.getInstance().getAudiobookFolderPath());
+        this.library = library;
+        if (loadFromFolder) {
+            try {
+                library.loadFromFolder(Settings.getInstance().getAudiobookFolderPath());
+                audiobooks = library.getAudiobooks();
+                errorMessage = false;
+            } catch (IOException e) {
+                System.err.println("Failed to load audiobooks.");
+                error = new VBox(new Label(
+                        "Failed to load audiobooks, please check if the file path is correct."));
+                errorMessage = true;
+                audiobooks = List.of();
+            }
+        }   else {
             audiobooks = library.getAudiobooks();
             errorMessage = false;
-        } catch (IOException e) {
-            System.err.println("Failed to load audiobooks.");
-            error = new VBox(new TextField(
-                    "Failed to load audiobooksgit add, please check if the file path is correct."));
-            errorMessage = true;
-            audiobooks = List.of();
         }
+        
     }
 
     /** Load the audiobook Overview page. */
@@ -56,7 +61,10 @@ public class AudiobookOverview {
         } 
         Scene scene = new Scene(root, 
                 Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
-        scene.getStylesheets().add(getClass().getResource("AudiobookOverview.css").toExternalForm());
+        if (getClass().getResource("AudiobookOverview.css") != null) {
+            scene.getStylesheets().add(getClass().getResource(
+                    "AudiobookOverview.css").toExternalForm());
+        }
         stage.setScene(scene);
         stage.setTitle("Audiobook Overview");
         stage.show();
@@ -82,7 +90,7 @@ public class AudiobookOverview {
     /** Setup the search Bar. */
     private void searchSetup(HBox searchHolder, VBox bookHolder) {
         TextField searchBar = new TextField();
-        searchBar.setPromptText(SEARCH_PROMPT);
+        searchBar.setPromptText(Constants.SEARCH_PROMPT);
         searchBar.prefWidthProperty().bind(searchHolder.widthProperty().multiply(0.5));
         searchHolder.getChildren().add(searchBar);
         

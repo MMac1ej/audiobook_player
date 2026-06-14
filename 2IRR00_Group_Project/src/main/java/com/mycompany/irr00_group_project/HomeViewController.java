@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.scene.input.MouseEvent;
-
 import javafx.collections.ObservableList;
+
 /**
  * This class handles the stuff that happens on the home view screen to communicate to HomeView.
  * @author Floortje Lusthof
@@ -137,7 +137,8 @@ public class HomeViewController {
      */
     @FXML
     void handleMouseClicked(MouseEvent event) {
-        ObservableList<Audiobook> selectedAudiobook = recentListView.getSelectionModel().getSelectedItems();
+        ObservableList<Audiobook> selectedAudiobook = 
+            recentListView.getSelectionModel().getSelectedItems();
         if (selectedAudiobook.isEmpty()) {
             return; //if nothing is selected, nothing happens.
         }

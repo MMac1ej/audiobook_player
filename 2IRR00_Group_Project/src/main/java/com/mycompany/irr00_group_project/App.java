@@ -74,6 +74,11 @@ public class App extends Application {
         }
     }
 
+    /**
+     * This method open the PlayerView, given we have a certain audiobook that needs to be loaded.
+     * @param stage is current stage
+     * @param audi is audiobook that needs to be played
+     */
     public void startPlayerWithAudiobook(Stage stage, Audiobook audi) {
         try {
             PlayerViewController controller =

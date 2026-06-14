@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" 
-   minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" 
-   xmlns:fx="http://javafx.com/fxml/1"
-   stylesheets = "@homeview.css">
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+   prefHeight="400.0" prefWidth="600.0"
+   styleClass="hview-root"
+   stylesheets="@homeview-improved.css">
    <children>
-      <VBox alignment="CENTER" prefHeight="360.0" prefWidth="272.0" styleClass = "hview-welcome-box">
+      <Text text="Welcome!" styleClass="hview-welcome-text"/>
+      <HBox styleClass="hview-button-row">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome!" styleClass = "hview-welcome-text"/>
+            <Button fx:id="libraryButton" mnemonicParsing="false"
+               onAction="#handleOpenLibrary" text="Library"
+               styleClass="hview-nav-button"/>
+            <Button fx:id="settingsButton" mnemonicParsing="false"
+               onAction="#handleOpenSettings" text="Settings"
+               styleClass="hview-nav-button"/>
          </children>
-      </VBox>
-      <VBox alignment="CENTER" prefHeight="360.0" prefWidth="291.0" styleClass = "hview-vbox">
-         <children>
-            <Button fx:id="libraryButton" mnemonicParsing="false" onAction="#handleOpenLibrary" text="Library" styleClass = "hview-changeview-button"/>
-            <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#handleOpenSettings" text="Settings" styleClass = "hview-changeview-button"/>
-            <ListView fx:id="recentListView" prefHeight="200.0" prefWidth="200.0" />
-         </children>
-      </VBox>
+      </HBox>
+      <Label text="RECENTLY PLAYED" styleClass="hview-section-label"/>
+      <ListView fx:id="recentListView" prefHeight="220.0" styleClass="hview-recent-list"/>
    </children>
-</HBox>
+</VBox>

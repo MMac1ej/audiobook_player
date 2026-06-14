@@ -28,10 +28,10 @@ public class AudiobookOverviewTest {
 
     /** Tests if all audiobooks are shown when the default message is set.*/
     @Test
-    void searchWithDefaultMessageShowsAllAudiobooks() throws IOException {
-        AudiobookOverview overview = new AudiobookOverview();
+    void emptySearchShowsAllAudiobooks() throws IOException {
+        AudiobookOverview overview = new AudiobookOverview(() -> {});
 
-        TextField searchBar = new TextField(AudiobookOverview.DEFAULT_MESSAGE);
+        TextField searchBar = new TextField();
         VBox bookHolder = new VBox();
 
         overview.search(searchBar, bookHolder);
@@ -42,7 +42,7 @@ public class AudiobookOverviewTest {
     /** Tests if no audiobooks are shown when no titles match the search request. */
     @Test
     void searchWithUnknownTitleShowsNoAudiobooks() throws IOException {
-        AudiobookOverview overview = new AudiobookOverview();
+        AudiobookOverview overview = new AudiobookOverview(() -> {});
 
         TextField searchBar = new TextField(".....DefinitelyNotExistingBook.........");
         VBox bookHolder = new VBox();

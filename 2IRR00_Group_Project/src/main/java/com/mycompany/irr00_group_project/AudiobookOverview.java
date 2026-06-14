@@ -15,15 +15,18 @@ import javafx.stage.Stage;
 public class AudiobookOverview {
     private Library library;
     private List<Audiobook> audiobooks;
-    public static final String DEFAULT_MESSAGE = "Search your preferred audiobook";
+    public static final String SEARCH_PROMPT = "Search your preferred audiobook";
     boolean errorMessage = false;
     private VBox error;
-
+    private Runnable onBack;
+    
     /** Initialize library instance & load the available current books. */
-    public AudiobookOverview() {
+    public AudiobookOverview(Runnable onBack) {
+        this.onBack = onBack;
+        
         try {
             library = new Library();
-            library.loadFromFolder(Library.DEFAULT_FOLDER);
+            library.loadFromFolder(Settings.getInstance().getAudiobookFolderPath());
             audiobooks = library.getAudiobooks();
             errorMessage = false;
         } catch (IOException e) {
@@ -43,7 +46,7 @@ public class AudiobookOverview {
         HBox searchHolder = new HBox();
         searchHolder.getStyleClass().add("search-holder");
         
-        backSetup(searchHolder, stage);
+        backSetup(searchHolder);
         searchSetup(searchHolder, bookHolder);
         booksRefresh(bookHolder);
         
@@ -53,15 +56,14 @@ public class AudiobookOverview {
         } 
         Scene scene = new Scene(root, 
                 Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
-        scene.getStylesheets().add(getClass().getResource("audiobooksView.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("AudiobookOverview.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Audiobook Overview");
         stage.show();
     }
     
     /** Create the back button, when pressed, the previous page is loaded. */
-    private void backSetup(HBox searchHolder, Stage stage) {
-        App app = new App();
+    private void backSetup(HBox searchHolder) {
         // search button setup
         Button backButton = new Button("← Back");
         backButton.getStyleClass().add("back-button");
@@ -69,7 +71,9 @@ public class AudiobookOverview {
             @Override
             public void handle(ActionEvent event) {
                 // Go back to homepage.
-                app.start(stage);
+                if (onBack != null) {
+                    onBack.run();
+                }
             }
         });
         searchHolder.getChildren().add(backButton);
@@ -77,7 +81,8 @@ public class AudiobookOverview {
     
     /** Setup the search Bar. */
     private void searchSetup(HBox searchHolder, VBox bookHolder) {
-        TextField searchBar = new TextField(DEFAULT_MESSAGE);
+        TextField searchBar = new TextField();
+        searchBar.setPromptText(SEARCH_PROMPT);
         searchBar.prefWidthProperty().bind(searchHolder.widthProperty().multiply(0.5));
         searchHolder.getChildren().add(searchBar);
         
@@ -126,9 +131,6 @@ public class AudiobookOverview {
     /** Show audiobooks according to Textfield input. */
     public void search(TextField searchBar, VBox bookHolder) {
         String searchValue = searchBar.getText();
-        if (searchValue.equals(DEFAULT_MESSAGE)) {
-            searchValue = "";
-        }
         audiobooks = library.search(searchValue);
         booksRefresh(bookHolder);
     } 

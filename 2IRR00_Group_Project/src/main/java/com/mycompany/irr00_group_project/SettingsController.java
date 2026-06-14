@@ -12,6 +12,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -25,6 +26,9 @@ import javafx.util.StringConverter;
  * @author Tymon Szczepański, 2330113
  */
 public class SettingsController {
+
+    @FXML
+    private VBox rootVBox;
 
     @FXML
     private Button browseButton;
@@ -90,6 +94,12 @@ public class SettingsController {
         filePathTextField.setText(settings.getAudiobookFolderPath().toString());
         fontSizeTextField.setText(Integer.toString(settings.getFontSize()));
 
+        rootVBox.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                applyThemeToScene(settings.getTheme());
+            }
+        });
+
         // Add listeners to update settings when UI elements change
         fontSizeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             try {
@@ -101,6 +111,7 @@ public class SettingsController {
         });
         themeChoiceBox.valueProperty().addListener((obs, oldVal, newVal) -> {
             settings.setTheme(Theme.valueOf(newVal.name()));
+            applyThemeToScene(newVal);
         });
     }
 
@@ -195,5 +206,13 @@ public class SettingsController {
         if (onBack != null) {
             onBack.run();
         }
+    }
+
+    private void applyThemeToScene(Theme theme) {
+        javafx.scene.Scene scene = rootVBox.getScene();
+        if (scene == null || theme == null) {
+            return;
+        }
+        scene.getStylesheets().setAll(theme.getCssPath());
     }
 }

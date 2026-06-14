@@ -4,18 +4,24 @@ package com.mycompany.irr00_group_project;
  * @author Tymon Szczepański, 2330113
  */
 public enum Theme {
-    LIGHT("Light"),
-    DARK("Dark"),
-    HIGH_CONTRAST("High Contrast");
+    LIGHT("Light", Constants.STYLE_SETTINGS_LIGHT),
+    DARK("Dark", Constants.STYLE_SETTINGS_DARK),
+    HIGH_CONTRAST("High Contrast", Constants.STYLE_SETTINGS_HIGH_CONTRAST);
 
     private final String displayName;
+    private final String cssPath;
 
-    Theme(String displayName) {
+    Theme(String displayName, String cssPath) {
         this.displayName = displayName;
+        this.cssPath = cssPath;
     }
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public String getCssPath() {
+        return cssPath;
     }
 
     /**

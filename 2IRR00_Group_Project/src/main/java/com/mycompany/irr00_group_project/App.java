@@ -14,6 +14,8 @@ public class App extends Application {
     private final TimestampStore timestampStore = new TimestampStore();
     private final Library library = new Library();
     private final HomeViewController hvController = new HomeViewController();
+    private final ProgressStore progressStore = new ProgressStore();
+    private final AudioPlayer audioPlayer = new AudioPlayer();
 
     public static void main(String[] args) {
         launch(args);
@@ -26,7 +28,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            library.loadFromFolder(Constants.DEFAULT_AUDIOBOOK_FOLDER);
+            library.loadFromFolder(Settings.getInstance().getAudiobookFolderPath());
         } catch (IOException e) {
             System.err.println("No Audiobooks found! Try changing the file path.");
         } finally {
@@ -64,6 +66,20 @@ public class App extends Application {
             controller.setOnBack(() -> showMainView(stage));
             controller.loadDefaultBook();
 
+            stage.setScene(controller.buildScene());
+            stage.setTitle("Audiobook Player");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startPlayerWithAudiobook(Stage stage, Audiobook audi) {
+        try {
+            PlayerViewController controller =
+                    new PlayerViewController(audioPlayer, progressStore, timestampStore);
+            controller.setOnBack(() -> showMainView(stage));
+            controller.setBook(audi);
             stage.setScene(controller.buildScene());
             stage.setTitle("Audiobook Player");
             stage.show();

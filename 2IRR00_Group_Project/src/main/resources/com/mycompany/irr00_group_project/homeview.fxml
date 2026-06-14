@@ -24,6 +24,6 @@
          </children>
       </HBox>
       <Label text="RECENTLY PLAYED" styleClass="hview-section-label"/>
-      <ListView fx:id="recentListView" prefHeight="220.0" styleClass="hview-recent-list"/>
+      <ListView fx:id="recentListView" onMouseClicked="#handleMouseClicked" prefHeight="220.0" styleClass="hview-recent-list"/>
    </children>
 </VBox>

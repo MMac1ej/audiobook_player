@@ -16,7 +16,7 @@
 /* ── Button row ──────────────────────────────────────────── */
 .hview-button-row {
     -fx-spacing: 16;
-    -fx-alignment: center-left;
+    -fx-alignment: center;
 }
 
 .hview-nav-button {

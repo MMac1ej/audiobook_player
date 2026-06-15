@@ -18,11 +18,11 @@ public class App extends Application {
     AudioPlayer audioPlayer = new AudioPlayer();
     ProgressStore progressStore = new ProgressStore();
     TimestampStore timestampStore = new TimestampStore();
+    Library library = new Library();
 
     public static void main(String[] args) {
         launch(args);
     }
-
 
     // please note that this is still temporary way of starting the app
     @Override
@@ -33,13 +33,15 @@ public class App extends Application {
     private void showMainView(Stage stage) {
         Button playerBtn = new Button("Open Player");
         Button episodesBtn = new Button("Browse Episodes");
+        Button overviewBtn = new Button("Audiobook Overview");
         Button settingsBtn = new Button("Settings");
 
         playerBtn.setOnAction(e -> startPlayer(stage));
         episodesBtn.setOnAction(e -> startEpisodesView(stage));
+        overviewBtn.setOnAction(e -> startAudiobookOverview(stage));
         settingsBtn.setOnAction(e -> startSettings(stage));
 
-        VBox root = new VBox(20, playerBtn, episodesBtn, settingsBtn);
+        VBox root = new VBox(20, playerBtn, episodesBtn, overviewBtn, settingsBtn);
         root.setStyle("-fx-alignment: center; -fx-padding: 40;");
         stage.setScene(new Scene(
                 root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
@@ -116,5 +118,16 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+     /**
+     * Starts the audiobook overview in the given stage.
+     * @param stage the stage to display the settings view in
+     */
+    private void startAudiobookOverview(Stage stage) {
+        AudiobookOverview bookOverview = new AudiobookOverview(
+                () -> showMainView(stage), library, true);
+        bookOverview.loadAudiobookOverview(stage);
+
     }
 }

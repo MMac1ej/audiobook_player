@@ -27,6 +27,7 @@ public final class Constants {
         "-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
     public static final String RESET_SUCCESS_MESSAGE = (
         "Settings reset to defaults. Click 'Save Settings' to apply.");
+    public static final String SEARCH_PROMPT = "Search your preferred audiobook";
     public static final int STATUS_MESSAGE_DURATION_SECONDS = 6;
 
     /* CSS styles for themes in settings — must be initialized before DEFAULT_THEME

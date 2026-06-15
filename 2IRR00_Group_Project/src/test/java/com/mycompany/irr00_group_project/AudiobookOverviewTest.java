@@ -34,7 +34,8 @@ public class AudiobookOverviewTest {
         library.addAudiobook(new Audiobook("Dune", Path.of("/tmp/dune")));
         library.addAudiobook(new Audiobook("Lord of the Rings", Path.of("/tmp/lotr")));
         library.addAudiobook(new Audiobook("Secret History", Path.of("/tmp/secret-history")));
-        library.addAudiobook(new Audiobook("The Hitchhiker's Guide to the Galaxy", Path.of("/tmp/hhgttg")));
+        library.addAudiobook(new Audiobook("The Hitchhiker's Guide to the Galaxy",
+                Path.of("/tmp/hhgttg")));
 
         AudiobookOverview overview = new AudiobookOverview(() -> {}, library, false);
 
@@ -54,7 +55,8 @@ public class AudiobookOverviewTest {
         library.addAudiobook(new Audiobook("Dune", Path.of("/tmp/dune")));
         library.addAudiobook(new Audiobook("Lord of the Rings", Path.of("/tmp/lotr")));
         library.addAudiobook(new Audiobook("Secret History", Path.of("/tmp/secret-history")));
-        library.addAudiobook(new Audiobook("The Hitchhiker's Guide to the Galaxy", Path.of("/tmp/hhgttg")));
+        library.addAudiobook(new Audiobook("The Hitchhiker's Guide to the Galaxy",
+                Path.of("/tmp/hhgttg")));
 
         AudiobookOverview overview = new AudiobookOverview(() -> {}, library, false);
 

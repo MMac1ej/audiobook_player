@@ -59,6 +59,10 @@ public class App extends Application {
         }
     }
 
+    /**
+     * Starts the episodes view in the given stage.
+     * @param stage the stage to display the episodes view in
+     */
     public void startEpisodesView(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
@@ -92,6 +96,10 @@ public class App extends Application {
         }
     }
 
+    /**
+     * Starts the player view in the given stage.
+     * @param stage the stage to display the player in
+     */
     public void startPlayer(Stage stage) {
         try {
             AudioPlayer audioPlayer = new AudioPlayer();

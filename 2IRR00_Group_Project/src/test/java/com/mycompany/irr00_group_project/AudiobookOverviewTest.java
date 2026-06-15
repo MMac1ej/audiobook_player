@@ -6,18 +6,18 @@ import javafx.scene.layout.VBox;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
+import java.nio.file.Path;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** 
+/**
  * Class that test AudiobookOverview.
  */
 public class AudiobookOverviewTest {
 
-    /** 
-     * Starts up Javafx before all tests. 
+    /**
+     * Starts up Javafx before all tests.
      */
     @BeforeAll
     static void startJavaFx() throws InterruptedException {
@@ -30,11 +30,11 @@ public class AudiobookOverviewTest {
     @Test
     void emptySearchShowsAllAudiobooks() {
         Library library = new Library();
-        
-        library.addAudiobook(new Audiobook("Dune"));
-        library.addAudiobook(new Audiobook("Lord of the Rings"));
-        library.addAudiobook(new Audiobook("Secret History"));
-        library.addAudiobook(new Audiobook("The Hitchhiker Guido to the Galaxy"));
+
+        library.addAudiobook(new Audiobook("Dune", Path.of("/tmp/dune")));
+        library.addAudiobook(new Audiobook("Lord of the Rings", Path.of("/tmp/lotr")));
+        library.addAudiobook(new Audiobook("Secret History", Path.of("/tmp/secret-history")));
+        library.addAudiobook(new Audiobook("The Hitchhiker's Guide to the Galaxy", Path.of("/tmp/hhgttg")));
 
         AudiobookOverview overview = new AudiobookOverview(() -> {}, library, false);
 
@@ -50,12 +50,12 @@ public class AudiobookOverviewTest {
     @Test
     void searchWithUnknownTitleShowsNoAudiobooks() {
         Library library = new Library();
-        
-        library.addAudiobook(new Audiobook("Dune"));
-        library.addAudiobook(new Audiobook("Lord of the Rings"));
-        library.addAudiobook(new Audiobook("Secret History"));
-        library.addAudiobook(new Audiobook("The Hitchhiker Guido to the Galaxy"));
-        
+
+        library.addAudiobook(new Audiobook("Dune", Path.of("/tmp/dune")));
+        library.addAudiobook(new Audiobook("Lord of the Rings", Path.of("/tmp/lotr")));
+        library.addAudiobook(new Audiobook("Secret History", Path.of("/tmp/secret-history")));
+        library.addAudiobook(new Audiobook("The Hitchhiker's Guide to the Galaxy", Path.of("/tmp/hhgttg")));
+
         AudiobookOverview overview = new AudiobookOverview(() -> {}, library, false);
 
         TextField searchBar = new TextField("NonexistingBook.123.456.789. :)");

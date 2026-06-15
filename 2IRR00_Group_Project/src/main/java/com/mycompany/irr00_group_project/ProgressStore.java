@@ -1,27 +1,15 @@
 package com.mycompany.irr00_group_project;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Properties;
 
 /** Persists episode playback progress to a properties file on disk.
  *  NEVER create more than one instance of ProgressStore!
 */
-public class ProgressStore {
-
-    private static final Path DEFAULT_FILE = Paths.get(
-            System.getProperty("user.home"), ".audiobookplayer", "progress.properties");
-
-    private final Path storeFile;
-    private final Properties props;
+public class ProgressStore extends PropertiesStore {
 
     /** Creates a ProgressStore using the default file location. */
     public ProgressStore() {
-        this(DEFAULT_FILE);
+        this(Constants.DEFAULT_PROGRESS_STORE_PATH);
     }
 
     /**
@@ -30,31 +18,7 @@ public class ProgressStore {
      * @param storeFile the path to the properties file
      */
     public ProgressStore(Path storeFile) {
-        this.storeFile = storeFile;
-        this.props = new Properties();
-        loadFromDisk();
-    }
-
-    private void loadFromDisk() {
-        if (!Files.exists(storeFile)) {
-            return;
-        }
-        try (InputStream in = Files.newInputStream(storeFile)) {
-            props.load(in);
-        } catch (IOException e) {
-            // file unreadable — start with empty store
-        }
-    }
-
-    private void saveToDisk() {
-        try {
-            Files.createDirectories(storeFile.getParent());
-            try (OutputStream out = Files.newOutputStream(storeFile)) {
-                props.store(out, null);
-            }
-        } catch (IOException e) {
-            // best-effort write approach
-        }
+        super(storeFile);
     }
 
     /**
@@ -64,8 +28,7 @@ public class ProgressStore {
      * @param seconds the progress in seconds
      */
     public void saveProgress(String key, long seconds) {
-        props.setProperty(key, Long.toString(seconds));
-        saveToDisk();
+        super.setProperty(key, Long.toString(seconds));
     }
 
     /**
@@ -75,7 +38,7 @@ public class ProgressStore {
      * @return the saved progress in seconds, or 0 if not found
      */
     public long loadProgress(String key) {
-        String value = props.getProperty(key);
+        String value = super.getProperty(key, null);
         if (value == null) {
             return 0;
         }
@@ -92,8 +55,7 @@ public class ProgressStore {
      * @param key the episode identifier
      */
     public void clearProgress(String key) {
-        props.remove(key);
-        saveToDisk();
+        super.removeProperty(key);
     }
 
 }

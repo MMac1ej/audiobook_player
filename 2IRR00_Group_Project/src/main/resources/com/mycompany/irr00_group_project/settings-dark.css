@@ -1,0 +1,137 @@
+/* Root & Layout Containers */
+.root {
+    -fx-background-color: #1E1E1E;
+}
+
+.hbox {
+    -fx-spacing: 15px;
+    -fx-alignment: center-left;
+}
+
+/* Labels & Typography */
+.label {
+    -fx-text-fill: #E0E0E0;
+}
+
+#statusLabel {
+    -fx-text-fill: #9FA8DA;
+    -fx-font-style: italic;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #2D2D2D;
+    -fx-text-fill: #E0E0E0;
+    -fx-font-size: 13px;
+    -fx-background-radius: 6px;
+    -fx-padding: 6px 14px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #3D3D3D;
+}
+
+#browseButton {
+    -fx-background-color: #303B6A;
+    -fx-text-fill: #9FA8DA;
+    -fx-font-weight: bold;
+}
+
+#browseButton:hover {
+    -fx-background-color: #3A4880;
+}
+
+#exitSettingsButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #BDBDBD;
+    -fx-border-color: #555555;
+    -fx-border-radius: 6px;
+}
+
+#exitSettingsButton:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+}
+
+#saveSettingsButton {
+    -fx-background-color: #5C6BC0;
+    -fx-text-fill: white;
+    -fx-background-radius: 6px;
+}
+
+#saveSettingsButton:hover {
+    -fx-background-color: #4A5AB0;
+}
+
+#resetDefaultsButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #EF9A9A;
+    -fx-border-color: transparent;
+}
+
+#resetDefaultsButton:hover {
+    -fx-background-color: #3E2020;
+    -fx-background-radius: 6px;
+}
+
+/* Input Fields & Selectors */
+.text-field {
+    -fx-background-color: #2D2D2D;
+    -fx-background-radius: 6px;
+    -fx-border-color: #555555;
+    -fx-border-radius: 6px;
+    -fx-padding: 6px 10px;
+    -fx-text-fill: #E0E0E0;
+}
+
+.text-field:focused {
+    -fx-border-color: #7C83E0;
+}
+
+#filePathTextField {
+    -fx-background-color: #252525;
+    -fx-text-fill: #9E9E9E;
+}
+
+.choice-box {
+    -fx-background-color: #2D2D2D;
+    -fx-background-radius: 6px;
+    -fx-border-color: #555555;
+    -fx-border-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.choice-box:hover {
+    -fx-border-color: #7C83E0;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: #2D2D2D;
+    -fx-border-color: #555555;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+/* Sliders */
+.slider .track {
+    -fx-background-color: #555555;
+    -fx-pref-height: 6px;
+    -fx-background-radius: 3px;
+}
+
+.slider .thumb {
+    -fx-background-color: #5C6BC0;
+    -fx-background-radius: 50%;
+    -fx-pref-width: 16px;
+    -fx-pref-height: 16px;
+    -fx-cursor: hand;
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #7C83E0;
+}
+
+.slider .axis {
+    -fx-tick-label-fill: #9E9E9E;
+    -fx-font-size: 11px;
+}

@@ -65,8 +65,8 @@ class LibraryTest {
 
     @Test
     void searchReturnsMatchingAudiobook() {
-        library.addAudiobook(new Audiobook("The Hobbit"));
-        library.addAudiobook(new Audiobook("Dune"));
+        library.addAudiobook(new Audiobook("The Hobbit", null));
+        library.addAudiobook(new Audiobook("Dune", null));
 
         List<Audiobook> result = library.search("Hobbit");
 
@@ -76,7 +76,7 @@ class LibraryTest {
 
     @Test
     void searchNoMatchReturnsEmptyList() {
-        library.addAudiobook(new Audiobook("The Hobbit"));
+        library.addAudiobook(new Audiobook("The Hobbit", null));
 
         List<Audiobook> result = library.search("xyz");
 
@@ -85,8 +85,8 @@ class LibraryTest {
 
     @Test
     void searchEmptyQueryReturnsAll() {
-        library.addAudiobook(new Audiobook("The Hobbit"));
-        library.addAudiobook(new Audiobook("Dune"));
+        library.addAudiobook(new Audiobook("The Hobbit", null));
+        library.addAudiobook(new Audiobook("Dune", null));
 
         List<Audiobook> result = library.search("");
 

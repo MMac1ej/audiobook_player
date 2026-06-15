@@ -21,8 +21,8 @@ public class PlayerViewController {
 
     private final AudioPlayer audioPlayer;
     private final ProgressStore progressStore;
+    private final TimestampStore timestampStore;
     private final SleepTimer sleepTimer;
-    private Runnable onBack;
     private Audiobook currentBook;
     private int currentEpisodeIndex = -1;
     private boolean isSeeking = false;
@@ -31,6 +31,8 @@ public class PlayerViewController {
     private Timeline progressTimeline;
     private long sleepStartTime;
     private long sleepTotalSeconds;
+    private final Settings settings = Settings.getInstance();
+    private Runnable onBack;
 
     @FXML private Button backButton;
     @FXML private Label episodeTitleLabel;
@@ -55,10 +57,13 @@ public class PlayerViewController {
      *
      * @param audioPlayer the audio playback engine
      * @param progressStore the store for persisting playback progress
+     * @param timestampStore the store for persisting audiobook timestamp
      */
-    public PlayerViewController(AudioPlayer audioPlayer, ProgressStore progressStore) {
+    public PlayerViewController(
+            AudioPlayer audioPlayer, ProgressStore progressStore, TimestampStore timestampStore) {
         this.audioPlayer = audioPlayer;
         this.progressStore = progressStore;
+        this.timestampStore = timestampStore;
         this.sleepTimer = new SleepTimer(() -> Platform.runLater(() -> {
             audioPlayer.pause();
             saveProgress();
@@ -81,7 +86,7 @@ public class PlayerViewController {
      */
     public void loadDefaultBook() throws IOException {
         Library library = new Library();
-        library.loadFromFolder(Library.DEFAULT_FOLDER);
+        library.loadFromFolder(settings.getAudiobookFolderPath());
         if (!library.getAudiobooks().isEmpty()) {
             setBook(library.getAudiobooks().get(0));
         }
@@ -93,8 +98,23 @@ public class PlayerViewController {
      * @param book the audiobook to load
      */
     public void setBook(Audiobook book) {
+        setBook(book, 0);
+    }
+
+    /**
+     * Sets the audiobook and the starting episode index.
+     *
+     * @param book the audiobook to load
+     * @param episodeIndex the index of the episode to start from
+     */
+    public void setBook(Audiobook book, int episodeIndex) {
         this.currentBook = book;
-        this.currentEpisodeIndex = (book != null && book.getEpisodeCount() > 0) ? 0 : -1;
+        this.currentEpisodeIndex = (book != null && book.getEpisodeCount() > 0)
+                ? episodeIndex : -1;
+
+        if (book != null && book.getPath() != null) {
+            this.timestampStore.saveTimestamp(book.getPath().toString());
+        }
     }
 
     /**
@@ -111,7 +131,7 @@ public class PlayerViewController {
             loadEpisode(currentEpisodeIndex);
         }
         updateNavButtons();
-        return new Scene(root, 900, 650);
+        return new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
     }
 
     @FXML
@@ -179,7 +199,6 @@ public class PlayerViewController {
         wireSpeedButtons();
     }
 
-    // introduced... because of chekstyle 
     private void wireSpeedButtons() {
         speed05Button.setOnAction(e -> audioPlayer.setSpeed(0.5));
         speed10Button.setOnAction(e -> audioPlayer.setSpeed(1.0));

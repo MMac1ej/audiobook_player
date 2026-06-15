@@ -27,7 +27,6 @@ public class App extends Application {
     // please note that this is still temporary way of starting the app
     @Override
     public void start(Stage stage) {
-        library = new Library();
         showMainView(stage);
     }
 

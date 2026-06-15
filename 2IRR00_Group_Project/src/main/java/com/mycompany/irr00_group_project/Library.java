@@ -33,6 +33,7 @@ public class Library {
      * @throws IOException if the folder cannot be read
      */
     public void loadFromFolder(Path folder) throws IOException {
+        audiobooks.clear();
         try (Stream<Path> dirs = Files.list(folder)) {
             dirs.filter(Files::isDirectory).forEach(this::loadAudiobook);
         }

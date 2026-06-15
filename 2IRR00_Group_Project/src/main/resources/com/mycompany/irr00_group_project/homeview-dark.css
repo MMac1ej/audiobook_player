@@ -51,6 +51,7 @@
 .hview-recent-list {
     -fx-background-color: #2D2D2D;
     -fx-border-color: #555555;
+    -fx-text-fill: white;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
     -fx-padding: 4;
@@ -59,17 +60,17 @@
 
 .hview-recent-list .list-cell {
     -fx-background-color: transparent;
-    -fx-text-fill: #424242;
+    -fx-text-fill: white;
     -fx-font-size: 13px;
     -fx-padding: 10 14;
 }
 
 .hview-recent-list .list-cell:odd {
-    -fx-background-color: white;
+    -fx-background-color: #515151;
 }
 
 .hview-recent-list .list-cell:selected {
-    -fx-background-color: #e8eaf6;
+    -fx-background-color: #49484d;
     -fx-text-fill: #3f51b5;
     -fx-font-weight: bold;
 }

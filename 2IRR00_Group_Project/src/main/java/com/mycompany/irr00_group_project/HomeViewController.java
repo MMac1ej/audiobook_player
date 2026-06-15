@@ -22,7 +22,6 @@ public class HomeViewController {
     Stage stage;
     private TimestampStore tsStore;
     private Library library;
-    private Homeview homeview = new Homeview();
     
     /**
      * Sets the stage, so we can pass it along from App.

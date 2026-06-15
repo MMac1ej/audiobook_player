@@ -1,0 +1,101 @@
+/* ── Root ─────────────────────────────────────────────────── */
+.hview-root {
+    -fx-background-color: #1E1E1E;
+    -fx-padding: 32 40 32 40;
+    -fx-spacing: 24;
+    -fx-alignment: top-center;
+}
+
+/* ── Welcome header ──────────────────────────────────────── */
+.hview-welcome-text {
+    -fx-fill: #9FA8DA;
+    -fx-font-size: 40px;
+    -fx-font-weight: bold;
+}
+
+/* ── Button row ──────────────────────────────────────────── */
+.hview-button-row {
+    -fx-spacing: 16;
+    -fx-alignment: center;
+}
+
+.hview-nav-button {
+    -fx-background-color: #5C6BC0;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 8;
+    -fx-min-width: 140px;
+    -fx-min-height: 44px;
+    -fx-max-height: 44px;
+}
+
+.hview-nav-button:hover {
+    -fx-background-color: #4A5AB0;
+    -fx-effect: dropshadow(gaussian, rgba(92,107,192,0.4), 8, 0, 0, 2);
+}
+
+.hview-nav-button:pressed {
+    -fx-background-color: #3f51b5;
+}
+
+/* ── Section label ───────────────────────────────────────── */
+.hview-section-label {
+    -fx-text-fill: #757575;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* ── Recently Played list ────────────────────────────────── */
+.hview-recent-list {
+    -fx-background-color: #2D2D2D;
+    -fx-border-color: #555555;
+    -fx-text-fill: white;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 8, 0, 0, 2);
+}
+
+.hview-recent-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 10 14;
+}
+
+.hview-recent-list .list-cell:odd {
+    -fx-background-color: #515151;
+}
+
+.hview-recent-list .list-cell:selected {
+    -fx-background-color: #49484d;
+    -fx-text-fill: #3f51b5;
+    -fx-font-weight: bold;
+}
+
+.hview-recent-list .list-cell:empty {
+    -fx-background-color: transparent;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+.hview-recent-list .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 8;
+}
+
+.hview-recent-list .scroll-bar:vertical .thumb {
+    -fx-background-color: #bdbdbd;
+    -fx-background-radius: 4;
+}
+
+.hview-recent-list .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.hview-recent-list .scroll-bar:vertical .increment-button,
+.hview-recent-list .scroll-bar:vertical .decrement-button {
+    -fx-pref-height: 0;
+    -fx-opacity: 0;
+}

@@ -33,6 +33,7 @@ public class Library {
      * @throws IOException if the folder cannot be read
      */
     public void loadFromFolder(Path folder) throws IOException {
+        audiobooks.clear();
         try (Stream<Path> dirs = Files.list(folder)) {
             dirs.filter(Files::isDirectory).forEach(this::loadAudiobook);
         }
@@ -102,6 +103,21 @@ public class Library {
             }
         }
         return Collections.unmodifiableList(result);
+    }
+
+    /**
+     * Return the correct audiobook when given the path as a string.
+     * 
+     * @param path the path in String form
+     * @return the corresponding audiobook
+     */
+    public Audiobook findAudiobookByPathString(String path) {
+        for (Audiobook audiobook : getAudiobooks()) {
+            if (audiobook.getPath().toString().equals(path)) {
+                return audiobook;
+            }
+        }
+        return null;
     }
 
 }

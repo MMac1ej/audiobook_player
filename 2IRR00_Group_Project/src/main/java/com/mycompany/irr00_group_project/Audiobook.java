@@ -28,6 +28,11 @@ public class Audiobook {
         return title;
     }
 
+    @Override
+    public String toString() {
+        return getTitle();
+    }
+
     /**
      * Adds an episode to the end of this audiobook.
      *

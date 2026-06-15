@@ -6,8 +6,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -15,41 +13,53 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
-    AudioPlayer audioPlayer = new AudioPlayer();
-    ProgressStore progressStore = new ProgressStore();
-    TimestampStore timestampStore = new TimestampStore();
-    Library library = new Library();
+    private final TimestampStore timestampStore = new TimestampStore();
+    private final Library library = new Library();
+    private final HomeViewController hvController = new HomeViewController();
+    private final ProgressStore progressStore = new ProgressStore();
+    private final AudioPlayer audioPlayer = new AudioPlayer();
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    // please note that this is still temporary way of starting the app
+    /**
+     * This sets up the screen.
+     * Throws IOException if FXML file doesn't load.
+     */
     @Override
     public void start(Stage stage) {
-        showMainView(stage);
+        try {
+            library.loadFromFolder(Settings.getInstance().getAudiobookFolderPath());
+        } catch (IOException e) {
+            System.err.println("No Audiobooks found! Try changing the file path.");
+        } finally {
+            showMainView(stage);
+        }
     }
 
     private void showMainView(Stage stage) {
-        Button playerBtn = new Button("Open Player");
-        Button episodesBtn = new Button("Browse Episodes");
-        Button overviewBtn = new Button("Audiobook Overview");
-        Button settingsBtn = new Button("Settings");
-
-        playerBtn.setOnAction(e -> startPlayer(stage));
-        episodesBtn.setOnAction(e -> startEpisodesView(stage));
-        overviewBtn.setOnAction(e -> startAudiobookOverview(stage));
-        settingsBtn.setOnAction(e -> startSettings(stage));
-
-        VBox root = new VBox(20, playerBtn, episodesBtn, overviewBtn, settingsBtn);
-        root.setStyle("-fx-alignment: center; -fx-padding: 40;");
-        stage.setScene(new Scene(
-                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
-        stage.setTitle("Audiobook Player");
-        stage.show();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "/com/mycompany/irr00_group_project/homeview.fxml"));
+            loader.setController(hvController);
+            setHvControllerProperties(hvController, stage);
+            Parent root = loader.load();
+            Scene scene = new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, 
+                Constants.DEFAULT_WINDOW_HEIGHT);
+            stage.setScene(scene);
+            stage.setTitle("Audiobook Player");
+            stage.setMinWidth(Constants.MIN_WINDOW_WIDTH);
+            stage.setMinHeight(Constants.MIN_WINDOW_HEIGHT);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println(
+                "Error: Could not load the FXML file. Check your file path and location!");
+            e.printStackTrace();
+        }
     }
 
-    private void startEpisodesView(Stage stage) {
+    public void startEpisodesView(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/com/mycompany/irr00_group_project/EpisodesView.fxml"));
@@ -82,8 +92,11 @@ public class App extends Application {
         }
     }
 
-    private void startPlayer(Stage stage) {
+    public void startPlayer(Stage stage) {
         try {
+            AudioPlayer audioPlayer = new AudioPlayer();
+            ProgressStore progressStore = new ProgressStore();
+            TimestampStore timestampStore = new TimestampStore();
             PlayerViewController controller =
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(() -> showMainView(stage));
@@ -98,10 +111,29 @@ public class App extends Application {
     }
 
     /**
+     * This method open the PlayerView, given we have a certain audiobook that needs to be loaded.
+     * @param stage is current stage
+     * @param audi is audiobook that needs to be played
+     */
+    public void startPlayerWithAudiobook(Stage stage, Audiobook audi) {
+        try {
+            PlayerViewController controller =
+                    new PlayerViewController(audioPlayer, progressStore, timestampStore);
+            controller.setOnBack(() -> showMainView(stage));
+            controller.setBook(audi);
+            stage.setScene(controller.buildScene());
+            stage.setTitle("Audiobook Player");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Starts the settings view in the given stage.
      * @param stage the stage to display the settings view in
      */
-    private void startSettings(Stage stage) {
+    public void startSettings(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "/com/mycompany/irr00_group_project/settings.fxml"));
@@ -119,12 +151,19 @@ public class App extends Application {
             e.printStackTrace();
         }
     }
+
+    private void setHvControllerProperties(HomeViewController hvController, Stage stage) {
+        hvController.setApp(this);
+        hvController.setStage(stage);
+        hvController.setTimestampStore(timestampStore);
+        hvController.setLibrary(library);
+    }
     
      /**
      * Starts the audiobook overview in the given stage.
      * @param stage the stage to display the settings view in
      */
-    private void startAudiobookOverview(Stage stage) {
+    public void startAudiobookOverview(Stage stage) {
         AudiobookOverview bookOverview = new AudiobookOverview(
                 () -> showMainView(stage), library, true);
         bookOverview.loadAudiobookOverview(stage);

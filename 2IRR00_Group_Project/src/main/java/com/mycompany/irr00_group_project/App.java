@@ -8,7 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/** Entry point for the Audiobook Player application. */
+/**
+ * Entry point for the Audiobook Player application.
+ */
 public class App extends Application {
 
     private final TimestampStore timestampStore = new TimestampStore();
@@ -57,10 +59,44 @@ public class App extends Application {
         }
     }
 
+    private void startEpisodesView(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/com/mycompany/irr00_group_project/EpisodesView.fxml"));
+            Parent root = loader.load();
+            EpisodesViewController controller = loader.getController();
+            controller.setOnBack(() -> showMainView(stage));
+            controller.setOnEpisodeSelected((book, index) ->
+                    startPlayerWithEpisode(stage, book, index));
+            stage.setScene(new Scene(
+                    root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+            stage.setTitle("Audiobook Player - Episodes");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startPlayerWithEpisode(Stage stage, Audiobook book, int episodeIndex) {
+        try {
+            PlayerViewController controller =
+                    new PlayerViewController(audioPlayer, progressStore, timestampStore);
+            controller.setOnBack(() -> startEpisodesView(stage));
+            controller.setBook(book, episodeIndex);
+
+            stage.setScene(controller.buildScene());
+            stage.setTitle("Audiobook Player");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void startPlayer(Stage stage) {
         try {
             AudioPlayer audioPlayer = new AudioPlayer();
             ProgressStore progressStore = new ProgressStore();
+            TimestampStore timestampStore = new TimestampStore();
             PlayerViewController controller =
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(() -> showMainView(stage));
@@ -121,5 +157,16 @@ public class App extends Application {
         hvController.setStage(stage);
         hvController.setTimestampStore(timestampStore);
         hvController.setLibrary(library);
+    }
+    
+     /**
+     * Starts the audiobook overview in the given stage.
+     * @param stage the stage to display the settings view in
+     */
+    private void startAudiobookOverview(Stage stage) {
+        AudiobookOverview bookOverview = new AudiobookOverview(
+                () -> showMainView(stage), library, true);
+        bookOverview.loadAudiobookOverview(stage);
+
     }
 }

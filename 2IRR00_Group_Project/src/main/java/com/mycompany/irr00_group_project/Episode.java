@@ -1,13 +1,15 @@
 package com.mycompany.irr00_group_project;
 
 import java.nio.file.Path;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
 
 /** Represents a single audio file episode within an audiobook. */
 public class Episode {
 
     private final String title;
     private final Path filePath;
-    private long durationSeconds;
+    private final LongProperty durationSeconds = new SimpleLongProperty(0);
     private long progressSeconds;
 
     /**
@@ -19,7 +21,6 @@ public class Episode {
     public Episode(String title, Path filePath) {
         this.title = title;
         this.filePath = filePath;
-        this.durationSeconds = 0;
         this.progressSeconds = 0;
     }
 
@@ -35,6 +36,11 @@ public class Episode {
 
     /** Returns the total duration of this episode in seconds. */
     public long getDuration() {
+        return durationSeconds.get();
+    }
+
+    /** Returns the duration property (for UI binding). */
+    public LongProperty durationProperty() {
         return durationSeconds;
     }
 
@@ -53,7 +59,7 @@ public class Episode {
         if (seconds < 0) {
             throw new IllegalArgumentException("Duration cannot be negative: " + seconds);
         }
-        this.durationSeconds = seconds;
+        durationSeconds.set(seconds);
     }
 
     /**
@@ -66,12 +72,64 @@ public class Episode {
         if (seconds < 0) {
             throw new IllegalArgumentException("Progress cannot be negative: " + seconds);
         }
-        if (seconds > durationSeconds) {
+        if (durationSeconds.get() > 0 && seconds > durationSeconds.get()) {
             throw new IllegalArgumentException(
-                "Progress " + seconds + " exceeds duration " + durationSeconds
+                "Progress " + seconds + " exceeds duration " + durationSeconds.get()
             );
         }
         this.progressSeconds = seconds;
+    }
+    
+    /** Returns a short human-readable duration string, e.g. "1h 23m 45s". */
+    public String getFormattedDuration() {
+        long total = durationSeconds.get();
+        if (total < 1) {
+            return "Loading...";
+        }
+        long seconds = total % 60;
+        long minutes = (total / 60) % 60;
+        long hours = (total / 3600) % 24;
+        long days = total / 86400;
+        if (days > 0) {
+            return String.format("%dd %dh %dm %ds", days, hours, minutes, seconds);
+        } else if (hours > 0) {
+            return String.format("%dh %dm %ds", hours, minutes, seconds);
+        } else if (minutes > 0) {
+            return String.format("%dm %ds", minutes, seconds);
+        } else {
+            return String.format("%ds", seconds);
+        }
+    }
+
+    /**
+     * implements toString.
+     * @return title of episode
+     */
+    @Override
+    public String toString() {
+        long total = durationSeconds.get();
+        if (total < 1) {
+            return title + " Duration 0 seconds";
+        }
+
+        long seconds = total % 60;
+        long minutes = (total / 60) % 60;
+        long hours = (total / 3600) % 24;
+        long days = total / 86400;
+
+        String duration;
+        if (days > 0) {
+            duration = String.format(
+                "%d days %d hours %d minutes %d seconds", days, hours, minutes, seconds);
+        } else if (hours > 0) {
+            duration = String.format("%d hours %d minutes %d seconds", hours, minutes, seconds);
+        } else if (minutes > 0) {
+            duration = String.format("%d minutes %d seconds", minutes, seconds);
+        } else {
+            duration = String.format("%d seconds", seconds);
+        }
+
+        return title + " Duration " + duration;
     }
 
 }

@@ -23,7 +23,6 @@ public class PlayerViewController {
     private final ProgressStore progressStore;
     private final TimestampStore timestampStore;
     private final SleepTimer sleepTimer;
-    private Runnable onBack;
     private Audiobook currentBook;
     private int currentEpisodeIndex = -1;
     private boolean isSeeking = false;
@@ -33,6 +32,7 @@ public class PlayerViewController {
     private long sleepStartTime;
     private long sleepTotalSeconds;
     private final Settings settings = Settings.getInstance();
+    private Runnable onBack;
 
     @FXML private Button backButton;
     @FXML private Label episodeTitleLabel;
@@ -98,8 +98,19 @@ public class PlayerViewController {
      * @param book the audiobook to load
      */
     public void setBook(Audiobook book) {
+        setBook(book, 0);
+    }
+
+    /**
+     * Sets the audiobook and the starting episode index.
+     *
+     * @param book the audiobook to load
+     * @param episodeIndex the index of the episode to start from
+     */
+    public void setBook(Audiobook book, int episodeIndex) {
         this.currentBook = book;
-        this.currentEpisodeIndex = (book != null && book.getEpisodeCount() > 0) ? 0 : -1;
+        this.currentEpisodeIndex = (book != null && book.getEpisodeCount() > 0)
+                ? episodeIndex : -1;
 
         if (book != null && book.getPath() != null) {
             this.timestampStore.saveTimestamp(book.getPath().toString());

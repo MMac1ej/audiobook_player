@@ -13,7 +13,6 @@ public final class Constants {
      */
     public static final int MIN_FONT_SIZE = 14;
     public static final int MAX_FONT_SIZE = 28;
-    public static final Theme DEFAULT_THEME = Theme.LIGHT;
     public static final int DEFAULT_FONT_SIZE = 16;
     public static final Path DEFAULT_AUDIOBOOK_FOLDER = Paths.get(
         System.getProperty("user.home"), "Audiobooks");
@@ -28,7 +27,22 @@ public final class Constants {
         "-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
     public static final String RESET_SUCCESS_MESSAGE = (
         "Settings reset to defaults. Click 'Save Settings' to apply.");
+    public static final String SEARCH_PROMPT = "Search your preferred audiobook";
     public static final int STATUS_MESSAGE_DURATION_SECONDS = 6;
+
+    /* CSS styles for themes in settings — must be initialized before DEFAULT_THEME
+       to avoid null cssPath values in the Theme enum */
+    public static final String STYLE_SETTINGS_LIGHT = (
+        Constants.class.getResource(
+            "/com/mycompany/irr00_group_project/settings-light.css").toExternalForm());
+    public static final String STYLE_SETTINGS_DARK = (
+        Constants.class.getResource(
+            "/com/mycompany/irr00_group_project/settings-dark.css").toExternalForm());
+    public static final String STYLE_SETTINGS_HIGH_CONTRAST = (
+        Constants.class.getResource(
+            "/com/mycompany/irr00_group_project/settings-high-contrast.css").toExternalForm());
+
+    public static final Theme DEFAULT_THEME = Theme.LIGHT;
 
     /** Keys used in the properties file. */
     public static final String KEY_FOLDER = "audiobookFolderPath";

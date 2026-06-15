@@ -63,6 +63,12 @@ public class HomeViewController {
     @FXML
     private Button libraryButton;
 
+    @FXML
+    private Button episodesButton;
+    
+    @FXML
+    private Button playerButton;
+
     /**
      * This will run once, to load the recently listened to audiobooks.
      */
@@ -126,7 +132,25 @@ public class HomeViewController {
      */
     @FXML
     void handleOpenLibrary(ActionEvent event) {
-        //open the library
+        app.startAudiobookOverview(stage);
+    }
+
+     /**
+     * This opens the episode view when the episodesButton has been pressed.
+     * @param event is when the button has been pressed.
+     */
+    @FXML
+    void handleOpenEpisodes(ActionEvent event) {
+        app.startEpisodesView(stage);
+    }
+
+    /**
+     * This opens the player when the playerButton has been pressed.
+     * @param event is when the button has been pressed.
+     */
+    @FXML
+    void handleOpenPlayer(ActionEvent event) {
+        app.startPlayer(stage);
     }
 
     /**

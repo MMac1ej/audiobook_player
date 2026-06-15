@@ -59,7 +59,7 @@ public class App extends Application {
         }
     }
 
-    private void startEpisodesView(Stage stage) {
+    public void startEpisodesView(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/com/mycompany/irr00_group_project/EpisodesView.fxml"));
@@ -92,7 +92,7 @@ public class App extends Application {
         }
     }
 
-    private void startPlayer(Stage stage) {
+    public void startPlayer(Stage stage) {
         try {
             AudioPlayer audioPlayer = new AudioPlayer();
             ProgressStore progressStore = new ProgressStore();
@@ -163,7 +163,7 @@ public class App extends Application {
      * Starts the audiobook overview in the given stage.
      * @param stage the stage to display the settings view in
      */
-    private void startAudiobookOverview(Stage stage) {
+    public void startAudiobookOverview(Stage stage) {
         AudiobookOverview bookOverview = new AudiobookOverview(
                 () -> showMainView(stage), library, true);
         bookOverview.loadAudiobookOverview(stage);

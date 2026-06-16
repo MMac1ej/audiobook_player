@@ -205,8 +205,7 @@ public class SettingsController {
 
     /**
      * Handles the action for the exit settings button.
-     * TODO: Returns to the main application window without saving changes.
-     * Needs HomeView to be implemented.
+     * Returns to the main application window without saving changes.
      * @param event the action event
      */
     @FXML

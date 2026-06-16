@@ -102,9 +102,6 @@ public class App extends Application {
      */
     public void startPlayer(Stage stage) {
         try {
-            AudioPlayer audioPlayer = new AudioPlayer();
-            ProgressStore progressStore = new ProgressStore();
-            TimestampStore timestampStore = new TimestampStore();
             PlayerViewController controller =
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(() -> showMainView(stage));

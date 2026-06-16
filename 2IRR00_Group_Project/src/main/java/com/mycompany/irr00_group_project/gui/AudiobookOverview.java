@@ -21,6 +21,12 @@ public class AudiobookOverview {
     private Consumer<Audiobook> onAudiobookSelected;
     private List<Audiobook> currentAudiobooks = List.of();
 
+    /** Called automatically by FXMLLoader after @FXML fields are injected. */
+    @FXML
+    public void initialize() {
+        searchBar.textProperty().addListener((obs, oldVal, newVal) -> search(newVal));
+    }
+
     /** Sets the callback invoked when the user presses the back button. */
     public void setOnBack(Runnable callback) {
         this.onBack = callback;

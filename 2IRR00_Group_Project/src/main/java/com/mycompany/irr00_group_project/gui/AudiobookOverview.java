@@ -62,7 +62,15 @@ public class AudiobookOverview {
         }
         Scene scene = new Scene(root,
                 Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
-        String cssPath = "/com/mycompany/irr00_group_project/AudiobookOverview.css";
+        Theme theme = Settings.getInstance().getTheme();
+        String cssPath = switch (theme) {
+            case DARK ->
+                "/com/mycompany/irr00_group_project/AudiobookOverview-dark.css";
+            case HIGH_CONTRAST ->
+                "/com/mycompany/irr00_group_project/AudiobookOverview-high-contrast.css";
+            default ->
+                "/com/mycompany/irr00_group_project/AudiobookOverview.css";
+        };
         if (getClass().getResource(cssPath) != null) {
             scene.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }

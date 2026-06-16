@@ -125,8 +125,13 @@ public class PlayerViewController {
      * @throws IOException if the FXML file cannot be loaded
      */
     public Scene buildScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(
-            getClass().getResource("/com/mycompany/irr00_group_project/PlayerView.fxml"));
+        String fxml = switch (settings.getTheme()) {
+            case DARK -> "/com/mycompany/irr00_group_project/PlayerViewDark.fxml";
+            case HIGH_CONTRAST ->
+                "/com/mycompany/irr00_group_project/PlayerViewHighContrast.fxml";
+            default -> "/com/mycompany/irr00_group_project/PlayerView.fxml";
+        };
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         loader.setController(this);
         VBox root = loader.load();
         if (currentBook != null && currentEpisodeIndex >= 0) {

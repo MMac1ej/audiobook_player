@@ -48,6 +48,8 @@ public class App extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root, Constants.DEFAULT_WINDOW_WIDTH,
                 Constants.DEFAULT_WINDOW_HEIGHT);
+            scene.getStylesheets().add(
+                getViewCssUrl("homeview", Settings.getInstance().getTheme()));
             stage.setScene(scene);
             stage.setTitle("Audiobook Player");
             stage.setMinWidth(Constants.MIN_WINDOW_WIDTH);
@@ -73,8 +75,11 @@ public class App extends Application {
             controller.setOnBack(() -> showMainView(stage));
             controller.setOnEpisodeSelected((book, index) ->
                     startPlayerWithEpisode(stage, book, index));
-            stage.setScene(new Scene(
-                    root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+            Scene episodesScene = new Scene(
+                    root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
+            episodesScene.getStylesheets().add(
+                getViewCssUrl("EpisodesView", Settings.getInstance().getTheme()));
+            stage.setScene(episodesScene);
             stage.setTitle("Audiobook Player - Episodes");
             stage.show();
         } catch (IOException e) {
@@ -159,6 +164,16 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getViewCssUrl(String baseName, Theme theme) {
+        String suffix = switch (theme) {
+            case DARK -> "-dark";
+            case HIGH_CONTRAST -> "-high-contrast";
+            default -> baseName.equals("homeview") ? "-light" : "";
+        };
+        String file = "/com/mycompany/irr00_group_project/" + baseName + suffix + ".css";
+        return getClass().getResource(file).toExternalForm();
     }
 
     private void setHvControllerProperties(HomeViewController hvController, Stage stage) {

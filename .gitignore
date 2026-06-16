@@ -27,4 +27,4 @@ replay_pid*
 # Other
 .vscode
 nbactions.xml
-
+*.pdf

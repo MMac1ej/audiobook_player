@@ -1,0 +1,158 @@
+/* ── Root ──────────────────────────────────────────────────── */
+.player-root {
+    -fx-background-color: #000000;
+}
+
+/* ── Cards ─────────────────────────────────────────────────── */
+.player-card {
+    -fx-background-color: #111111;
+    -fx-background-radius: 14;
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+}
+
+.player-sleep-card {
+    -fx-background-color: #111111;
+    -fx-background-radius: 14;
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+}
+
+/* ── Back button ───────────────────────────────────────────── */
+.player-back-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFFF00;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 4 12 4 0;
+    -fx-border-color: transparent;
+    -fx-background-radius: 6;
+}
+.player-back-btn:hover {
+    -fx-background-color: rgba(255, 255, 0, 0.1);
+}
+
+/* ── Episode title labels ──────────────────────────────────── */
+.player-now-playing-label {
+    -fx-text-fill: #FFFF00;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.player-episode-title {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}
+
+/* ── Sliders ───────────────────────────────────────────────── */
+.player-accent-slider {
+    -fx-accent: #FFFF00;
+}
+
+/* ── Time label ────────────────────────────────────────────── */
+.player-time-label {
+    -fx-text-fill: #CCCCCC;
+    -fx-font-size: 12px;
+}
+
+/* ── Round control buttons (prev, stop, next) ──────────────── */
+.player-ctrl-round {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 17px;
+    -fx-cursor: hand;
+    -fx-background-radius: 50%;
+    -fx-min-width: 44px;
+    -fx-min-height: 44px;
+    -fx-max-width: 44px;
+    -fx-max-height: 44px;
+    -fx-border-color: transparent;
+    -fx-padding: 8 14;
+}
+.player-ctrl-round:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Play/pause button ─────────────────────────────────────── */
+.player-play-btn {
+    -fx-background-color: #FFFF00;
+    -fx-text-fill: #000000;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 50%;
+    -fx-min-width: 64px;
+    -fx-min-height: 64px;
+    -fx-max-width: 64px;
+    -fx-max-height: 64px;
+}
+.player-play-btn:hover {
+    -fx-background-color: #E6E600;
+}
+
+/* ── Section labels (Speed, Volume, Sleep timer, min) ──────── */
+.player-section-label {
+    -fx-text-fill: #CCCCCC;
+    -fx-font-size: 13px;
+}
+
+/* ── Speed toggle buttons ──────────────────────────────────── */
+.player-speed-btn {
+    -fx-background-color: #1A1A1A;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 20;
+    -fx-padding: 5 14;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 1;
+    -fx-border-radius: 20;
+}
+.player-speed-btn:hover {
+    -fx-background-color: #333333;
+}
+.player-speed-btn:selected {
+    -fx-background-color: #FFFF00;
+    -fx-text-fill: #000000;
+    -fx-border-color: #FFFF00;
+}
+
+/* ── Volume range labels (0%, 100%) ────────────────────────── */
+.player-volume-range-label {
+    -fx-text-fill: #CCCCCC;
+    -fx-font-size: 11px;
+}
+
+/* ── Sleep timer button ────────────────────────────────────── */
+.player-sleep-btn {
+    -fx-background-color: #1A1A1A;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 5 16;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 1;
+}
+.player-sleep-btn:hover {
+    -fx-background-color: #333333;
+}
+
+/* ── Spinner ───────────────────────────────────────────────── */
+.player-spinner {
+    -fx-font-size: 13px;
+}
+
+/* ── Sleep counter label ───────────────────────────────────── */
+.player-sleep-counter {
+    -fx-text-fill: #FFFF00;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}

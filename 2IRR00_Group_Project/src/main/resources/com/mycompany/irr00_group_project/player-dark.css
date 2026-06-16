@@ -1,0 +1,146 @@
+/* ── Root ──────────────────────────────────────────────────── */
+.player-root {
+    -fx-background-color: #16161d;
+}
+
+/* ── Cards ─────────────────────────────────────────────────── */
+.player-card {
+    -fx-background-color: #1f1f2b;
+    -fx-background-radius: 14;
+}
+
+.player-sleep-card {
+    -fx-background-color: #1f1f2b;
+    -fx-background-radius: 14;
+}
+
+/* ── Back button ───────────────────────────────────────────── */
+.player-back-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #9e9e9e;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 4 12 4 0;
+    -fx-border-color: transparent;
+    -fx-background-radius: 6;
+}
+.player-back-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* ── Episode title labels ──────────────────────────────────── */
+.player-now-playing-label {
+    -fx-text-fill: #7c4dff;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.player-episode-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}
+
+/* ── Sliders ───────────────────────────────────────────────── */
+.player-accent-slider {
+    -fx-accent: #7c4dff;
+}
+
+/* ── Time label ────────────────────────────────────────────── */
+.player-time-label {
+    -fx-text-fill: #9e9e9e;
+    -fx-font-size: 12px;
+}
+
+/* ── Round control buttons (prev, stop, next) ──────────────── */
+.player-ctrl-round {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cccccc;
+    -fx-font-size: 17px;
+    -fx-cursor: hand;
+    -fx-background-radius: 50%;
+    -fx-min-width: 44px;
+    -fx-min-height: 44px;
+    -fx-max-width: 44px;
+    -fx-max-height: 44px;
+    -fx-border-color: transparent;
+    -fx-padding: 8 14;
+}
+.player-ctrl-round:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Play/pause button ─────────────────────────────────────── */
+.player-play-btn {
+    -fx-background-color: #7c4dff;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 50%;
+    -fx-min-width: 64px;
+    -fx-min-height: 64px;
+    -fx-max-width: 64px;
+    -fx-max-height: 64px;
+}
+.player-play-btn:hover {
+    -fx-background-color: #6a3de8;
+}
+
+/* ── Section labels (Speed, Volume, Sleep timer, min) ──────── */
+.player-section-label {
+    -fx-text-fill: #9e9e9e;
+    -fx-font-size: 13px;
+}
+
+/* ── Speed toggle buttons ──────────────────────────────────── */
+.player-speed-btn {
+    -fx-background-color: #2d2d3f;
+    -fx-text-fill: #cccccc;
+    -fx-background-radius: 20;
+    -fx-padding: 5 14;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+.player-speed-btn:hover {
+    -fx-background-color: #3d3d50;
+}
+.player-speed-btn:selected {
+    -fx-background-color: #7c4dff;
+    -fx-text-fill: white;
+}
+
+/* ── Volume range labels (0%, 100%) ────────────────────────── */
+.player-volume-range-label {
+    -fx-text-fill: #9e9e9e;
+    -fx-font-size: 11px;
+}
+
+/* ── Sleep timer button ────────────────────────────────────── */
+.player-sleep-btn {
+    -fx-background-color: #2d2d3f;
+    -fx-text-fill: #cccccc;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 5 16;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+.player-sleep-btn:hover {
+    -fx-background-color: #3d3d50;
+}
+
+/* ── Spinner ───────────────────────────────────────────────── */
+.player-spinner {
+    -fx-font-size: 13px;
+}
+
+/* ── Sleep counter label ───────────────────────────────────── */
+.player-sleep-counter {
+    -fx-text-fill: #7c4dff;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}

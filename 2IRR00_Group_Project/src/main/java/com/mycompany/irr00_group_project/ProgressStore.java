@@ -2,9 +2,7 @@ package com.mycompany.irr00_group_project;
 
 import java.nio.file.Path;
 
-/** Persists episode playback progress to a properties file on disk.
- *  NEVER create more than one instance of ProgressStore!
-*/
+/** Persists episode playback progress to a properties file on disk. */
 public class ProgressStore extends PropertiesStore {
 
     /** Creates a ProgressStore using the default file location. */

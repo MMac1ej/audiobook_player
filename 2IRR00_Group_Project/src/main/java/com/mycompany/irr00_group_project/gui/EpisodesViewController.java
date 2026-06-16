@@ -44,6 +44,14 @@ public class EpisodesViewController {
         this.onEpisodeSelected = callback;
     }
 
+    /**
+     * Sets which audiobook to display in the episode list.
+     * @param book the audiobook whose episodes should be shown
+     */
+    public void setAudiobook(Audiobook book) {
+        episodesView.setAudiobook(book);
+    }
+
     /** Navigates back to the main view. */
     @FXML
     public void handleBack(ActionEvent event) {

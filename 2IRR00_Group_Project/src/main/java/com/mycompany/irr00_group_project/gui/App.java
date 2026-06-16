@@ -65,14 +65,26 @@ public class App extends Application {
      * @param stage the stage to display the episodes view in
      */
     public void startEpisodesView(Stage stage) {
+        startEpisodesView(stage, null);
+    }
+
+    /**
+     * Starts the episodes view for a specific audiobook.
+     * @param stage the stage to display the episodes view in
+     * @param book the audiobook to show episodes for, or null to show default folder
+     */
+    public void startEpisodesView(Stage stage, Audiobook book) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/com/mycompany/irr00_group_project/EpisodesView.fxml"));
             Parent root = loader.load();
             EpisodesViewController controller = loader.getController();
+            if (book != null) {
+                controller.setAudiobook(book);
+            }
             controller.setOnBack(() -> showMainView(stage));
-            controller.setOnEpisodeSelected((book, index) ->
-                    startPlayerWithEpisode(stage, book, index));
+            controller.setOnEpisodeSelected((b, index) ->
+                    startPlayerWithEpisode(stage, b, index));
             stage.setScene(new Scene(
                     root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
             stage.setTitle("Audiobook Player - Episodes");
@@ -86,7 +98,7 @@ public class App extends Application {
         try {
             PlayerViewController controller =
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
-            controller.setOnBack(() -> startEpisodesView(stage));
+            controller.setOnBack(() -> startEpisodesView(stage, book));
             controller.setBook(book, episodeIndex);
 
             stage.setScene(controller.buildScene());

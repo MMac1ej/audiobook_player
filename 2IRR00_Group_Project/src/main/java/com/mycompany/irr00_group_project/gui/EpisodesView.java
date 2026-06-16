@@ -3,7 +3,6 @@ package com.mycompany.irr00_group_project.gui;
 import com.mycompany.irr00_group_project.*;
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.Observable;
@@ -108,7 +107,7 @@ public class EpisodesView {
 
             String fileName = file.getName();
             Path filePath = file.toPath();
-            if (isAudioFile(filePath)) {
+            if (Library.isAudioFile(filePath)) {
                 String title = fileName.substring(0, fileName.lastIndexOf('.'));
                 Episode episode = new Episode(title, filePath);
                 audiobook.addEpisode(episode);
@@ -128,14 +127,6 @@ public class EpisodesView {
                 System.err.println("Could not probe duration for: " + uri);
             }
         }
-    }
-
-    private static boolean isAudioFile(Path path) {
-        if (!Files.isRegularFile(path)) {
-            return false;
-        }
-        String name = path.getFileName().toString().toLowerCase();
-        return name.endsWith(".mp3") || name.endsWith(".wav") || name.endsWith(".m4a");
     }
 
     /**

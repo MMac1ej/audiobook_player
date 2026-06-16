@@ -53,7 +53,8 @@ public class Library {
         }
     }
 
-    private static boolean isAudioFile(Path path) {
+    /** Returns true if the path points to a supported audio file (.mp3, .wav, .m4a). */
+    public static boolean isAudioFile(Path path) {
         if (!Files.isRegularFile(path)) {
             return false;
         }

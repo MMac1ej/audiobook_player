@@ -44,7 +44,7 @@ public class Settings {
                 Constants.KEY_FOLDER, Constants.DEFAULT_AUDIOBOOK_FOLDER.toString())));
             setFontSizeInternal(Integer.parseInt(properties.getProperty(
                 Constants.KEY_FONT_SIZE, String.valueOf(Constants.DEFAULT_FONT_SIZE))));
-        } catch (Exception e) {
+        } catch (IOException | NumberFormatException e) {
             // If there's an error reading the config, use defaults
             setDefaults();
         }

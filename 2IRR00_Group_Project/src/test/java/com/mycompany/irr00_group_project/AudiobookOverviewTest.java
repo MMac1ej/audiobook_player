@@ -37,7 +37,7 @@ public class AudiobookOverviewTest {
         library.addAudiobook(new Audiobook("The Hitchhiker's Guide to the Galaxy",
                 Path.of("/tmp/hhgttg")));
 
-        AudiobookOverview overview = new AudiobookOverview(() -> {}, library, false);
+        AudiobookOverview overview = new AudiobookOverview(() -> {}, () -> {}, library, false);
 
         TextField searchBar = new TextField();
         VBox bookHolder = new VBox();
@@ -58,7 +58,7 @@ public class AudiobookOverviewTest {
         library.addAudiobook(new Audiobook("The Hitchhiker's Guide to the Galaxy",
                 Path.of("/tmp/hhgttg")));
 
-        AudiobookOverview overview = new AudiobookOverview(() -> {}, library, false);
+        AudiobookOverview overview = new AudiobookOverview(() -> {}, () -> {}, library, false);
 
         TextField searchBar = new TextField("NonexistingBook.123.456.789. :)");
         VBox bookHolder = new VBox();

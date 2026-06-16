@@ -19,10 +19,13 @@ public class AudiobookOverview {
     private boolean errorMessage = false;
     private VBox error;
     private Runnable onBack;
+    private Runnable onOpenEpisodes;
     
     /** Initialize library instance & load the available current books. */
-    public AudiobookOverview(Runnable onBack, Library library, boolean loadFromFolder) {
+    public AudiobookOverview(Runnable onBack, Runnable onOpenEpisodes,
+            Library library, boolean loadFromFolder) {
         this.onBack = onBack;
+        this.onOpenEpisodes = onOpenEpisodes;
         this.library = library;
         if (loadFromFolder) {
             try {
@@ -129,7 +132,9 @@ public class AudiobookOverview {
             audiobookButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    // got to Episode Page.
+                    if (onOpenEpisodes != null) {
+                        onOpenEpisodes.run();
+                    }
                 }
             });
             bookHolder.getChildren().add(audiobookButton);

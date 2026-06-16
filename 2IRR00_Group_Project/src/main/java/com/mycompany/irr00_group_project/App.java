@@ -173,7 +173,7 @@ public class App extends Application {
      */
     public void startAudiobookOverview(Stage stage) {
         AudiobookOverview bookOverview = new AudiobookOverview(
-                () -> showMainView(stage), library, true);
+                () -> showMainView(stage), () -> startEpisodesView(stage), library, true);
         bookOverview.loadAudiobookOverview(stage);
 
     }

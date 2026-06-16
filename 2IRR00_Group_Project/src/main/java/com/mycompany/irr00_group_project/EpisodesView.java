@@ -29,7 +29,7 @@ public class EpisodesView {
      * By default displays audio files in main folder
      */
     public EpisodesView() {
-        loadFolder(Settings.getInstance().getAudiobookFolderPath());
+        loadFolder(Settings.getInstance().getEpisodeFolderPath());
     }
 
     /**

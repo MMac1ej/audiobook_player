@@ -16,6 +16,7 @@ public class Settings {
 
     private final Properties properties;
     private Path audiobookFolderPath;
+    private Path episodeFolderPath;
     private int fontSize;
 
     private Settings() {
@@ -131,6 +132,14 @@ public class Settings {
     public Path getAudiobookFolderPath() {
         return audiobookFolderPath;
     }
+    
+    /**
+     * Returns the path to the folder containing desired episodes.
+     * @return the path to the episode folder
+     */
+    public Path getEpisodeFolderPath() {
+        return episodeFolderPath;
+    }
 
     /**
      * Sets the path to the folder containing audiobooks.
@@ -151,6 +160,27 @@ public class Settings {
                 "Specified path is not a directory: " + audiobookFolderPath);
         }
         setAudiobookFolderPathInternal(audiobookFolderPath);
+    }
+    
+    /**
+    * Sets the path to the folder containing episodes.
+    * @param episodeFolderPath the path to the episode folder
+    * @throws IllegalArgumentException if the path is null or invalid
+    */
+    public void setEpisodeFolderPath(Path episodeFolderPath) throws IllegalArgumentException {
+        //check valid path? (exists, is directory, etc.)
+        if (audiobookFolderPath == null) {
+            throw new IllegalArgumentException("Episode folder path cannot be null");
+        }
+        if (!Files.exists(audiobookFolderPath)) {
+            throw new IllegalArgumentException(
+                "Specified path does not exist: " + episodeFolderPath);
+        }
+        if (!Files.isDirectory(audiobookFolderPath)) {
+            throw new IllegalArgumentException(
+                "Specified path is not a directory: " + episodeFolderPath);
+        }
+        this.episodeFolderPath = episodeFolderPath;
     }
 
     private void setAudiobookFolderPathInternal(Path audiobookFolderPath) {

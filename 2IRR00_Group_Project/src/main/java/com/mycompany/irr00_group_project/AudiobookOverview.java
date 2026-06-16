@@ -1,5 +1,6 @@
 package com.mycompany.irr00_group_project;
 
+import java.nio.file.Path;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.util.function.Consumer;
 
 /** Shows and overview of the available audiobooks. */
 public class AudiobookOverview {
@@ -133,6 +135,7 @@ public class AudiobookOverview {
                 @Override
                 public void handle(ActionEvent event) {
                     if (onOpenEpisodes != null) {
+                        Settings.getInstance().setEpisodeFolderPath(audiobook.getPath());
                         onOpenEpisodes.run();
                     }
                 }

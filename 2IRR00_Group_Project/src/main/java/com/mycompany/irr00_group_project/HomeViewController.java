@@ -135,10 +135,10 @@ public class HomeViewController {
         app.startAudiobookOverview(stage);
     }
 
-     /**
-     * This opens the episode view when the episodesButton has been pressed.
-     * @param event is when the button has been pressed.
-     */
+    /**
+    * This opens the episode view when the episodesButton has been pressed.
+    * @param event is when the button has been pressed.
+    */
     @FXML
     void handleOpenEpisodes(ActionEvent event) {
         app.startEpisodesView(stage);

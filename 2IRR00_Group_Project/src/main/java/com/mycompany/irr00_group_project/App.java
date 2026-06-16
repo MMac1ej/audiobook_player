@@ -1,6 +1,7 @@
 package com.mycompany.irr00_group_project;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -167,11 +168,12 @@ public class App extends Application {
         hvController.setLibrary(library);
     }
     
-     /**
-     * Starts the audiobook overview in the given stage.
-     * @param stage the stage to display the settings view in
-     */
+    /**
+    * Starts the audiobook overview in the given stage.
+    * @param stage the stage to display the settings view in
+    */
     public void startAudiobookOverview(Stage stage) {
+        Consumer<Audiobook> openEpisodes = audiobook -> startEpisodesView(stage);
         AudiobookOverview bookOverview = new AudiobookOverview(
                 () -> showMainView(stage), () -> startEpisodesView(stage), library, true);
         bookOverview.loadAudiobookOverview(stage);

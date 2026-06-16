@@ -1,5 +1,6 @@
 package com.mycompany.irr00_group_project;
 
+import java.nio.file.Path;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,7 +35,7 @@ public class EpisodesViewController {
     public EpisodesViewController() {
         episodesView = new EpisodesView();
     }
-
+   
     public void setOnBack(Runnable onBack) {
         this.onBack = onBack;
     }

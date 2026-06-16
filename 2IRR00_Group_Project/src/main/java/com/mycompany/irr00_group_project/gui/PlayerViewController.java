@@ -125,20 +125,24 @@ public class PlayerViewController {
      * @throws IOException if the FXML file cannot be loaded
      */
     public Scene buildScene() throws IOException {
-        String fxml = switch (settings.getTheme()) {
-            case DARK -> "/com/mycompany/irr00_group_project/PlayerViewDark.fxml";
-            case HIGH_CONTRAST ->
-                "/com/mycompany/irr00_group_project/PlayerViewHighContrast.fxml";
-            default -> "/com/mycompany/irr00_group_project/PlayerView.fxml";
-        };
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "/com/mycompany/irr00_group_project/PlayerView.fxml"));
         loader.setController(this);
         VBox root = loader.load();
         if (currentBook != null && currentEpisodeIndex >= 0) {
             loadEpisode(currentEpisodeIndex);
         }
         updateNavButtons();
-        return new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
+        Scene scene = new Scene(root, Constants.DEFAULT_WINDOW_WIDTH,
+                Constants.DEFAULT_WINDOW_HEIGHT);
+        String css = switch (settings.getTheme()) {
+            case DARK -> "/com/mycompany/irr00_group_project/player-dark.css";
+            case HIGH_CONTRAST ->
+                "/com/mycompany/irr00_group_project/player-high-contrast.css";
+            default -> "/com/mycompany/irr00_group_project/player-light.css";
+        };
+        scene.getStylesheets().add(getClass().getResource(css).toExternalForm());
+        return scene;
     }
 
     @FXML

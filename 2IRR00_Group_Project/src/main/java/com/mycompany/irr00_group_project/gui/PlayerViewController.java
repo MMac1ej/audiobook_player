@@ -145,6 +145,7 @@ public class PlayerViewController {
     }
 
     private void goBack() {
+        progressTimeline.stop();
         audioPlayer.stop();
         saveProgress();
         if (onBack != null) {

@@ -99,7 +99,6 @@ public class EpisodesView {
         File dir = folderPath.toFile();
         File[] filesInFolder = dir.listFiles();
         if (filesInFolder == null) {
-            //TODO implement edge case path is not a folder
             return;
         }
         for (File file : filesInFolder) {

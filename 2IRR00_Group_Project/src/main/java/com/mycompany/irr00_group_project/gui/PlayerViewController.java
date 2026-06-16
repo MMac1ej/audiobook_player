@@ -113,7 +113,7 @@ public class PlayerViewController {
     public void setBook(Audiobook book, int episodeIndex) {
         this.currentBook = book;
         this.currentEpisodeIndex = (book != null && book.getEpisodeCount() > 0)
-                ? episodeIndex : -1;
+                ? Math.max(0, Math.min(episodeIndex, book.getEpisodeCount() - 1)) : -1;
 
         if (book != null && book.getPath() != null) {
             this.timestampStore.saveTimestamp(book.getPath().toString());

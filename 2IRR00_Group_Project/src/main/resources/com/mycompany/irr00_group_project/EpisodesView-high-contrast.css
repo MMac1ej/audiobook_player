@@ -1,0 +1,112 @@
+/* Back button */
+.episodes-back-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFFF00;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 4 12 4 0;
+    -fx-border-color: transparent;
+    -fx-background-radius: 6;
+}
+
+.episodes-back-btn:hover {
+    -fx-background-color: rgba(255, 255, 0, 0.1);
+}
+
+.episodes-root {
+    -fx-background-color: #000000;
+    -fx-padding: 24;
+    -fx-spacing: 12;
+}
+
+.episodes-list {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+}
+
+.episodes-list .list-cell {
+    -fx-background-color: #101010;
+    -fx-padding: 0;
+    -fx-border-color: transparent transparent #333333 transparent;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+}
+
+.episodes-list .list-cell:filled:hover {
+    -fx-background-color: #2A2A00;
+}
+
+.episodes-list .list-cell:filled:selected {
+    -fx-background-color: #FFFF00;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 0, 0.3), 8, 0, 0, 2);
+}
+
+.episodes-list .list-cell:filled:selected:hover {
+    -fx-background-color: #E6E600;
+}
+
+/* Cell content layout */
+.episode-cell-content {
+    -fx-padding: 0 16;
+    -fx-spacing: 12;
+}
+
+.episode-title {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.episode-duration {
+    -fx-text-fill: #CCCCCC;
+    -fx-font-size: 12px;
+    -fx-min-width: 80px;
+    -fx-alignment: center-right;
+}
+
+.list-cell:filled:selected .episode-title {
+    -fx-text-fill: #000000;
+}
+
+.list-cell:filled:selected .episode-duration {
+    -fx-text-fill: #333333;
+}
+
+.list-cell:filled:hover .episode-title {
+    -fx-text-fill: #FFFF00;
+}
+
+/* Placeholder */
+.episodes-placeholder {
+    -fx-text-fill: #CCCCCC;
+    -fx-font-size: 14px;
+    -fx-font-style: italic;
+    -fx-padding: 24;
+}
+
+/* Scrollbars */
+.episodes-list .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.episodes-list .scroll-bar .thumb {
+    -fx-background-color: #FFFF00;
+    -fx-background-radius: 4;
+}
+
+.episodes-list .scroll-bar .thumb:hover {
+    -fx-background-color: #E6E600;
+}
+
+.episodes-list .scroll-bar .increment-button,
+.episodes-list .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 2;
+}
+
+.episodes-list .scroll-bar .increment-arrow,
+.episodes-list .scroll-bar .decrement-arrow {
+    -fx-background-color: #FFFFFF;
+}

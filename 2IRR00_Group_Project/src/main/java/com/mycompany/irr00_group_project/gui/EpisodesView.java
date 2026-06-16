@@ -153,12 +153,4 @@ public class EpisodesView {
         return audiobook;
     }
 
-    /**
-     * Go to audio player view and pass along what file to play.
-     * Feature is not yet implemented.
-     */
-    public void selectEpisode(Path filePath) {
-        //TODO implement behaviour
-    }
-
 }

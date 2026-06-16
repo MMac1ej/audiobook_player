@@ -1,7 +1,6 @@
 package com.mycompany.irr00_group_project.gui;
 
 import com.mycompany.irr00_group_project.*;
-import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 import javafx.event.ActionEvent;
@@ -41,16 +40,12 @@ public class AudiobookOverview {
     }
 
     /**
-     * Loads audiobooks from the folder configured in Settings and refreshes the view.
-     * @param lib the library instance to populate
+     * Sets the library to browse and refreshes the view.
+     * The library should already be populated by the caller before passing it here.
+     * @param lib the library instance to display
      */
     public void setLibrary(Library lib) {
         this.library = lib;
-        try {
-            library.loadFromFolder(Settings.getInstance().getAudiobookFolderPath());
-        } catch (IOException e) {
-            System.err.println("Failed to load audiobooks.");
-        }
         currentAudiobooks = library.getAudiobooks();
         booksRefresh();
     }

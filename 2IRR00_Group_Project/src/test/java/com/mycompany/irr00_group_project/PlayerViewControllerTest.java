@@ -1,5 +1,6 @@
 package com.mycompany.irr00_group_project;
 
+import com.mycompany.irr00_group_project.gui.PlayerViewController;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

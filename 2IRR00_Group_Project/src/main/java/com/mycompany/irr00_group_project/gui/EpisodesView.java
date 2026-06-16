@@ -1,5 +1,6 @@
-package com.mycompany.irr00_group_project;
+package com.mycompany.irr00_group_project.gui;
 
+import com.mycompany.irr00_group_project.*;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Files;

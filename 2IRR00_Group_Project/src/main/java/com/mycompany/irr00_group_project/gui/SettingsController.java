@@ -1,5 +1,6 @@
-package com.mycompany.irr00_group_project;
+package com.mycompany.irr00_group_project.gui;
 
+import com.mycompany.irr00_group_project.*;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,7 +23,7 @@ import javafx.util.StringConverter;
  * Controller for the settings.fxml view. Handles user interactions with the settings UI
  * and updates the Settings singleton accordingly. Also responsible for loading the current
  * settings values into the UI when the view is initialized.
- * 
+ *
  * @author Tymon Szczepański, 2330113
  */
 public class SettingsController {
@@ -77,7 +78,7 @@ public class SettingsController {
     public void initialize() {
         // Get current settings and populate UI elements with their values
         themeChoiceBox.getItems().addAll(Theme.values());
-        
+
         fontSizeSlider.setValue(settings.getFontSize());
         themeChoiceBox.setConverter(new StringConverter<Theme>() {
             @Override
@@ -120,20 +121,20 @@ public class SettingsController {
      */
     private void updateUIElements() {
         fontSizeSlider.setValue(settings.getFontSize());
-        fontSizeTextField.setText(Integer.toString(settings.getFontSize())); 
+        fontSizeTextField.setText(Integer.toString(settings.getFontSize()));
         themeChoiceBox.setValue(settings.getTheme());
         filePathTextField.setText(settings.getAudiobookFolderPath().toString());
     }
 
     /**
-     * Helper method that waits for a specified number of seconds 
+     * Helper method that waits for a specified number of seconds
      * and then clears the status label text.
      */
     private void clearStatusLabelAfterDelay(double seconds) {
         if (statusTimeline != null) {
             statusTimeline.stop(); // Stop any existing timeline to reset the timer
         }
-        
+
         statusTimeline = new Timeline(
             new KeyFrame(Duration.seconds(seconds), event -> {
                 statusLabel.setText("");

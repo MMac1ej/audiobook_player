@@ -1,5 +1,6 @@
-package com.mycompany.irr00_group_project;
+package com.mycompany.irr00_group_project.gui;
 
+import com.mycompany.irr00_group_project.*;
 import java.io.IOException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -124,7 +125,8 @@ public class PlayerViewController {
      * @throws IOException if the FXML file cannot be loaded
      */
     public Scene buildScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("PlayerView.fxml"));
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("/com/mycompany/irr00_group_project/PlayerView.fxml"));
         loader.setController(this);
         VBox root = loader.load();
         if (currentBook != null && currentEpisodeIndex >= 0) {

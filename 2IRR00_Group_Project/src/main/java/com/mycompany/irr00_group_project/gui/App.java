@@ -1,5 +1,6 @@
-package com.mycompany.irr00_group_project;
+package com.mycompany.irr00_group_project.gui;
 
+import com.mycompany.irr00_group_project.*;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -45,7 +46,7 @@ public class App extends Application {
             loader.setController(hvController);
             setHvControllerProperties(hvController, stage);
             Parent root = loader.load();
-            Scene scene = new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, 
+            Scene scene = new Scene(root, Constants.DEFAULT_WINDOW_WIDTH,
                 Constants.DEFAULT_WINDOW_HEIGHT);
             stage.setScene(scene);
             stage.setTitle("Audiobook Player");
@@ -166,7 +167,7 @@ public class App extends Application {
         hvController.setTimestampStore(timestampStore);
         hvController.setLibrary(library);
     }
-    
+
      /**
      * Starts the audiobook overview in the given stage.
      * @param stage the stage to display the settings view in

@@ -1,5 +1,6 @@
-package com.mycompany.irr00_group_project;
+package com.mycompany.irr00_group_project.gui;
 
+import com.mycompany.irr00_group_project.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +23,7 @@ public class HomeViewController {
     Stage stage;
     private TimestampStore tsStore;
     private Library library;
-    
+
     /**
      * Sets the stage, so we can pass it along from App.
      * @param stage is the current stage.
@@ -59,13 +60,13 @@ public class HomeViewController {
 
     @FXML
     private Button settingsButton;
-    
+
     @FXML
     private Button libraryButton;
 
     @FXML
     private Button episodesButton;
-    
+
     @FXML
     private Button playerButton;
 
@@ -81,7 +82,7 @@ public class HomeViewController {
 
     /**
      * retrieves the most recently listened to audiobooks and turns them into a useful recentList.
-     * 
+     *
      */
     private void checkRecentlyListened() {
         recentListString = tsStore.getRecentlyPlayed();
@@ -90,7 +91,7 @@ public class HomeViewController {
 
     /**
      * This method turns a String list into the corresponding Audiobook list.
-     * 
+     *
      * @param list of file paths in string from
      * @return list of audiobooks corresponding to the file paths
      */
@@ -105,11 +106,11 @@ public class HomeViewController {
     }
 
     /**
-     * This method adds an object to a list if it's not in there already. 
+     * This method adds an object to a list if it's not in there already.
      * If it already is, we do nothing.
-     * 
+     *
      * @param list is the list where to add the audiobook
-     * @param obj is the object we want in the list
+     * @param audi is the object we want in the list
      */
     private void addToList(ArrayList<Audiobook> list, Audiobook audi) {
         if (audi != null && !list.contains(audi)) {
@@ -156,12 +157,12 @@ public class HomeViewController {
     /**
      * This method is called whenever an audiobook is clicked from the recentListView.
      * It opens the Player View with the selected audiobook.
-     * 
+     *
      * @param event is when an audiobook from recentList has been clicked.
      */
     @FXML
     void handleMouseClicked(MouseEvent event) {
-        ObservableList<Audiobook> selectedAudiobook = 
+        ObservableList<Audiobook> selectedAudiobook =
             recentListView.getSelectionModel().getSelectedItems();
         if (selectedAudiobook.isEmpty()) {
             return; //if nothing is selected, nothing happens.
@@ -171,4 +172,3 @@ public class HomeViewController {
     }
 
 }
-

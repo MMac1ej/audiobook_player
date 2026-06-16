@@ -1,5 +1,6 @@
-package com.mycompany.irr00_group_project;
+package com.mycompany.irr00_group_project.gui;
 
+import com.mycompany.irr00_group_project.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
@@ -19,7 +20,7 @@ public class AudiobookOverview {
     private boolean errorMessage = false;
     private VBox error;
     private Runnable onBack;
-    
+
     /** Initialize library instance & load the available current books. */
     public AudiobookOverview(Runnable onBack, Library library, boolean loadFromFolder) {
         this.onBack = onBack;
@@ -40,7 +41,7 @@ public class AudiobookOverview {
             audiobooks = library.getAudiobooks();
             errorMessage = false;
         }
-        
+
     }
 
     /** Load the audiobook Overview page. */
@@ -50,26 +51,26 @@ public class AudiobookOverview {
         bookHolder.getStyleClass().add("book-holder");
         HBox searchHolder = new HBox();
         searchHolder.getStyleClass().add("search-holder");
-        
+
         backSetup(searchHolder);
         searchSetup(searchHolder, bookHolder);
         booksRefresh(bookHolder);
-        
+
         root.getChildren().addAll(searchHolder, bookHolder);
         if (errorMessage) {
             root.getChildren().add(error);
-        } 
-        Scene scene = new Scene(root, 
+        }
+        Scene scene = new Scene(root,
                 Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
-        if (getClass().getResource("AudiobookOverview.css") != null) {
-            scene.getStylesheets().add(getClass().getResource(
-                    "AudiobookOverview.css").toExternalForm());
+        String cssPath = "/com/mycompany/irr00_group_project/AudiobookOverview.css";
+        if (getClass().getResource(cssPath) != null) {
+            scene.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
         stage.setScene(scene);
         stage.setTitle("Audiobook Overview");
         stage.show();
     }
-    
+
     /** Create the back button, when pressed, the previous page is loaded. */
     private void backSetup(HBox searchHolder) {
         // search button setup
@@ -86,14 +87,14 @@ public class AudiobookOverview {
         });
         searchHolder.getChildren().add(backButton);
     }
-    
+
     /** Setup the search Bar. */
     private void searchSetup(HBox searchHolder, VBox bookHolder) {
         TextField searchBar = new TextField();
         searchBar.setPromptText(Constants.SEARCH_PROMPT);
         searchBar.prefWidthProperty().bind(searchHolder.widthProperty().multiply(0.5));
         searchHolder.getChildren().add(searchBar);
-        
+
         // search button setup
         Button search = new Button("Search");
         search.getStyleClass().add("search-button");
@@ -104,7 +105,7 @@ public class AudiobookOverview {
             }
         });
         searchHolder.getChildren().add(search);
-        
+
         // reset button setup
         Button reset = new Button("See all audiobooks");
         reset.getStyleClass().add("search-button");
@@ -117,7 +118,7 @@ public class AudiobookOverview {
         });
         searchHolder.getChildren().add(reset);
     }
-    
+
     /** Refresh the audiobooks (buttons) that are shown. */
     private void booksRefresh(VBox bookHolder) {
         bookHolder.getChildren().clear();
@@ -135,11 +136,11 @@ public class AudiobookOverview {
             bookHolder.getChildren().add(audiobookButton);
         }
     }
-    
+
     /** Show audiobooks according to Textfield input. */
     public void search(TextField searchBar, VBox bookHolder) {
         String searchValue = searchBar.getText();
         audiobooks = library.search(searchValue);
         booksRefresh(bookHolder);
-    } 
+    }
 }

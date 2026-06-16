@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <HBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.mycompany.irr00_group_project.EpisodesViewController"
+      fx:controller="com.mycompany.irr00_group_project.gui.EpisodesViewController"
       stylesheets="@EpisodesView.css">
    <children>
       <VBox prefWidth="600.0" HBox.hgrow="ALWAYS" styleClass="episodes-root">

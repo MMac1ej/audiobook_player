@@ -40,7 +40,7 @@ class SettingsControllerTest {
         latch.await();
     }
 
-    /** Restores default Settings after each test to avoid polluting the singleton for other tests. */
+    /** Restores default Settings after each test to avoid polluting the singleton. */
     @AfterEach
     void tearDown() {
         Settings.getInstance().setDefaults();

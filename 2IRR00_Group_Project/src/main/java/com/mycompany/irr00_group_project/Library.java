@@ -58,7 +58,7 @@ public class Library {
             return false;
         }
         String name = path.getFileName().toString().toLowerCase();
-        return name.endsWith(".mp3") || name.endsWith(".wav");
+        return name.endsWith(".mp3") || name.endsWith(".wav") || name.endsWith(".m4a");
     }
 
     /**

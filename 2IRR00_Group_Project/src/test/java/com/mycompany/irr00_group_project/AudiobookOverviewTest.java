@@ -1,14 +1,9 @@
 package com.mycompany.irr00_group_project;
 
 import com.mycompany.irr00_group_project.gui.AudiobookOverview;
-import javafx.application.Platform;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
-import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,55 +12,37 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class AudiobookOverviewTest {
 
-    /**
-     * Starts up Javafx before all tests.
-     */
-    @BeforeAll
-    static void startJavaFx() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(1);
-        Platform.startup(latch::countDown);
-        latch.await();
-    }
-
-    /** Tests if all audiobooks are shown when the default message is set.*/
+    /** Tests if all audiobooks are shown when the search query is empty.*/
     @Test
     void emptySearchShowsAllAudiobooks() {
         Library library = new Library();
-
         library.addAudiobook(new Audiobook("Dune", Path.of("/tmp/dune")));
         library.addAudiobook(new Audiobook("Lord of the Rings", Path.of("/tmp/lotr")));
         library.addAudiobook(new Audiobook("Secret History", Path.of("/tmp/secret-history")));
         library.addAudiobook(new Audiobook("The Hitchhiker's Guide to the Galaxy",
                 Path.of("/tmp/hhgttg")));
 
-        AudiobookOverview overview = new AudiobookOverview(() -> {}, library, false);
+        AudiobookOverview overview = new AudiobookOverview();
+        overview.setLibrary(library);
+        overview.search("");
 
-        TextField searchBar = new TextField();
-        VBox bookHolder = new VBox();
-
-        overview.search(searchBar, bookHolder);
-
-        assertTrue(bookHolder.getChildren().size() > 0);
+        assertTrue(overview.getCurrentAudiobooks().size() > 0);
     }
 
     /** Tests if no audiobooks are shown when no titles match the search request. */
     @Test
     void searchWithUnknownTitleShowsNoAudiobooks() {
         Library library = new Library();
-
         library.addAudiobook(new Audiobook("Dune", Path.of("/tmp/dune")));
         library.addAudiobook(new Audiobook("Lord of the Rings", Path.of("/tmp/lotr")));
         library.addAudiobook(new Audiobook("Secret History", Path.of("/tmp/secret-history")));
         library.addAudiobook(new Audiobook("The Hitchhiker's Guide to the Galaxy",
                 Path.of("/tmp/hhgttg")));
 
-        AudiobookOverview overview = new AudiobookOverview(() -> {}, library, false);
+        AudiobookOverview overview = new AudiobookOverview();
+        overview.setLibrary(library);
+        overview.search("NonexistingBook.123.456.789. :)");
 
-        TextField searchBar = new TextField("NonexistingBook.123.456.789. :)");
-        VBox bookHolder = new VBox();
-
-        overview.search(searchBar, bookHolder);
-
-        assertEquals(0, bookHolder.getChildren().size());
+        assertEquals(0, overview.getCurrentAudiobooks().size());
     }
 }

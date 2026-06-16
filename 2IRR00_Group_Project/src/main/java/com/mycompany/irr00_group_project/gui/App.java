@@ -33,7 +33,8 @@ public class App extends Application {
         try {
             library.loadFromFolder(Settings.getInstance().getAudiobookFolderPath());
         } catch (IOException e) {
-            System.err.println("No Audiobooks found! Try changing the file path.");
+            System.err.println("No audiobooks found in: "
+                    + Settings.getInstance().getAudiobookFolderPath());
         } finally {
             showMainView(stage);
         }

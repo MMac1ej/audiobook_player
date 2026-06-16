@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -87,6 +89,15 @@ public class EpisodesViewController {
     */
     @FXML
     public void initialize() {
+        backButton.sceneProperty().addListener((obs, old, scene) -> {
+            if (scene != null) {
+                scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+                    if (e.getCode() == KeyCode.ESCAPE && onBack != null) {
+                        onBack.run();
+                    }
+                });
+            }
+        });
         listView.setItems(episodesView.getEpisodes());
         Label placeholder = new Label("No audio files found in the selected folder.");
         placeholder.getStyleClass().add("episodes-placeholder");

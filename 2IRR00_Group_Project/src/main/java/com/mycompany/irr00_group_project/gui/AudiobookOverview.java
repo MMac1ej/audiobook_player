@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 
 /** FXML controller for the audiobook library overview screen. */
@@ -24,6 +26,15 @@ public class AudiobookOverview {
     @FXML
     public void initialize() {
         searchBar.textProperty().addListener((obs, oldVal, newVal) -> search(newVal));
+        searchBar.sceneProperty().addListener((obs, old, scene) -> {
+            if (scene != null) {
+                scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+                    if (e.getCode() == KeyCode.ESCAPE && onBack != null) {
+                        onBack.run();
+                    }
+                });
+            }
+        });
     }
 
     /** Sets the callback invoked when the user presses the back button. */

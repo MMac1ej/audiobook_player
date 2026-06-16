@@ -8,6 +8,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -133,7 +135,21 @@ public class PlayerViewController {
             loadEpisode(currentEpisodeIndex);
         }
         updateNavButtons();
-        return new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
+        Scene scene = new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.ESCAPE) {
+                goBack();
+            }
+        });
+        return scene;
+    }
+
+    private void goBack() {
+        audioPlayer.stop();
+        saveProgress();
+        if (onBack != null) {
+            onBack.run();
+        }
     }
 
     @FXML
@@ -151,13 +167,7 @@ public class PlayerViewController {
     }
 
     private void wireEvents() {
-        backButton.setOnAction(e -> {
-            audioPlayer.stop();
-            saveProgress();
-            if (onBack != null) {
-                onBack.run();
-            }
-        });
+        backButton.setOnAction(e -> goBack());
         seekSlider.setOnMousePressed(e -> isSeeking = true);
         seekSlider.setOnMouseReleased(e -> {
             audioPlayer.seek((long) seekSlider.getValue());

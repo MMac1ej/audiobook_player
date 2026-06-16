@@ -9,6 +9,7 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 
 /**
@@ -74,10 +75,14 @@ public class EpisodesView {
         episodes.setAll(audiobook.getEpisodes());
         for (Episode episode : audiobook.getEpisodes()) {
             String uri = episode.getFilePath().toUri().toString();
-            MediaPlayer player = new MediaPlayer(new Media(uri));
-            playerRefs.add(player);
-            player.setOnReady(
-                () -> episode.setDuration((long) player.getTotalDuration().toSeconds()));
+            try {
+                MediaPlayer player = new MediaPlayer(new Media(uri));
+                playerRefs.add(player);
+                player.setOnReady(
+                    () -> episode.setDuration((long) player.getTotalDuration().toSeconds()));
+            } catch (MediaException e) {
+                System.err.println("Could not probe duration for: " + uri);
+            }
         }
     }
 
@@ -114,10 +119,14 @@ public class EpisodesView {
         episodes.setAll(audiobook.getEpisodes());
         for (Episode episode : audiobook.getEpisodes()) {
             String uri = episode.getFilePath().toUri().toString();
-            MediaPlayer player = new MediaPlayer(new Media(uri));
-            playerRefs.add(player);
-            player.setOnReady(
-                () -> episode.setDuration((long) player.getTotalDuration().toSeconds()));
+            try {
+                MediaPlayer player = new MediaPlayer(new Media(uri));
+                playerRefs.add(player);
+                player.setOnReady(
+                    () -> episode.setDuration((long) player.getTotalDuration().toSeconds()));
+            } catch (MediaException e) {
+                System.err.println("Could not probe duration for: " + uri);
+            }
         }
     }
 

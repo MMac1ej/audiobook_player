@@ -157,6 +157,7 @@ public class PlayerViewController {
 
     private void wireEvents() {
         backButton.setOnAction(e -> {
+            progressTimeline.stop();
             audioPlayer.stop();
             saveProgress();
             if (onBack != null) {

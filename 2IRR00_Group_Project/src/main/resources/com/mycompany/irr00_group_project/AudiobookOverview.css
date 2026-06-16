@@ -60,3 +60,18 @@
     -fx-padding: 8px;
     -fx-font-size: 14px;
 }
+
+.clear-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #9e9e9e;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-padding: 5 8;
+    -fx-min-width: 28;
+    -fx-background-radius: 50%;
+}
+
+.clear-button:hover {
+    -fx-background-color: rgba(0,0,0,0.08);
+    -fx-text-fill: #5c6bc0;
+}

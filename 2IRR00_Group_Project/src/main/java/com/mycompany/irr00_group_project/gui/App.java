@@ -170,12 +170,23 @@ public class App extends Application {
 
      /**
      * Starts the audiobook overview in the given stage.
-     * @param stage the stage to display the settings view in
+     * @param stage the stage to display the audiobook library in
      */
     public void startAudiobookOverview(Stage stage) {
-        AudiobookOverview bookOverview = new AudiobookOverview(
-                () -> showMainView(stage), library, true);
-        bookOverview.loadAudiobookOverview(stage);
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "/com/mycompany/irr00_group_project/AudiobookOverview.fxml"));
+            Parent root = loader.load();
+            AudiobookOverview controller = loader.getController();
+            controller.setOnBack(() -> showMainView(stage));
+            controller.setOnAudiobookSelected(book -> startEpisodesView(stage, book));
+            controller.setLibrary(library);
+            stage.setScene(new Scene(
+                root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT));
+            stage.setTitle("Audiobook Overview");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

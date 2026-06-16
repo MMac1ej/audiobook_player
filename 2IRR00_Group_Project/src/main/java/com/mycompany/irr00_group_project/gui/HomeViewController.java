@@ -20,7 +20,7 @@ public class HomeViewController {
 
     //declare variables.
     private App app;
-    Stage stage;
+    private Stage stage;
     private TimestampStore tsStore;
     private Library library;
 
@@ -28,7 +28,7 @@ public class HomeViewController {
      * Sets the stage, so we can pass it along from App.
      * @param stage is the current stage.
      */
-    void setStage(Stage stage) {
+    public void setStage(Stage stage) {
         this.stage = stage;
     }
 
@@ -36,11 +36,15 @@ public class HomeViewController {
      * Sets the app, so we can pass it along from App.
      * @param app is the app instance.
      */
-    void setApp(App app) {
+    public void setApp(App app) {
         this.app = app;
     }
 
-    void setLibrary(Library library) {
+    /**
+     * Sets the library instance used to resolve recently played audiobooks.
+     * @param library the shared library instance
+     */
+    public void setLibrary(Library library) {
         this.library = library;
     }
 

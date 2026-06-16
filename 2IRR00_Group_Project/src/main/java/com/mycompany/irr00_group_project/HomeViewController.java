@@ -90,9 +90,8 @@ public class HomeViewController {
 
     /**
      * This method turns a String list into the corresponding Audiobook list.
-     * 
-     * @param list of file paths in string from
-     * @return list of audiobooks corresponding to the file paths
+     *
+     * @param list of file paths in string form
      */
     private void turnStringsIntoAudiobooks(List<String> list) {
         Audiobook audiobook;

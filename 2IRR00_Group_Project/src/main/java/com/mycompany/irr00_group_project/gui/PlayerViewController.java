@@ -14,6 +14,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -31,6 +32,7 @@ public class PlayerViewController {
     private boolean episodeFinishedNaturally = false;
     private boolean wasSleepTimerRunning = false;
     private int tickCount = 0;
+    private boolean varioSpeedActive = false;
     private Timeline progressTimeline;
     private long sleepStartTime;
     private long sleepTotalSeconds;
@@ -140,6 +142,17 @@ public class PlayerViewController {
             default -> "/com/mycompany/irr00_group_project/player-light.css";
         };
         scene.getStylesheets().add(getClass().getResource(css).toExternalForm());
+        scene.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.V) {
+                varioSpeedActive = true;
+            }
+        });
+        scene.setOnKeyReleased(e -> {
+            if (e.getCode() == KeyCode.V) {
+                varioSpeedActive = false;
+                audioPlayer.setSpeed(1.0);
+            }
+        });
         return scene;
     }
 
@@ -254,6 +267,9 @@ public class PlayerViewController {
         }
         if (audioPlayer.isPlaying() && ++tickCount % 5 == 0) {
             saveProgress();
+        }
+        if (varioSpeedActive) {
+            audioPlayer.setSpeed(0.25 + Math.random() * 2.75);
         }
     }
 

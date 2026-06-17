@@ -4,8 +4,6 @@ import com.mycompany.irr00_group_project.gui.PlayerViewController;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.concurrent.CountDownLatch;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,13 +26,7 @@ class PlayerViewControllerTest {
     /** Starts the JavaFX toolkit once for all tests in this class. */
     @BeforeAll
     static void startFxToolkit() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(1);
-        try {
-            Platform.startup(latch::countDown);
-        } catch (IllegalStateException e) {
-            latch.countDown();
-        }
-        latch.await();
+        FxTestHelper.startToolkit();
     }
 
     /** Creates fresh collaborators before each test. */
@@ -129,15 +121,7 @@ class PlayerViewControllerTest {
     }
 
     private void runOnFxThread(Runnable task) throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(1);
-        Platform.runLater(() -> {
-            try {
-                task.run();
-            } finally {
-                latch.countDown();
-            }
-        });
-        latch.await();
+        FxTestHelper.runOnFxThread(task);
     }
 
     private Audiobook buildBook(int episodeCount) {

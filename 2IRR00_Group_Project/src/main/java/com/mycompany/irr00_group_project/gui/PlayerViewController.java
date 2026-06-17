@@ -285,7 +285,6 @@ public class PlayerViewController {
             }
             seekSlider.setValue(saved);
             episodeTitleLabel.setText(episode.getTitle());
-            timestampStore.saveTimestamp(episodeKey);
             if (currentBook.getPath() != null) {
                 progressStore.saveLastEpisode(currentBook.getPath().toString(), episodeKey);
             }
@@ -321,8 +320,9 @@ public class PlayerViewController {
             return;
         }
         Episode episode = currentBook.getEpisode(currentEpisodeIndex);
-        progressStore.saveProgress(episode.getFilePath().toString(),
-                audioPlayer.getCurrentPosition());
+        String episodeKey = episode.getFilePath().toString();
+        progressStore.saveProgress(episodeKey, audioPlayer.getCurrentPosition());
+        timestampStore.saveTimestamp(episodeKey);
     }
 
     private static String formatTime(long totalSeconds) {

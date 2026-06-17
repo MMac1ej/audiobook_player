@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -20,6 +21,7 @@ public class AudiobookOverview {
     private boolean errorMessage = false;
     private VBox error;
     private Runnable onBack;
+    private Consumer<Audiobook> onAudiobookSelected;
 
     /** Initialize library instance & load the available current books. */
     public AudiobookOverview(Runnable onBack, Library library, boolean loadFromFolder) {
@@ -42,6 +44,14 @@ public class AudiobookOverview {
             errorMessage = false;
         }
 
+    }
+
+    /**
+     * Sets the callback invoked when the user selects an audiobook.
+     * @param callback called with the selected audiobook
+     */
+    public void setOnAudiobookSelected(java.util.function.Consumer<Audiobook> callback) {
+        this.onAudiobookSelected = callback;
     }
 
     /** Load the audiobook Overview page. */
@@ -138,7 +148,9 @@ public class AudiobookOverview {
             audiobookButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    // got to Episode Page.
+                    if (onAudiobookSelected != null) {
+                        onAudiobookSelected.accept(audiobook);
+                    }
                 }
             });
             bookHolder.getChildren().add(audiobookButton);

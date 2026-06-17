@@ -64,22 +64,29 @@ public class App extends Application {
     }
 
     /**
-     * Starts the episodes view in the given stage.
+     * Starts the episodes view in the given stage, showing the default folder.
      * @param stage the stage to display the episodes view in
      */
     public void startEpisodesView(Stage stage) {
+        loadEpisodesView(stage, null, () -> showMainView(stage));
+    }
+
+    private void loadEpisodesView(Stage stage, Audiobook book, Runnable onBack) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/com/mycompany/irr00_group_project/EpisodesView.fxml"));
             Parent root = loader.load();
             EpisodesViewController controller = loader.getController();
-            controller.setOnBack(() -> showMainView(stage));
-            controller.setOnEpisodeSelected((book, index) ->
-                    startPlayerWithEpisode(stage, book, index));
+            controller.setOnBack(onBack);
+            controller.setOnEpisodeSelected((b, index) -> startPlayerWithEpisode(stage, b, index,
+                    () -> loadEpisodesView(stage, book, onBack)));
+            if (book != null) {
+                controller.setAudiobook(book);
+            }
             Scene episodesScene = new Scene(
                     root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
             episodesScene.getStylesheets().add(
-                getViewCssUrl("EpisodesView", Settings.getInstance().getTheme()));
+                    getViewCssUrl("EpisodesView", Settings.getInstance().getTheme()));
             stage.setScene(episodesScene);
             stage.setTitle("Audiobook Player - Episodes");
             stage.show();
@@ -88,11 +95,12 @@ public class App extends Application {
         }
     }
 
-    private void startPlayerWithEpisode(Stage stage, Audiobook book, int episodeIndex) {
+    private void startPlayerWithEpisode(
+            Stage stage, Audiobook book, int episodeIndex, Runnable onBack) {
         try {
             PlayerViewController controller =
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
-            controller.setOnBack(() -> startEpisodesView(stage));
+            controller.setOnBack(onBack);
             controller.setBook(book, episodeIndex);
 
             stage.setScene(controller.buildScene());
@@ -181,14 +189,15 @@ public class App extends Application {
         hvController.setLibrary(library);
     }
 
-     /**
+    /**
      * Starts the audiobook overview in the given stage.
-     * @param stage the stage to display the settings view in
+     * @param stage the stage to display the audiobook overview in
      */
     public void startAudiobookOverview(Stage stage) {
         AudiobookOverview bookOverview = new AudiobookOverview(
                 () -> showMainView(stage), library, true);
+        bookOverview.setOnAudiobookSelected(
+                book -> loadEpisodesView(stage, book, () -> startAudiobookOverview(stage)));
         bookOverview.loadAudiobookOverview(stage);
-
     }
 }

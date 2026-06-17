@@ -20,12 +20,6 @@
             <Button fx:id="settingsButton" mnemonicParsing="false"
                onAction="#handleOpenSettings" text="Settings"
                styleClass="hview-nav-button"/>
-            <Button fx:id="episodesButton" mnemonicParsing="false"
-               onAction="#handleOpenEpisodes" text="Episodes"
-               styleClass="hview-nav-button"/>
-            <Button fx:id="playerButton" mnemonicParsing="false"
-               onAction="#handleOpenPlayer" text="Player"
-               styleClass="hview-nav-button"/>
          </children>
       </HBox>
       <Label text="RECENTLY PLAYED" styleClass="hview-section-label"/>

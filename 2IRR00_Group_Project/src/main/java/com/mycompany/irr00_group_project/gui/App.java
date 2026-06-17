@@ -145,6 +145,7 @@ public class App extends Application {
             stage.setScene(controller.buildScene());
             stage.setTitle("Audiobook Player");
             stage.show();
+            audioPlayer.play();
         } catch (IOException e) {
             e.printStackTrace();
         }

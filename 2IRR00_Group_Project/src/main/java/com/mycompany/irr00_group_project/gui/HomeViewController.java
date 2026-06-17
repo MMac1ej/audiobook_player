@@ -83,12 +83,11 @@ public class HomeViewController {
     }
 
     /**
-     * Retrieves the most recently played episodes and derives the corresponding
-     * audiobook list, deduplicated and sorted by most recent play time.
+     * Retrieves the most recently played audiobooks, deduplicated and sorted by most recent play.
      */
     private void checkRecentlyListened() {
-        for (String episodePath : tsStore.getRecentlyPlayedEpisodes()) {
-            Audiobook book = library.findAudiobookByEpisodePath(episodePath);
+        for (String audiobookPath : tsStore.getRecentlyPlayedAudiobooks()) {
+            Audiobook book = library.findAudiobookByPathString(audiobookPath);
             if (book != null) {
                 addToList(recentList, book);
             }

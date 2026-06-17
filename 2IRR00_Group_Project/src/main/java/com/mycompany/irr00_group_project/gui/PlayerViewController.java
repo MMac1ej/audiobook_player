@@ -322,7 +322,9 @@ public class PlayerViewController {
         Episode episode = currentBook.getEpisode(currentEpisodeIndex);
         String episodeKey = episode.getFilePath().toString();
         progressStore.saveProgress(episodeKey, audioPlayer.getCurrentPosition());
-        timestampStore.saveTimestamp(episodeKey);
+        if (currentBook.getPath() != null) {
+            timestampStore.saveTimestamp(currentBook.getPath().toString());
+        }
     }
 
     private static String formatTime(long totalSeconds) {

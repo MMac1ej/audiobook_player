@@ -8,8 +8,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/** Persists last-played timestamps for episodes to a properties file on disk. */
+/** Persists play-order for episodes to a properties file on disk. */
 public class TimestampStore extends PropertiesStore {
+
+    private static final String COUNTER_KEY = "__play_counter";
 
     /** Creates a TimestampStore using the default file location. */
     public TimestampStore() {
@@ -26,29 +28,35 @@ public class TimestampStore extends PropertiesStore {
     }
 
     /**
-     * Saves the current time as the last-played timestamp for the given episode.
+     * Records that the given audiobook was just played by assigning it the next
+     * sequential play-order counter value.
      *
-     * @param key the episode identifier (typically its file path as a string)
+     * @param key the audiobook identifier (typically its folder path as a string)
      */
     public void saveTimestamp(String key) {
-        super.setProperty(key, Long.toString(System.currentTimeMillis()));
+        long counter = Long.parseLong(super.getProperty(COUNTER_KEY, "0")) + 1;
+        super.setProperty(COUNTER_KEY, Long.toString(counter));
+        super.setProperty(key, Long.toString(counter));
     }
 
     /**
-     * Returns all episode keys sorted by last-played time, most recent first.
+     * Returns all audiobook keys sorted by play order, most recent first.
      *
-     * @return sorted list of episode identifiers
+     * @return sorted list of audiobook identifiers
      */
-    public List<String> getRecentlyPlayedEpisodes() {
-        Set<String> episodes = super.listKeysAsSet();
-        Map<String, Long> episodesWithTimestamps = new HashMap<>();
+    public List<String> getRecentlyPlayedAudiobooks() {
+        Set<String> audiobooks = super.listKeysAsSet();
+        Map<String, Long> audiobooksWithOrder = new HashMap<>();
 
-        for (String episode : episodes) {
-            String timestamp = super.getProperty(episode, "0");
-            episodesWithTimestamps.put(episode, Long.valueOf(timestamp));
+        for (String audiobook : audiobooks) {
+            if (COUNTER_KEY.equals(audiobook)) {
+                continue;
+            }
+            String order = super.getProperty(audiobook, "0");
+            audiobooksWithOrder.put(audiobook, Long.valueOf(order));
         }
 
-        return episodesWithTimestamps.entrySet()
+        return audiobooksWithOrder.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .map(Map.Entry::getKey)

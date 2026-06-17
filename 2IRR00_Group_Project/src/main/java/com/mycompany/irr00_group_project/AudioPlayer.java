@@ -58,7 +58,15 @@ public class AudioPlayer implements PlaybackController {
         if (player == null) {
             return;
         }
-        player.seek(Duration.seconds(seconds));
+        MediaPlayer.Status status = player.getStatus();
+        if (status == MediaPlayer.Status.UNKNOWN || status == MediaPlayer.Status.HALTED) {
+            // Player not ready yet — defer seek until it transitions to READY.
+            // onReady fires before the player starts outputting audio, so playback
+            // will begin from the correct position.
+            player.setOnReady(() -> player.seek(Duration.seconds(seconds)));
+        } else {
+            player.seek(Duration.seconds(seconds));
+        }
     }
 
     @Override

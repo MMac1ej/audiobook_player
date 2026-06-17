@@ -30,6 +30,7 @@ public class PlayerViewController {
     private boolean episodeEnded = false;
     private boolean episodeFinishedNaturally = false;
     private boolean wasSleepTimerRunning = false;
+    private int tickCount = 0;
     private Timeline progressTimeline;
     private long sleepStartTime;
     private long sleepTotalSeconds;
@@ -251,6 +252,9 @@ public class PlayerViewController {
             sleepToggleButton.setText("Start");
             wasSleepTimerRunning = false;
         }
+        if (audioPlayer.isPlaying() && ++tickCount % 5 == 0) {
+            saveProgress();
+        }
     }
 
     private void navigateEpisode(int delta) {
@@ -313,6 +317,11 @@ public class PlayerViewController {
         } catch (IOException | RuntimeException ex) {
             episodeTitleLabel.setText("Error loading: " + episode.getTitle());
         }
+    }
+
+    /** Saves playback progress; intended to be called on application close. */
+    public void saveOnClose() {
+        saveProgress();
     }
 
     private void saveProgress() {

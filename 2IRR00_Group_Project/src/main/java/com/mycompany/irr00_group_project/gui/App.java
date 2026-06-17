@@ -19,6 +19,7 @@ public class App extends Application {
     private final HomeViewController hvController = new HomeViewController();
     private final ProgressStore progressStore = new ProgressStore();
     private final AudioPlayer audioPlayer = new AudioPlayer();
+    private PlayerViewController currentPlayerController;
 
     public static void main(String[] args) {
         launch(args);
@@ -30,6 +31,11 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) {
+        stage.setOnCloseRequest(e -> {
+            if (currentPlayerController != null) {
+                currentPlayerController.saveOnClose();
+            }
+        });
         try {
             library.loadFromFolder(Settings.getInstance().getAudiobookFolderPath());
         } catch (IOException e) {
@@ -102,6 +108,7 @@ public class App extends Application {
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(onBack);
             controller.setBook(book, episodeIndex);
+            currentPlayerController = controller;
 
             stage.setScene(controller.buildScene());
             stage.setTitle("Audiobook Player");
@@ -121,6 +128,7 @@ public class App extends Application {
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(() -> showMainView(stage));
             controller.loadDefaultBook();
+            currentPlayerController = controller;
 
             stage.setScene(controller.buildScene());
             stage.setTitle("Audiobook Player");
@@ -142,6 +150,7 @@ public class App extends Application {
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(() -> showMainView(stage));
             controller.setBook(audi, findLastEpisodeIndex(audi));
+            currentPlayerController = controller;
             stage.setScene(controller.buildScene());
             stage.setTitle("Audiobook Player");
             stage.show();

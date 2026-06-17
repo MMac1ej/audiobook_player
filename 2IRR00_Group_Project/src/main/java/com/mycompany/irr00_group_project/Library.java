@@ -121,4 +121,22 @@ public class Library {
         return null;
     }
 
+    /**
+     * Returns the audiobook that contains the episode with the given file path,
+     * or {@code null} if no match is found.
+     *
+     * @param episodeFilePath the episode file path as a string
+     * @return the containing audiobook, or {@code null}
+     */
+    public Audiobook findAudiobookByEpisodePath(String episodeFilePath) {
+        for (Audiobook book : getAudiobooks()) {
+            for (Episode episode : book.getEpisodes()) {
+                if (episode.getFilePath().toString().equals(episodeFilePath)) {
+                    return book;
+                }
+            }
+        }
+        return null;
+    }
+
 }

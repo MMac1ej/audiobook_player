@@ -308,10 +308,11 @@ public class PlayerViewController {
             return;
         }
         Episode episode = currentBook.getEpisode(currentEpisodeIndex);
-        progressStore.saveProgress(
-            episode.getFilePath().toString(),
-            audioPlayer.getCurrentPosition()
-        );
+        String episodeKey = episode.getFilePath().toString();
+        progressStore.saveProgress(episodeKey, audioPlayer.getCurrentPosition());
+        if (currentBook.getPath() != null) {
+            progressStore.saveLastEpisode(currentBook.getPath().toString(), episodeKey);
+        }
     }
 
     private static String formatTime(long totalSeconds) {

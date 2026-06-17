@@ -132,6 +132,7 @@ public class App extends Application {
 
     /**
      * This method open the PlayerView, given we have a certain audiobook that needs to be loaded.
+     * Resumes from the last saved episode and position.
      * @param stage is current stage
      * @param audi is audiobook that needs to be played
      */
@@ -140,13 +141,29 @@ public class App extends Application {
             PlayerViewController controller =
                     new PlayerViewController(audioPlayer, progressStore, timestampStore);
             controller.setOnBack(() -> showMainView(stage));
-            controller.setBook(audi);
+            controller.setBook(audi, findLastEpisodeIndex(audi));
             stage.setScene(controller.buildScene());
             stage.setTitle("Audiobook Player");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private int findLastEpisodeIndex(Audiobook book) {
+        if (book.getPath() == null) {
+            return 0;
+        }
+        String lastEpisodeKey = progressStore.loadLastEpisode(book.getPath().toString());
+        if (lastEpisodeKey == null) {
+            return 0;
+        }
+        for (int i = 0; i < book.getEpisodeCount(); i++) {
+            if (book.getEpisode(i).getFilePath().toString().equals(lastEpisodeKey)) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     /**

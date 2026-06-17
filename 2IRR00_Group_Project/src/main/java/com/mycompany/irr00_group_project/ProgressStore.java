@@ -7,6 +7,9 @@ import java.nio.file.Path;
 */
 public class ProgressStore extends PropertiesStore {
 
+    private static final String LAST_EPISODE_PREFIX = "__last::";
+
+
     /** Creates a ProgressStore using the default file location. */
     public ProgressStore() {
         this(Constants.DEFAULT_PROGRESS_STORE_PATH);
@@ -56,6 +59,27 @@ public class ProgressStore extends PropertiesStore {
      */
     public void clearProgress(String key) {
         super.removeProperty(key);
+    }
+
+    /**
+     * Saves the file path of the last active episode for the given audiobook.
+     *
+     * @param audiobookKey the audiobook identifier (typically its folder path as a string)
+     * @param episodeKey the episode identifier (typically its file path as a string)
+     */
+    public void saveLastEpisode(String audiobookKey, String episodeKey) {
+        super.setProperty(LAST_EPISODE_PREFIX + audiobookKey, episodeKey);
+    }
+
+    /**
+     * Returns the file path of the last active episode for the given audiobook,
+     * or {@code null} if none was saved.
+     *
+     * @param audiobookKey the audiobook identifier
+     * @return the episode key, or {@code null} if not found
+     */
+    public String loadLastEpisode(String audiobookKey) {
+        return super.getProperty(LAST_EPISODE_PREFIX + audiobookKey, null);
     }
 
 }

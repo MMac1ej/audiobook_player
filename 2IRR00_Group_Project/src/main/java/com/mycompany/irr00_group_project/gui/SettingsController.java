@@ -41,12 +41,6 @@ public class SettingsController {
     private TextField filePathTextField;
 
     @FXML
-    private Slider fontSizeSlider;
-
-    @FXML
-    private TextField fontSizeTextField;
-
-    @FXML
     private Button resetDefaultsButton;
 
     @FXML
@@ -79,7 +73,6 @@ public class SettingsController {
         // Get current settings and populate UI elements with their values
         themeChoiceBox.getItems().addAll(Theme.values());
 
-        fontSizeSlider.setValue(settings.getFontSize());
         themeChoiceBox.setConverter(new StringConverter<Theme>() {
             @Override
             public String toString(Theme theme) {
@@ -93,7 +86,6 @@ public class SettingsController {
         });
         themeChoiceBox.setValue(settings.getTheme());
         filePathTextField.setText(settings.getAudiobookFolderPath().toString());
-        fontSizeTextField.setText(Integer.toString(settings.getFontSize()));
 
         rootVBox.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
@@ -101,15 +93,6 @@ public class SettingsController {
             }
         });
 
-        // Add listeners to update settings when UI elements change
-        fontSizeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
-            try {
-                settings.setFontSize(newVal.intValue());
-                fontSizeTextField.setText(Integer.toString(newVal.intValue()));
-            } catch (IllegalArgumentException e) {
-                System.err.println("Invalid font size: " + newVal);
-            }
-        });
         themeChoiceBox.valueProperty().addListener((obs, oldVal, newVal) -> {
             settings.setTheme(Theme.valueOf(newVal.name()));
             applyThemeToScene(newVal);
@@ -120,8 +103,6 @@ public class SettingsController {
      * Updates the UI elements with the current settings values.
      */
     private void updateUIElements() {
-        fontSizeSlider.setValue(settings.getFontSize());
-        fontSizeTextField.setText(Integer.toString(settings.getFontSize()));
         themeChoiceBox.setValue(settings.getTheme());
         filePathTextField.setText(settings.getAudiobookFolderPath().toString());
     }
@@ -185,7 +166,6 @@ public class SettingsController {
             Path audiobookFolderPath = Paths.get(filePathTextField.getText());
             settings.setAudiobookFolderPath(audiobookFolderPath);
             settings.setTheme(selectedTheme);
-            settings.setFontSize((int) fontSizeSlider.getValue());
             statusLabel.setStyle(Constants.SAVE_SUCCESS_MESSAGE_STYLE);
             statusLabel.setText(Constants.SAVE_SUCCESS_MESSAGE);
         } catch (IllegalArgumentException e) {

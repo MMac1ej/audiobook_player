@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import java.util.ArrayList;
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.scene.input.MouseEvent;
 import javafx.collections.ObservableList;
@@ -60,7 +59,6 @@ public class HomeViewController {
     private ListView<Audiobook> recentListView;
 
     private ArrayList<Audiobook> recentList = new ArrayList<>();
-    private List<String> recentListString = new ArrayList<>();
 
     @FXML
     private Button settingsButton;
@@ -85,25 +83,14 @@ public class HomeViewController {
     }
 
     /**
-     * retrieves the most recently listened to audiobooks and turns them into a useful recentList.
-     *
+     * Retrieves the most recently played episodes and derives the corresponding
+     * audiobook list, deduplicated and sorted by most recent play time.
      */
     private void checkRecentlyListened() {
-        recentListString = tsStore.getRecentlyPlayed();
-        turnStringsIntoAudiobooks(recentListString);
-    }
-
-    /**
-     * This method turns a String list into the corresponding Audiobook list.
-     *
-     * @param list of file paths in string form
-     */
-    private void turnStringsIntoAudiobooks(List<String> list) {
-        Audiobook audiobook;
-        for (String pathstring : list) {
-            audiobook = library.findAudiobookByPathString(pathstring);
-            if (audiobook != null) {
-                addToList(recentList, audiobook);
+        for (String episodePath : tsStore.getRecentlyPlayedEpisodes()) {
+            Audiobook book = library.findAudiobookByEpisodePath(episodePath);
+            if (book != null) {
+                addToList(recentList, book);
             }
         }
     }

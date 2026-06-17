@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/** Persists last-played timestamps for audiobooks to a properties file on disk. */
+/** Persists last-played timestamps for episodes to a properties file on disk. */
 public class TimestampStore extends PropertiesStore {
 
     /** Creates a TimestampStore using the default file location. */
@@ -26,29 +26,29 @@ public class TimestampStore extends PropertiesStore {
     }
 
     /**
-     * Saves the current time as the last-played timestamp for the given audiobook.
+     * Saves the current time as the last-played timestamp for the given episode.
      *
-     * @param key the audiobook identifier (typically its folder path as a string)
+     * @param key the episode identifier (typically its file path as a string)
      */
     public void saveTimestamp(String key) {
         super.setProperty(key, Long.toString(System.currentTimeMillis()));
     }
 
     /**
-     * Returns all audiobook keys sorted by last-played time, most recent first.
+     * Returns all episode keys sorted by last-played time, most recent first.
      *
-     * @return sorted list of audiobook identifiers
+     * @return sorted list of episode identifiers
      */
-    public List<String> getRecentlyPlayed() {
-        Set<String> audiobooks = super.listKeysAsSet();
-        Map<String, Long> audiobooksWithTimestamps = new HashMap<>();
+    public List<String> getRecentlyPlayedEpisodes() {
+        Set<String> episodes = super.listKeysAsSet();
+        Map<String, Long> episodesWithTimestamps = new HashMap<>();
 
-        for (String audiobook : audiobooks) {
-            String timestamp = super.getProperty(audiobook, "0");
-            audiobooksWithTimestamps.put(audiobook, Long.valueOf(timestamp));
+        for (String episode : episodes) {
+            String timestamp = super.getProperty(episode, "0");
+            episodesWithTimestamps.put(episode, Long.valueOf(timestamp));
         }
 
-        return audiobooksWithTimestamps.entrySet()
+        return episodesWithTimestamps.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .map(Map.Entry::getKey)

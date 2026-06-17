@@ -14,14 +14,14 @@ class TimestampStoreTest {
     @Test
     void getRecentlyPlayedIsEmptyOnNewStore() {
         TimestampStore store = new TimestampStore(tempDir.resolve("timestamp.properties"));
-        assertTrue(store.getRecentlyPlayed().isEmpty());
+        assertTrue(store.getRecentlyPlayedEpisodes().isEmpty());
     }
 
     @Test
     void savedKeyAppearsInRecentlyPlayed() {
         TimestampStore store = new TimestampStore(tempDir.resolve("timestamp.properties"));
         store.saveTimestamp("/audiobooks/Hobbit");
-        assertTrue(store.getRecentlyPlayed().contains("/audiobooks/Hobbit"));
+        assertTrue(store.getRecentlyPlayedEpisodes().contains("/audiobooks/Hobbit"));
     }
 
     @Test
@@ -31,7 +31,7 @@ class TimestampStoreTest {
         Thread.sleep(10);
         store.saveTimestamp("/audiobooks/Hobbit");
 
-        List<String> result = store.getRecentlyPlayed();
+        List<String> result = store.getRecentlyPlayedEpisodes();
         assertEquals("/audiobooks/Hobbit", result.get(0));
         assertEquals("/audiobooks/Dune", result.get(1));
     }
@@ -45,7 +45,7 @@ class TimestampStoreTest {
         Thread.sleep(10);
         store.saveTimestamp("/audiobooks/Hobbit");
 
-        List<String> result = store.getRecentlyPlayed();
+        List<String> result = store.getRecentlyPlayedEpisodes();
         assertEquals("/audiobooks/Hobbit", result.get(0));
         assertEquals("/audiobooks/Dune", result.get(1));
     }
@@ -54,7 +54,8 @@ class TimestampStoreTest {
     void newInstanceOnSameFileReadsPersistedData() {
         Path file = tempDir.resolve("timestamp.properties");
         new TimestampStore(file).saveTimestamp("/audiobooks/Hobbit");
-        assertTrue(new TimestampStore(file).getRecentlyPlayed().contains("/audiobooks/Hobbit"));
+        List<String> episodes = new TimestampStore(file).getRecentlyPlayedEpisodes();
+        assertTrue(episodes.contains("/audiobooks/Hobbit"));
     }
 
 }

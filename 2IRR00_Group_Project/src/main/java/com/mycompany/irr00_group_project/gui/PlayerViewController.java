@@ -28,6 +28,7 @@ public class PlayerViewController {
     private int currentEpisodeIndex = -1;
     private boolean isSeeking = false;
     private boolean episodeEnded = false;
+    private boolean episodeFinishedNaturally = false;
     private boolean wasSleepTimerRunning = false;
     private Timeline progressTimeline;
     private long sleepStartTime;
@@ -112,10 +113,6 @@ public class PlayerViewController {
         this.currentBook = book;
         this.currentEpisodeIndex = (book != null && book.getEpisodeCount() > 0)
                 ? Math.max(0, Math.min(episodeIndex, book.getEpisodeCount() - 1)) : -1;
-
-        if (book != null && book.getPath() != null) {
-            this.timestampStore.saveTimestamp(book.getPath().toString());
-        }
     }
 
     /**
@@ -150,10 +147,15 @@ public class PlayerViewController {
         wireEvents();
         setupTimeline();
         audioPlayer.setOnEndOfMedia(() -> Platform.runLater(() -> {
+            episodeFinishedNaturally = true;
             int next = currentEpisodeIndex + 1;
             if (currentBook != null && next < currentBook.getEpisodeCount()) {
                 navigateEpisode(1);
             } else {
+                if (currentBook != null && currentEpisodeIndex >= 0) {
+                    progressStore.clearProgress(
+                        currentBook.getEpisode(currentEpisodeIndex).getFilePath().toString());
+                }
                 episodeEnded = true;
             }
         }));
@@ -259,7 +261,13 @@ public class PlayerViewController {
         if (next < 0 || next >= currentBook.getEpisodeCount()) {
             return;
         }
-        saveProgress();
+        if (episodeFinishedNaturally && delta > 0) {
+            progressStore.clearProgress(
+                currentBook.getEpisode(currentEpisodeIndex).getFilePath().toString());
+            episodeFinishedNaturally = false;
+        } else {
+            saveProgress();
+        }
         loadEpisode(next);
         audioPlayer.play();
     }
@@ -270,12 +278,17 @@ public class PlayerViewController {
         try {
             audioPlayer.loadEpisode(episode);
             currentEpisodeIndex = index;
-            long saved = progressStore.loadProgress(episode.getFilePath().toString());
+            String episodeKey = episode.getFilePath().toString();
+            long saved = progressStore.loadProgress(episodeKey);
             if (saved > 0) {
                 audioPlayer.seek(saved);
             }
             seekSlider.setValue(saved);
             episodeTitleLabel.setText(episode.getTitle());
+            timestampStore.saveTimestamp(episodeKey);
+            if (currentBook.getPath() != null) {
+                progressStore.saveLastEpisode(currentBook.getPath().toString(), episodeKey);
+            }
         } catch (IOException | RuntimeException ex) {
             episodeTitleLabel.setText("Error loading: " + episode.getTitle());
         }
@@ -308,11 +321,8 @@ public class PlayerViewController {
             return;
         }
         Episode episode = currentBook.getEpisode(currentEpisodeIndex);
-        String episodeKey = episode.getFilePath().toString();
-        progressStore.saveProgress(episodeKey, audioPlayer.getCurrentPosition());
-        if (currentBook.getPath() != null) {
-            progressStore.saveLastEpisode(currentBook.getPath().toString(), episodeKey);
-        }
+        progressStore.saveProgress(episode.getFilePath().toString(),
+                audioPlayer.getCurrentPosition());
     }
 
     private static String formatTime(long totalSeconds) {

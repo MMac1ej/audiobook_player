@@ -15,7 +15,7 @@ An accessible desktop audiobook player targeting elderly users. The application 
 | Tymon Szczepański | 2330113 | TheWiseArdoni |
 | Floortje Lusthof | 2316137 | Floortje |
 | Amber Slob | 2259656 | Slob |
-| Vincent van Roosmalen | 1679473 | ? |
+| Vincent van Roosmalen | 1679473 | VincentvRoosmalen |
 
 ---
 

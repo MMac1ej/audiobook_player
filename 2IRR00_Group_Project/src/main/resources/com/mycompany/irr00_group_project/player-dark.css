@@ -59,15 +59,13 @@
 .player-ctrl-round {
     -fx-background-color: transparent;
     -fx-text-fill: #cccccc;
-    -fx-font-size: 17px;
+    -fx-font-size: 15px;
     -fx-cursor: hand;
     -fx-background-radius: 50%;
     -fx-min-width: 44px;
     -fx-min-height: 44px;
     -fx-max-width: 44px;
     -fx-max-height: 44px;
-    -fx-border-color: transparent;
-    -fx-padding: 8 14;
 }
 .player-ctrl-round:hover {
     -fx-background-color: rgba(255, 255, 255, 0.08);
